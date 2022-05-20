@@ -1,3 +1,4 @@
+import './App.css'
 import { useState } from 'react'
 import MemeAppBar from './template/AppBar'
 import * as React from 'react'
@@ -7,7 +8,6 @@ import {
   createTheme,
   useMediaQuery,
 } from '@mui/material'
-import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)

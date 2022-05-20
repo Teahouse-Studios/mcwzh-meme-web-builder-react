@@ -24,7 +24,6 @@ export default function CompositeMenu(props: Props) {
   const openHref = (href: string) => {
     window.open(href, '_blank')
     handleClose()
-
   }
 
   return (
@@ -46,10 +45,11 @@ export default function CompositeMenu(props: Props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-
-        {props.items.map(item =>
-          <MenuItem onClick={() => openHref(item.href)} key={item.name}>{item.name}</MenuItem>
-        )}
+        {props.items.map((item) => (
+          <MenuItem onClick={() => openHref(item.href)} key={item.name}>
+            {item.name}
+          </MenuItem>
+        ))}
       </Menu>
     </>
   )

@@ -3,12 +3,8 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
-  MenuItem,
-  Menu,
   createTheme,
 } from '@mui/material'
-import { useState, MouseEvent } from 'react'
 import { Github } from 'mdi-material-ui'
 import CompositeMenu from './CompositeMenu'
 
@@ -30,7 +26,8 @@ export default function MemeAppBar() {
           </Typography>
 
           <CompositeMenu icon={<Github />} items={[
-            { name: 'Java 版', href: 'https://github.com/Teahouse-Studios/mcwzh-meme-resourcepack' }
+            { name: 'Java 版', href: 'https://github.com/Teahouse-Studios/mcwzh-meme-resourcepack' },
+            { name: '基岩版', href: 'https://github.com/Teahouse-Studios/mcwzh-meme-resourcepack-bedrock' }
           ]}>GitHub</CompositeMenu>
         </Toolbar>
       </AppBar>
