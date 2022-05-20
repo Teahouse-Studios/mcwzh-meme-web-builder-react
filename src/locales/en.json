@@ -1,0 +1,196 @@
+{
+  "metadata": {
+    "dateLocale": "en-US",
+    "ideographicComma": ", "
+  },
+  "java": "Java Edition",
+  "bedrock": "Bedrock Edition",
+  "appbar": {
+    "title": "Memified Chinese · Web Builder",
+    "mcbbs": "MCBBS",
+    "github": "GitHub",
+    "discPack": "Disc Pack",
+    "nightModeSwitch": "Day/Night Mode",
+    "endpointSetting": "Switch server"
+  },
+  "form": {
+    "version": {
+      "hint": "Please select the period where your game version falls in.",
+      "label": "Game version"
+    },
+    "resource": {
+      "hint": "Please select add-on modules you need.",
+      "label": "Add-on modules"
+    },
+    "language": {
+      "hint": "Please select old/special verison-specific strings.",
+      "label": "Language modules"
+    },
+    "mod": {
+      "option": {
+        "hint": "Would you like Mods support?",
+        "label": "Enable Mods"
+      },
+      "list": {
+        "hint": "Please select Mods to be included.",
+        "label": "Mods"
+      },
+      "header": "Mod files",
+      "enHeader": "Mod files (not translated to Chinese)"
+    },
+    "beExtType": {
+      "hint": "Please select the file format you prefer for the pack.",
+      "label": "File format"
+    },
+    "compatible": {
+      "hint": "Make the pack compatible with language files in other packs. This option will overwrite Memified Chinese onto Simplified Chinese, thus you only need to select \"Simplified Chinese\" in the language menu. Learn more at README.md.",
+      "label": "Compatible option",
+      "disabled": "You are playing game version older than 1.13, thus this is forced to set to on."
+    },
+    "submit": "Submit build options",
+    "clearSelected": "Clear selected",
+    "clearAll": "Clear all",
+    "author": "Author: ",
+    "item": "item(s)",
+    "collections": {
+      "hint": "Please select Add-on module collections, cherry-picked by our team.",
+      "label": "Module collections",
+      "description_prefix": "Total ",
+      "resource_suffix": " resource modules",
+      "language_suffix": " language modules"
+    },
+    "incompatible": "(incompatible with {0})",
+    "modified": "Last Modified at",
+    "modOption": {
+      "all": "All",
+      "none": "None",
+      "custom": "Custom"
+    },
+    "child": {
+      "label": "Child Mode",
+      "ticks": [
+        "12+",
+        "16+",
+        "18+"
+      ],
+      "hints": [
+        "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
+        "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
+        "For fully grown adult minds. NO censoring at all. We DO NOT recommended this for streaming and recording."
+      ]
+    }
+  },
+  "hints": [
+    "Don't know how to choose those options? Just click the button below.",
+    "If you need the links to MCBBS/GitHub/Disc pack for Bedrock, you can click the Bedrock tab before clicking the buttons.",
+    "You can report issues to us by clicking the ¿ on the right corner.",
+    "We are switching to a new build server. If you find a problem, you can switch the server in the appbar and create an issue.",
+    "Memified Chinese is an active project. Please check back often."
+  ],
+  "bedrock_hint": {
+    "text": "We assume that you are using the latest Minecraft version. Read more at {0} in the GitHub repo.",
+    "readme": "README.md"
+  },
+  "log": {
+    "buildSucceeded": "Build success",
+    "buildFailed": "Build failed",
+    "headline": "Build log",
+    "download": "Download",
+    "share": "Share your options",
+    "feedback": "Feedback"
+  },
+  "sponsor": {
+    "overline": "SPONSOR",
+    "spg": {
+      "headline": "Brought to you by SPGoding",
+      "subtitle": "SPGoding is a Mojira mod, known for his VSCode extension SPYGlass. She kindly gave us 7 days of MCBBS ad.",
+      "dhp": "Introduction of SPYGlass"
+    },
+    "qiuxi": {
+      "headline": "Brought to you by 是秋夕呀mua",
+      "subtitle": "是秋夕呀mua is an Bilibilier. She recommended Memified Chinese to this 100k+ subscribers.",
+      "bilibili": "Bilibili homepage"
+    },
+    "suda": {
+      "headline": "Brought to you by 苏打baka",
+      "subtitle": "苏打baka is an Bilibilier. She recommended Memified Chinese to this 450k+ subscribers.",
+      "bilibili": "Bilibili homepage"
+    },
+    "kkg": {
+      "headline": "Brought to you by Kakagou",
+      "subtitle": "Kakagou is an MCBBS artist. He kindly gave us 14 days of MCBBS ad.",
+      "mcbbs": "MCBBS profile"
+    },
+    "liu": {
+      "headline": "Brought to you by WDLJT",
+      "subtitle": "WDLJT is the provider of some parts of Teahouse Studios cloud services. He provided server and CDN for Web Builder.",
+      "website": "Website"
+    },
+    "disclaimer": "Teahouse Studios are not paid by any of these sponsors. The sponsors did not force Teahouse Studios to add them to the sponsors list. This is just the sincere \"thank you\" from Teahouse Studios for all their support. ❤️"
+  },
+  "snackbar": {
+    "close": "Close",
+    "feedback": "Feedback",
+    "buildSucceeded": "Build succeeded.",
+    "buildFailed": "Build failed.",
+    "shareLinkParsed": "Successfully parsed share link.",
+    "shareCopyedToClipboard": "Link copied to clipboard."
+  },
+  "dialog": {
+    "fetchListFailed": {
+      "headline": "Error",
+      "text": "An error occurred while requesting module list to the server.",
+      "retry": "Retry",
+      "feedback": "Submit feedback",
+      "ignore": "Ignore"
+    },
+    "help": {
+      "title": "Help & About",
+      "?": "¿Any questions?",
+      "thinkTwice": "Think twice before submitting any issues!",
+      "thinkList": {
+        "1": "Have you read the hints below every option?",
+        "2": "Have you read the hints above the download button?",
+        "3": "Have you tried to troubleshoot your game and Mods?"
+      },
+      "sure": "If you are sure that Memified Chinese have problems, you can report them to us. Suggestions are welcomed too!",
+      "needToKnow": "You are acknowledged that:",
+      "needToKnowList": {
+        "1": "According to the license, the developers don't have to address every single issue.",
+        "2": "Please make sure that your issues haven't been submitted by someone else.",
+        "3": "Please use Mandarin Chinese or English.",
+        "4": "Too many spam issues may cause you to be banned.",
+        "5": "Submit issues in the accordingly project. Especially, do not submit in-game content or problem to \"Web Builder\", it is only for failed builds or problems with the web interface."
+      },
+      "ready": "All right! Ready for submitting?",
+      "webBuilder": "Web Builder",
+      "dev": {
+        "title": "Devs",
+        "lcnb": {
+          "name": "_LittleC_",
+          "des": "Memepack Builder - Core dev; Web Builder - Core dev"
+        },
+        "cat": {
+          "name": "MysticNebula70",
+          "des": "Memepack Builder - Core dev; Web Builder - Backend core dev"
+        },
+        "lake": {
+          "name": "LakeJason",
+          "des": "Memepack Builder - Early dev; Web Builder - Early core dev"
+        },
+        "dll": {
+          "name": "Dianliang233",
+          "des": "Web Builder - Frontend dev"
+        }
+      },
+      "poweredBy": "Powered by…"
+    }
+  },
+  "footer": {
+    "slogan": "Built with ❤️ ️love, 🔮 fantasies, 🐝 bees and 🤣 memes.",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "donate": "Donate"
+  },
+  "languages": "Languages"
+}

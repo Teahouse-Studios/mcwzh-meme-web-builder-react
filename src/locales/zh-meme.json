@@ -1,0 +1,195 @@
+{
+  "metadata": {
+    "dateLocale": "zh-CN",
+    "ideographicComma": "、"
+  },
+  "java": "爪哇版",
+  "bedrock": "床石版",
+  "appbar": {
+    "title": "梗体中文 · 懒人构建",
+    "mcbbs": "MCSSB",
+    "github": "GayHub",
+    "discPack": "劲歌金曲",
+    "nightModeSwitch": "开关灯",
+    "endpointSetting": "换个土豆"
+  },
+  "form": {
+    "version": {
+      "hint": "选择您耍的版本。",
+      "label": "游戏版本"
+    },
+    "resource": {
+      "hint": "选择您需要的附加内容模块。",
+      "label": "附加内容/材质选择"
+    },
+    "language": {
+      "hint": "选择您需要的SP字符串。",
+      "label": "SP选择"
+    },
+    "mod": {
+      "option": {
+        "hint": "您会不会让原版警察出警？",
+        "label": "Mod内容选择"
+      },
+      "list": {
+        "hint": "选择您需要的Mod。",
+        "label": "Mod内容选择"
+      },
+      "header": "Mod文件",
+      "enHeader": "Mod文件（懒得汉化）"
+    },
+    "beExtType": {
+      "hint": "选择您需要的附加包后缀。",
+      "label": "后缀"
+    },
+    "compatible": {
+      "hint": "让您可以在使用其他附加包时不目害。此选项会把梗体中文内容覆盖到简体中文，因此在设置中只需选择“简体中文”即可体验。详见README.md。",
+      "label": "我不要目害",
+      "disabled": "由于你的游戏版本小于 1.13，太逊了，所以我们钦定此项为开。"
+    },
+    "submit": "搞快点",
+    "clearSelected": "清空已选",
+    "clearAll": "全部扬了",
+    "author": "作者：",
+    "item": "个玩意",
+    "collections": {
+      "hint": "选择我们预先钦定的模块集合。",
+      "label": "模块集合选择",
+      "description_prefix": "共",
+      "resource_suffix": "个附加内容",
+      "language_suffix": "个SP内容"
+    },
+    "incompatible": "（与 {0} 不兼容）",
+    "modified": "最后更新时间: ",
+    "modOption": {
+      "all": "所有",
+      "none": "无",
+      "custom": "自定义"
+    },
+    "child": {
+      "label": "青少年模式",
+      "ticks": [
+        "12+",
+        "16+",
+        "18+"
+      ],
+      "hints": [
+        "适用于心智尚未成熟的儿童。净化了所有不适内容。推荐用于直播和实况。",
+        "适用于青少年。仅净化了过于敏感的话题。可以用于直播和实况。",
+        "适用于心智完全成熟的成年人。不净化任何内容。我们不推荐将此用于直播和实况。"
+      ]
+    }
+  },
+  "hints": [
+    "若您不知道如何构建，点击下方按钮来直接生草。",
+    "若需要床石版的MCSSB/GayHub/劲 歌 金 曲，您可以点击床石版选项卡后，再点击相应跳转按钮。",
+    "您可以点击右下角的 ¿ 把 bug 丢给我们。",
+    "阿拉正在切换至新的构建系统, 如果出锅了, 您可在右上角换个土豆试试。",
+    "梗体中文是一个持续更新的项目，欢迎 常 回 家 看 看。"
+  ],
+  "bedrock_hint": {
+    "text": "我们钦定您非常时髦，使用的是最新版本的床石版Minecraft。详情请见GayHub仓库的 {0}。",
+    "readme": "阅读我.md"
+  },
+  "log": {
+    "buildSucceeded": "构建成了",
+    "buildFailed": "构建 大 失 败",
+    "headline": "构建原木",
+    "download": "下载",
+    "feedback": "控诉开发者"
+  },
+  "sponsor": {
+    "overline": "金主爸爸",
+    "spg": {
+      "headline": "梗体中文 由 SPGoding 赞助",
+      "subtitle": "SPGoding 是一位 Mojang 管理员，代表作《大憨批》VSCode 插件。她热心的赠送了梗体中文 7 天的泥潭广告位。",
+      "dhp": "《大憨批》介绍"
+    },
+    "qiuxi": {
+      "headline": "梗体中文 由 是秋夕呀mua 赞助",
+      "subtitle": "是秋夕呀mua 是一位破站 UP 主。她向她的 10w+ 粉丝推荐了梗体中文。",
+      "bilibili": "小破站主页"
+    },
+    "suda": {
+      "headline": "梗体中文 由 苏打baka 赞助",
+      "subtitle": "苏打baka 是一位 Bilibili UP 主。她向她的 35w+ 粉丝推荐了梗体中文。",
+      "bilibili": "Bilibili 主页"
+    },
+    "kkg": {
+      "headline": "梗体中文 由 Kakagou 赞助",
+      "subtitle": "Kakagou 是一位 MCBBS 艺术家。他热心的赠送了梗体中文 14 天的 MCBBS 广告位。",
+      "mcbbs": "MCBBS 资料页"
+    },
+    "liu": {
+      "headline": "梗体中文 由 WDLJT 赞助",
+      "subtitle": "WDLJT 是 Teahouse Studios 部分云服务的金主爸爸。他为梗体中文 · 在线构建提供了服务器和 CDN。",
+      "website": "网站"
+    },
+    "disclaimer": "这些金主爸爸均未给予 Teahouse Studios 梗体中文团队真实金钱，亦未强迫 Teahouse Studios 梗体中文团队将其添加至赞助者列表——这只是 Teahouse Studios 梗体中文团队对他们的支持最诚挚的感谢。❤️"
+  },
+  "snackbar": {
+    "close": "关掉！关掉！",
+    "feedback": "投诉开发者",
+    "buildSucceeded": "构建成了。",
+    "buildFailed": "构建 大 失 败。",
+    "shareLinkParsed": "成功解析你朋友（不知道是不是你自己）发过来的配置链接。",
+    "shareCopyedToClipboard": "链接已复制到剪贴板。"
+  },
+  "dialog": {
+    "fetchListFailed": {
+      "headline": "哎呦",
+      "text": "在向服务器 拉 清 单 时发生了错误。",
+      "retry": "再来",
+      "feedback": "控诉开发者",
+      "ignore": "关掉！关掉！"
+    },
+    "help": {
+      "title": "帮助 & 关于",
+      "?": "您是否有很多问号?¿?¿?¿",
+      "thinkTwice": "在问问题前，先 think once！",
+      "thinkList": {
+        "1": "您是否已经读过每一个选项框下方的提示？",
+        "2": "您是否阅读过下载按钮前面的滚动提示？",
+        "3": "有没有考虑过是您自己游戏、Mod的问题？"
+      },
+      "sure": "如果您确信梗体中文有问题，您便可以向我们汇报。如果您有一个建议，也是可以的！",
+      "needToKnow": "您需要知道的是：",
+      "needToKnowList": {
+        "1": "根据协议，开发者没有义务解决每一个问题。",
+        "2": "确保您提交的问题没有被他人提交过。",
+        "3": "使用正式的普通话。",
+        "4": "过多的垃圾问题可能导致您被封禁。",
+        "5": "在对应的项目提出对应的问题。例如，任何在游戏内出现的内容或问题一律不要反馈到\"在线构建\"，仅限构建失败或网页界面出现问题时反馈到此仓库。"
+      },
+      "ready": "好了，准备好提交问题了吗？",
+      "webBuilder": "懒人构建",
+      "dev": {
+        "title": "开发者",
+        "lcnb": {
+          "name": "\\L C N B/",
+          "des": "梗体中文资源包构建系统核心苦力，梗体中文懒人构建前端核心苦力。"
+        },
+        "cat": {
+          "name": "猫猫",
+          "des": "梗体中文资源包构建系统核心苦力，梗体中文懒人构建后端核心苦力。"
+        },
+        "lake": {
+          "name": "糊人",
+          "des": "梗体中文资源包构建系统早期苦力，梗体中文懒人构建早期核心苦力。"
+        },
+        "dll": {
+          "name": "电量量",
+          "des": "梗体中文懒人构建前端苦力。"
+        }
+      },
+      "poweredBy": "抛瓦得百"
+    }
+  },
+  "footer": {
+    "slogan": "Built with ❤️ ️love, 🔮 fantasies, 🐝 bees and 🤣 memes.",
+    "terms": "没人看的服务条款",
+    "privacy": "没人看的隐私政策",
+    "donate": "打钱"
+  },
+  "languages": "十八国语言"
+}
