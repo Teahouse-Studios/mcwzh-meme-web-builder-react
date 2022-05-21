@@ -12,6 +12,7 @@ import { initReactI18next } from 'react-i18next'
 import en from './locales/en.json'
 import zhHans from './locales/zh-hans.json'
 import zhMeme from './locales/zh-meme.json'
+import TeahouseFooter from './template/Footer'
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -67,6 +68,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <MemeAppBar />
+        <TeahouseFooter />
       </ThemeProvider>
     </ColorModeContext.Provider>
   )
