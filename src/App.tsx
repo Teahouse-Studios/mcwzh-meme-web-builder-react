@@ -1,6 +1,6 @@
 import './App.css'
 import MemeAppBar from './template/AppBar'
-import { useMemo } from 'react'
+import { useMemo, createContext, useState } from 'react'
 import {
   CssBaseline,
   ThemeProvider,
@@ -35,24 +35,40 @@ i18n.use(initReactI18next).init({
   },
 })
 
+export const ColorModeContext = createContext({ toggleColorMode: () => {} })
+
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+  const [mode, setMode] = useState<'light' | 'dark'>(
+    prefersDarkMode ? 'dark' : 'light'
+  )
+
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
+      },
+    }),
+    []
+  )
 
   const theme = useMemo(
     () =>
       createTheme({
         palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
+          mode,
         },
       }),
-    [prefersDarkMode]
+    [mode]
   )
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <MemeAppBar />
-    </ThemeProvider>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <MemeAppBar />
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   )
 }
 

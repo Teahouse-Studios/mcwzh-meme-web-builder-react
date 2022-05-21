@@ -11,7 +11,7 @@
     "github": "GitHub",
     "discPack": "Disc Pack",
     "nightModeSwitch": "Day/Night Mode",
-    "endpointSetting": "Switch server"
+    "languages": "Languages"
   },
   "form": {
     "version": {
@@ -68,11 +68,7 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": [
-        "12+",
-        "16+",
-        "18+"
-      ],
+      "ticks": ["12+", "16+", "18+"],
       "hints": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
@@ -191,6 +187,5 @@
     "terms": "Terms",
     "privacy": "Privacy",
     "donate": "Donate"
-  },
-  "languages": "Languages"
+  }
 }

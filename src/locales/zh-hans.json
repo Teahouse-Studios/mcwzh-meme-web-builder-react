@@ -11,7 +11,7 @@
     "github": "GitHub",
     "discPack": "唱片包",
     "nightModeSwitch": "夜间/日间模式",
-    "endpointSetting": "服务器切换"
+    "languages": "语言"
   },
   "form": {
     "version": {
@@ -187,6 +187,5 @@
     "terms": "服务条款",
     "privacy": "隐私政策",
     "donate": "捐款"
-  },
-  "languages": "语言"
+  }
 }
