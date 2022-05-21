@@ -1,4 +1,10 @@
-import { ReactNode, useState, MouseEvent } from 'react'
+import {
+  ReactNode,
+  useState,
+  MouseEvent,
+  useContext,
+  createContext,
+} from 'react'
 import {
   ThemeProvider,
   AppBar,
@@ -8,8 +14,18 @@ import {
   Menu,
   MenuItem,
   createTheme,
+  useTheme,
+  IconButton,
 } from '@mui/material'
-import { Github, Disc, Post } from 'mdi-material-ui'
+import {
+  Github,
+  Disc,
+  Post,
+  Translate,
+  ChevronDown,
+  Brightness7,
+  Brightness4,
+} from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 
 export default function MemeAppBar() {
@@ -86,6 +102,7 @@ function BarLinks() {
       >
         {t('appbar.discPack')}
       </CompositeMenu>
+      <LangMenu />
     </>
   )
 }
@@ -146,5 +163,89 @@ function CompositeMenu(props: CompositeMenuProps) {
         ))}
       </Menu>
     </>
+  )
+}
+
+function LangMenu() {
+  interface Option {
+    name: string
+    value: string
+  }
+
+  const { t, i18n } = useTranslation()
+
+  const options: Option[] = [
+    { name: '简体中文', value: 'zhHans' },
+    { name: '梗体中文', value: 'zhMeme' },
+    { name: 'English', value: 'en' },
+  ]
+
+  let langIndex: number = 1
+  options.filter((value, index) => {
+    if (i18n.language === value.value) {
+      langIndex = index
+    }
+  })
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [selectedItem, setSelectedItem] = useState<Option>(options[langIndex])
+  const open = Boolean(anchorEl)
+  const handleButtonClick = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleMenuItemClick = (
+    event: MouseEvent<HTMLElement>,
+    option: Option
+  ) => {
+    setSelectedItem(option)
+    i18n.changeLanguage(option.value)
+    console.log(option.value)
+    setAnchorEl(null)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  return (
+    <>
+      <Button
+        onClick={handleButtonClick}
+        color="inherit"
+        startIcon={<Translate />}
+        endIcon={<ChevronDown />}
+        sx={{ ml: 1 }}
+      >
+        {t('appbar.languages')}
+      </Button>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        {options.map((option, index) => (
+          <MenuItem
+            key={option.value}
+            selected={option === selectedItem}
+            onClick={(event) => handleMenuItemClick(event, option)}
+          >
+            {option.name}（{option.value}）
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  )
+}
+
+const ColorModeContext = createContext({ toggleColorMode: () => {} })
+
+function ToggleColorMode() {
+  const theme = useTheme()
+  const colorMode = useContext(ColorModeContext)
+  return (
+    <IconButton
+      sx={{ ml: 1 }}
+      onClick={colorMode.toggleColorMode}
+      color="inherit"
+    >
+      {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+    </IconButton>
   )
 }
