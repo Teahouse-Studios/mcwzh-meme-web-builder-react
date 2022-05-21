@@ -7,6 +7,7 @@ import {
   Typography,
   createSvgIcon,
   IconButton,
+  Button,
   Box,
 } from '@mui/material'
 import { ReactNode } from 'react'
@@ -16,6 +17,8 @@ import {
   Email,
   Github,
   LightningBolt,
+  Lock,
+  Script,
 } from 'mdi-material-ui'
 
 export default function TeahouseFooter() {
@@ -49,7 +52,7 @@ export default function TeahouseFooter() {
             spacing={2}
             direction="row"
             justifyContent="space-between"
-            alignItems="center"
+            alignItems="end"
           >
             <Grid item xs={6}>
               <Box
@@ -96,6 +99,32 @@ export default function TeahouseFooter() {
                 }}
               >
                 <LinkLabel>产品</LinkLabel>
+
+                <LinkButton href="https://meme.teahouse.team/">
+                  梗体中文
+                </LinkButton>
+                <LinkButton href="https://bot.teahou.se/">小可</LinkButton>
+              </Box>
+
+              <Box
+                sx={{
+                  md: 1,
+                }}
+              >
+                <LinkLabel>法律</LinkLabel>
+
+                <LinkButton
+                  href="https://teahouse.team/terms"
+                  icon={<Script />}
+                >
+                  服务条款
+                </LinkButton>
+                <LinkButton
+                  href="https://teahouse.team/privacy"
+                  icon={<Lock />}
+                >
+                  隐私政策
+                </LinkButton>
               </Box>
             </Grid>
             <Grid
@@ -105,7 +134,29 @@ export default function TeahouseFooter() {
                 textAlign: 'right',
               }}
             >
-              xs=4
+              <img
+                src={new URL('../assets/logo.svg', import.meta.url).href}
+                height="50"
+                style={{ filter: 'invert(1)' }}
+                alt="Teahouse Studios"
+                loading="lazy"
+              />
+              <br />
+              <Typography
+                variant="body2"
+                component="a"
+                href=""
+                sx={{
+                  color: 'white',
+                  textDecoration: 'none',
+                }}
+              >
+                蜀 ICP 备 2022011374 号-1
+              </Typography>
+              <br />
+              <Typography variant="body2" component="span">
+                © 2022 成都问谛居科技有限公司
+              </Typography>
             </Grid>
           </Grid>
         </Container>
@@ -154,6 +205,38 @@ function LinkIconButton({
     >
       <a href={href} target="_blank" rel="noopener noreferer" title={title}>
         <IconButton size="small">{children}</IconButton>
+      </a>
+    </Box>
+  )
+}
+
+function LinkButton({
+  children,
+  href,
+  icon,
+}: {
+  children: ReactNode
+  href: string
+  icon?: JSX.Element
+}) {
+  return (
+    <Box
+      sx={{
+        display: 'inline-block',
+        mr: 1,
+      }}
+    >
+      <a href={href} target="_blank" rel="noopener noreferer">
+        <Button
+          variant="text"
+          size="small"
+          startIcon={icon}
+          sx={{
+            color: 'white',
+          }}
+        >
+          {children}
+        </Button>
       </a>
     </Box>
   )
