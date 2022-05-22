@@ -1,3 +1,3 @@
 export default function BedrockForm() {
-  return <></>
+  return <>BE</>
 }

@@ -14,21 +14,22 @@ import {
   useState,
   useEffect,
   createContext,
-  useContext,
-  useCallback,
   SyntheticEvent,
   ReactNode,
   MouseEvent,
+  MouseEventHandler,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import JavaForm from './JavaForm'
+import BedrockForm from './BedrockForm'
 import { MemeApi } from './types'
 
-export const ApiContext = createContext<MemeApi | unknown>(null)
+export const ApiContext = createContext<MemeApi | undefined>(undefined)
 
 export default function Form() {
   const { t } = useTranslation()
   const theme = useTheme()
-  const [apiData, setApiData] = useState<MemeApi | unknown>()
+  const [apiData, setApiData] = useState<MemeApi | undefined>(undefined)
   const [apiError, setApiError] = useState<Error | null>(null)
   const smAndUp = useMediaQuery(theme.breakpoints.up('sm'))
 
@@ -95,10 +96,10 @@ export default function Form() {
                     />
                   </Tabs>
                   <TabPanel value={tab} index={0}>
-                    Item One
+                    <JavaForm />
                   </TabPanel>
                   <TabPanel value={tab} index={1}>
-                    Item Two
+                    <BedrockForm />
                   </TabPanel>
                 </Container>
               )}
@@ -110,7 +111,7 @@ export default function Form() {
   )
 }
 
-function ApiFailed({ error, load }: { error: Error; load: Function }) {
+function ApiFailed({ error, load }: { error: Error; load: MouseEventHandler }) {
   const { t } = useTranslation()
 
   return (

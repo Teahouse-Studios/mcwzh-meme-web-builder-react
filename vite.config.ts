@@ -6,8 +6,9 @@ import legacy from '@vitejs/plugin-legacy'
 export default defineConfig({
   plugins: [
     react({
+      jsxImportSource: '@emotion/react',
       babel: {
-        configFile: true,
+        plugins: ['@emotion/babel-plugin'],
       },
     }),
     legacy({ targets: ['> 1% in CN', 'last 2 major versions', 'not dead'] }),

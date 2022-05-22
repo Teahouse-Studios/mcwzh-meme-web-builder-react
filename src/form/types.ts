@@ -1,33 +1,24 @@
 export interface MemeApi {
   be_modified: number
   be_modules: {
-    collection: MemeCollection[]
-    resource: MemeResource[]
+    collection: MemeModule[]
+    resource: MemeModule[]
   }
   enmods: string[]
   je_modified: number
   je_modules: {
-    collection: MemeCollection[]
-    resource: MemeResource[]
+    collection: MemeModule[]
+    resource: MemeModule[]
   }
   mods: string[]
 }
 
-export interface MemeCollection {
+export interface MemeModule {
   author: string[]
-  contains: string[]
+  contains?: string[]
   description: string
   directory: string
-  incompatible_with: string[]
-  name: string
-  type: string
-}
-
-export interface MemeResource {
-  author: string[]
-  description: string
-  directory: string
-  incompatible_with: string[]
+  incompatible_with?: string[]
   name: string
   type: string
 }
