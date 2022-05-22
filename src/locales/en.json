@@ -14,6 +14,13 @@
     "languages": "Languages"
   },
   "form": {
+    "fetchListFailed": {
+      "headline": "Error",
+      "text": "An error occurred while requesting module list to the server.",
+      "retry": "Retry",
+      "feedback": "Submit feedback",
+      "ignore": "Ignore"
+    },
     "version": {
       "hint": "Please select the period where your game version falls in.",
       "label": "Game version"
@@ -133,13 +140,6 @@
     "shareCopyedToClipboard": "Link copied to clipboard."
   },
   "dialog": {
-    "fetchListFailed": {
-      "headline": "Error",
-      "text": "An error occurred while requesting module list to the server.",
-      "retry": "Retry",
-      "feedback": "Submit feedback",
-      "ignore": "Ignore"
-    },
     "help": {
       "title": "Help & About",
       "?": "¿Any questions?",

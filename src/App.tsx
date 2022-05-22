@@ -6,6 +6,7 @@ import {
   ThemeProvider,
   createTheme,
   useMediaQuery,
+  Container,
 } from '@mui/material'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
@@ -13,6 +14,7 @@ import en from './locales/en.json'
 import zhHans from './locales/zh-hans.json'
 import zhMeme from './locales/zh-meme.json'
 import TeahouseFooter from './template/Footer'
+import Form from './form/Form'
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -68,6 +70,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <MemeAppBar />
+        <Container>
+          <Form />
+        </Container>
         <TeahouseFooter />
       </ThemeProvider>
     </ColorModeContext.Provider>

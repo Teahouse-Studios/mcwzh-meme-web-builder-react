@@ -44,6 +44,7 @@ export default function TeahouseFooter() {
         sx={{
           p: '30px',
           px: 4,
+          mt: 2,
         }}
       >
         <Container>

@@ -14,6 +14,13 @@
     "languages": "语言"
   },
   "form": {
+    "fetchListFailed": {
+      "headline": "错误",
+      "text": "在向服务器请求资源模块列表时发生了错误。",
+      "retry": "重试",
+      "feedback": "反馈",
+      "ignore": "忽略"
+    },
     "version": {
       "hint": "请选择您游玩的游戏版本区间。",
       "label": "游戏版本"
@@ -133,13 +140,6 @@
     "shareCopyedToClipboard": "链接已复制到剪贴板。"
   },
   "dialog": {
-    "fetchListFailed": {
-      "headline": "错误",
-      "text": "在向服务器请求资源模块列表时发生了错误。",
-      "retry": "重试",
-      "feedback": "反馈",
-      "ignore": "忽略"
-    },
     "help": {
       "title": "帮助 & 关于",
       "?": "你是否有很多问号?¿?¿?¿",

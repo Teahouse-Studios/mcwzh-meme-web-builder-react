@@ -14,6 +14,13 @@
     "languages": "十八国语言"
   },
   "form": {
+    "fetchListFailed": {
+      "headline": "哎呦",
+      "text": "在向服务器 拉 清 单 时发生了错误。",
+      "retry": "再来",
+      "feedback": "控诉开发者",
+      "ignore": "关掉！关掉！"
+    },
     "version": {
       "hint": "选择您耍的版本。",
       "label": "游戏版本"
@@ -132,13 +139,6 @@
     "shareCopyedToClipboard": "链接已复制到剪贴板。"
   },
   "dialog": {
-    "fetchListFailed": {
-      "headline": "哎呦",
-      "text": "在向服务器 拉 清 单 时发生了错误。",
-      "retry": "再来",
-      "feedback": "控诉开发者",
-      "ignore": "关掉！关掉！"
-    },
     "help": {
       "title": "帮助 & 关于",
       "?": "您是否有很多问号?¿?¿?¿",

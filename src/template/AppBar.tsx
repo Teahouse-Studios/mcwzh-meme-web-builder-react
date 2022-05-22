@@ -40,7 +40,7 @@ export default function MemeAppBar() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="sticky" color="primary">
+      <AppBar position="sticky" color="primary" sx={{ mb: 2 }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {t('appbar.title')}
