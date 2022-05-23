@@ -6,9 +6,8 @@ import {
   Typography,
   Checkbox,
 } from '@mui/material'
-import { css, jsx } from '@emotion/react'
+import { css } from '@emotion/react'
 import { useTranslation } from 'react-i18next'
-import { CheckboxMarked, CheckboxBlankOutline } from 'mdi-material-ui'
 import type { MemeModule } from './types'
 
 interface ResourceSelectProps {
@@ -73,7 +72,6 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           helperText={props.helper}
           inputProps={{
             ...params.inputProps,
-            autoComplete: 'new-password', // disable autocomplete and autofill
           }}
         />
       )}
