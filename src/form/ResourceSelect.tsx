@@ -29,6 +29,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
       options={props.options}
       disabled={props.disabled}
       autoHighlight
+      disableCloseOnSelect={true}
       getOptionDisabled={(option) =>
         props.disabledOptions?.includes(option) || false
       }
