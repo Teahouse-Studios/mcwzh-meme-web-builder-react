@@ -67,6 +67,13 @@ export default function JavaForm() {
   }
 
   useEffect(() => {
+    setEnabledMods(api?.mods!)
+    setEnabledCollections([
+      api?.je_modules.collection.find((i) => i.name === 'choice_modules_1')!,
+    ])
+  }, [api])
+
+  useEffect(() => {
     switch (gameVersion) {
       case 9:
         enableFixedModules([], setFixedCollections, api?.je_modules.collection!)
@@ -161,7 +168,7 @@ export default function JavaForm() {
         type: gameVersion === 3 ? 'legacy' : 'normal',
         compatible: useCompatible,
         format: gameVersion,
-        mod: ['mods/adorn.json'],
+        mod: enabledMods,
         modules: {
           collection: [
             ...enabledCollections.map((m) => m.name),
@@ -249,7 +256,7 @@ export default function JavaForm() {
             <Select
               label={t('form.mod.label')}
               multiple
-              defaultValue={api?.mods}
+              value={api?.mods}
               onChange={(e) => {
                 handleSelectChange(e, setEnabledMods)
               }}
@@ -356,7 +363,7 @@ export default function JavaForm() {
           onChange={(v) => {
             setEnabledCollections(v)
           }}
-          defaultOptions={fixedCollections}
+          defaultOptions={[...fixedCollections, ...enabledCollections]}
           disabledOptions={fixedCollections}
           options={api?.je_modules.collection!}
           label={t('form.collections.label')}

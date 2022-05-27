@@ -74,6 +74,11 @@
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
         "For fully grown adult minds. NO censoring at all. We DO NOT recommended this for streaming and recording."
       ]
+    },
+    "bedrockHint": {
+      "text": "We assume that you are using the latest Minecraft version. Read more at ",
+      "readme": "README.md",
+      "end": " in the GitHub repo."
     }
   },
   "helpers": [
@@ -83,10 +88,6 @@
     "We are switching to a new build server. If you find a problem, you can switch the server in the appbar and create an issue.",
     "Memified Chinese is an active project. Please check back often."
   ],
-  "bedrock_helper": {
-    "text": "We assume that you are using the latest Minecraft version. Read more at {0} in the GitHub repo.",
-    "readme": "README.md"
-  },
   "log": {
     "buildSucceeded": "Build success",
     "buildFailed": "Build failed",
