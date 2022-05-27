@@ -21,6 +21,7 @@ import {
   Box,
   Typography,
   SelectChangeEvent,
+  Button,
 } from '@mui/material'
 import {
   Archive,
@@ -29,6 +30,7 @@ import {
   SelectGroup,
   Group,
   AccountChildCircle,
+  CloudDownload,
 } from 'mdi-material-ui'
 import { css } from '@emotion/react'
 import { ApiContext } from './Form'
@@ -53,6 +55,7 @@ export default function JavaForm() {
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
   const [forceUseCompatible, setForceUseCompatible] = useState(false)
   const [sfw, setSfw] = useState<number>(2)
+  const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 
   const enableFixedModules = (
@@ -147,6 +150,32 @@ export default function JavaForm() {
       target: { value },
     } = event
     setState(value as unknown as T)
+  }
+
+  const handleSubmit = () => {
+    setSubmitting(true)
+    fetch('https://meme.wd-api.com/ajax', {
+      method: 'POST',
+      body: JSON.stringify({
+        _be: false,
+        type: gameVersion === 3 ? 'legacy' : 'normal',
+        compatible: useCompatible,
+        format: gameVersion,
+        mod: ['mods/adorn.json'],
+        modules: {
+          collection: [
+            ...enabledCollections.map((m) => m.name),
+            ...fixedCollections.map((m) => m.name),
+          ],
+          resource: [
+            ...enabledResourceModules.map((m) => m.name),
+            ...enabledLanguageModules.map((m) => m.name),
+            ...enabledFixedLanguageModules.map((m) => m.name),
+          ],
+        },
+      }),
+    })
+    setSubmitting(false)
   }
 
   return (
@@ -381,6 +410,17 @@ export default function JavaForm() {
             <FormHelperText>{t('form.child.helpers.' + sfw)}</FormHelperText>
           </Box>
         </Stack>
+      </Grid>
+      <Grid item xs={12}>
+        <Button
+          color="primary"
+          variant="contained"
+          startIcon={<CloudDownload />}
+          loading={submitting}
+          onClick={() => handleSubmit()}
+        >
+          {t('form.submit')}
+        </Button>
       </Grid>
     </Grid>
   )
