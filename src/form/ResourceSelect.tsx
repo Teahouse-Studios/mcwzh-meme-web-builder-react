@@ -1,37 +1,54 @@
 import {
-  List,
+  Chip,
   Autocomplete,
   Box,
   TextField,
   Typography,
   Checkbox,
+  SvgIcon,
+  SvgIconProps,
 } from '@mui/material'
+import { Archive } from 'mdi-material-ui'
 import { css } from '@emotion/react'
 import { useTranslation } from 'react-i18next'
 import type { MemeModule } from './types'
+import { cloneElement, ReactElement, useState } from 'react'
 
 interface ResourceSelectProps {
   onChange: (value: MemeModule[]) => void
   options: MemeModule[]
   label: string
+  prependIcon: ReactElement<SvgIconProps>
   helper?: string
+  defaultOptions?: MemeModule[]
   disabledOptions?: MemeModule[]
   disabled?: boolean
 }
 
 export default function ResourceSelect(props: ResourceSelectProps) {
   const { t } = useTranslation()
+  const [selected, setSelected] = useState<MemeModule[]>(
+    props.defaultOptions || []
+  )
 
   return (
     <Autocomplete
+      value={[...new Set(selected.concat(props.defaultOptions || []))]}
       multiple
-      onChange={(event, value) => props.onChange(value)}
+      onChange={(event, value) => {
+        setSelected(value)
+        props.onChange(value)
+      }}
       options={props.options}
       disabled={props.disabled}
       autoHighlight
       disableCloseOnSelect={true}
       getOptionDisabled={(option) =>
-        props.disabledOptions?.includes(option) || false
+        props.disabledOptions?.includes(option) ||
+        option.incompatible_with?.some((module) =>
+          selected.some((m) => m.name === module)
+        ) ||
+        false
       }
       getOptionLabel={(option) => option.name}
       renderOption={(props, option, { selected }) => (
@@ -54,7 +71,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
               {option.description}
               {option.contains
                 ? ' · ' +
-                  t('form.collections.description_suffix') +
+                  t('form.collections.description_prefix') +
                   option.contains.length +
                   t('form.collections.resource_suffix')
                 : ''}
@@ -62,20 +79,47 @@ export default function ResourceSelect(props: ResourceSelectProps) {
             <Typography variant="body2" sx={{ color: 'Highlight' }}>
               {t('form.author')}
               {option.author.join(t('metadata.ideographicComma'))}
+              {option.incompatible_with ? (
+                <>
+                  {' '}
+                  ·{' '}
+                  {t('form.incompatible', {
+                    i: option.incompatible_with?.join(
+                      t('metadata.ideographicComma')
+                    ),
+                  })}
+                </>
+              ) : (
+                <></>
+              )}
             </Typography>
           </div>
         </Box>
       )}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label={props.label}
-          helperText={props.helper}
-          inputProps={{
-            ...params.inputProps,
-          }}
-        />
+        <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+          {cloneElement(props.prependIcon, {
+            sx: { color: 'action.active', marginTop: '16.5px', mr: 2 },
+          })}
+          <TextField
+            {...params}
+            label={props.label}
+            helperText={props.helper}
+            inputProps={{
+              ...params.inputProps,
+            }}
+          />
+        </Box>
       )}
+      renderTags={(tagValue, getTagProps) =>
+        tagValue.map((option, index) => (
+          <Chip
+            label={option.name}
+            {...getTagProps({ index })}
+            disabled={(props.disabledOptions || []).includes(option)}
+          />
+        ))
+      }
     />
   )
 }

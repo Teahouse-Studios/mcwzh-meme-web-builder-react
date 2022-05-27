@@ -34,14 +34,8 @@
       "label": "Language modules"
     },
     "mod": {
-      "option": {
-        "helper": "Would you like Mods support?",
-        "label": "Enable Mods"
-      },
-      "list": {
-        "helper": "Please select Mods to be included.",
-        "label": "Mods"
-      },
+      "helper": "Please select Mods to be included.",
+      "label": "Mods",
       "header": "Mod files",
       "enHeader": "Mod files (not translated to Chinese)"
     },
@@ -63,10 +57,9 @@
       "helper": "Please select Add-on module collections, cherry-picked by our team.",
       "label": "Module collections",
       "description_prefix": "Total ",
-      "resource_suffix": " resource modules",
-      "language_suffix": " language modules"
+      "resource_suffix": " resource modules"
     },
-    "incompatible": "(incompatible with {0})",
+    "incompatible": "(incompatible with {{i}})",
     "modified": "Last Modified at",
     "modOption": {
       "all": "All",

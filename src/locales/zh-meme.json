@@ -30,27 +30,21 @@
       "label": "附加内容/材质选择"
     },
     "language": {
-      "helper": "选择您需要的SP字符串。",
-      "label": "SP选择"
+      "helper": "选择您需要的 SP 字符串。",
+      "label": "SP 选择"
     },
     "mod": {
-      "option": {
-        "helper": "您会不会让原版警察出警？",
-        "label": "Mod内容选择"
-      },
-      "list": {
-        "helper": "选择您需要的Mod。",
-        "label": "Mod内容选择"
-      },
-      "header": "Mod文件",
-      "enHeader": "Mod文件（懒得汉化）"
+      "helper": "选择您需要的 Mod。",
+      "label": "Mod 内容选择",
+      "header": "Mod 文件",
+      "enHeader": "Mod 文件（懒得汉化）"
     },
     "beExtType": {
       "helper": "选择您需要的附加包后缀。",
       "label": "后缀"
     },
     "compatible": {
-      "helper": "让您可以在使用其他附加包时不目害。此选项会把梗体中文内容覆盖到简体中文，因此在设置中只需选择“简体中文”即可体验。详见README.md。",
+      "helper": "让您可以在使用其他附加包时不目害。此选项会把梗体中文内容覆盖到简体中文，因此在设置中只需选择“简体中文”即可体验。详见 README.md。",
       "label": "我不要目害",
       "disabled": "由于你的游戏版本小于 1.13，太逊了，所以我们钦定此项为开。"
     },
@@ -63,10 +57,9 @@
       "helper": "选择我们预先钦定的模块集合。",
       "label": "模块集合选择",
       "description_prefix": "共",
-      "resource_suffix": "个附加内容",
-      "language_suffix": "个SP内容"
+      "resource_suffix": "个附加内容"
     },
-    "incompatible": "（与 {0} 不兼容）",
+    "incompatible": "（与 {{i}} 不兼容）",
     "modified": "最后更新时间: ",
     "modOption": {
       "all": "所有",
