@@ -174,6 +174,9 @@ export default function JavaForm() {
           ],
         },
       }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
     setSubmitting(false)
   }
