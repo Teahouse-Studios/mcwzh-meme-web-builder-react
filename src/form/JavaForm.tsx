@@ -1,4 +1,10 @@
-import { useState, useContext } from 'react'
+import {
+  useState,
+  useContext,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Grid,
@@ -14,6 +20,7 @@ import {
   MenuItem,
   Box,
   Typography,
+  SelectChangeEvent,
 } from '@mui/material'
 import {
   Archive,
@@ -31,17 +38,116 @@ import { MemeModule } from './types'
 export default function JavaForm() {
   const api = useContext(ApiContext)
   const [enabledCollections, setEnabledCollections] = useState<MemeModule[]>([])
+  const [fixedCollections, setFixedCollections] = useState<MemeModule[]>([])
   const [enabledResourceModules, setEnabledResourceModules] = useState<
     MemeModule[]
   >([])
   const [enabledLanguageModules, setEnabledLanguageModule] = useState<
     MemeModule[]
   >([])
+  const [enabledFixedLanguageModules, setFixedLanguageModule] = useState<
+    MemeModule[]
+  >([])
   const [gameVersion, setGameVersion] = useState<number>(9)
-  const [enabledMods, setEnabledMods] = useState<MemeModule[]>([])
+  const [enabledMods, setEnabledMods] = useState<string[]>([])
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
+  const [forceUseCompatible, setForceUseCompatible] = useState(false)
   const [sfw, setSfw] = useState<number>(2)
   const { t } = useTranslation()
+
+  const enableFixedModules = (
+    collections: string[],
+    setState: Dispatch<SetStateAction<MemeModule[]>>,
+    arr: MemeModule[]
+  ) => {
+    setState(arr.filter((m) => collections.includes(m.name))!)
+  }
+
+  useEffect(() => {
+    switch (gameVersion) {
+      case 9:
+        enableFixedModules([], setFixedCollections, api?.je_modules.collection!)
+        setForceUseCompatible(false)
+        break
+      case 8:
+        enableFixedModules(
+          ['version_1.18.2'],
+          setFixedCollections,
+          api?.je_modules.collection!
+        )
+        setForceUseCompatible(false)
+        break
+      case 7:
+        enableFixedModules(
+          ['version_1.17.1'],
+          setFixedCollections,
+          api?.je_modules.collection!
+        )
+        setForceUseCompatible(false)
+        break
+      case 6:
+        enableFixedModules(
+          ['version_1.16.5'],
+          setFixedCollections,
+          api?.je_modules.collection!
+        )
+        setForceUseCompatible(false)
+        break
+      case 5:
+      case 4:
+        enableFixedModules(
+          ['version_1.12.2-1.15.2'],
+          setFixedCollections,
+          api?.je_modules.collection!
+        )
+        setForceUseCompatible(false)
+        break
+      case 3:
+        enableFixedModules(
+          ['version_1.12.2-1.15.2'],
+          setFixedCollections,
+          api?.je_modules.collection!
+        )
+        setForceUseCompatible(true)
+        break
+    }
+  }, [gameVersion])
+
+  useEffect(() => {
+    switch (sfw) {
+      case 1:
+        enableFixedModules(
+          ['lang_sfc', 'lang_sfw'],
+          setFixedLanguageModule,
+          api?.je_modules.resource!
+        )
+        break
+      case 2:
+        enableFixedModules(
+          ['lang_sfw'],
+          setFixedLanguageModule,
+          api?.je_modules.resource!
+        )
+        break
+      case 3:
+        enableFixedModules(
+          [],
+          setFixedLanguageModule,
+          api?.je_modules.resource!
+        )
+        break
+    }
+  }, [sfw])
+
+  const handleSelectChange = <T,>(
+    event: SelectChangeEvent<T>,
+    setState: Dispatch<SetStateAction<T>>
+  ) => {
+    const {
+      target: { value },
+    } = event
+    setState(value as unknown as T)
+  }
 
   return (
     <Grid
@@ -60,25 +166,42 @@ export default function JavaForm() {
             <InputLabel>{t('form.version.label')}</InputLabel>
             <Select
               label={t('form.version.label')}
+              value={gameVersion}
+              css={css`
+                .version-caption {
+                  display: none;
+                }
+              `}
               onChange={(e) => {
                 setGameVersion(e.target.value as number)
               }}
             >
-              <VersionMenuItems
-                items={[
-                  { version: '1.19+', format: 9, caption: '最新快照' },
-                  {
-                    version: '1.18 - 1.18.2',
-                    format: 8,
-                    caption: '最新正式版',
-                  },
-                  { version: '1.17 - 1.17.1', format: 7 },
-                  { version: '1.16.2 - 1.16.5', format: 6 },
-                  { version: '1.15 - 1.16.1', format: 5 },
-                  { version: '1.13 - 1.14.4', format: 4 },
-                  { version: '1.11 - 1.12.2', format: 3, caption: '兼容版' },
-                ]}
-              />
+              {[
+                { version: '1.19+', format: 9, caption: '最新快照' },
+                {
+                  version: '1.18 - 1.18.2',
+                  format: 8,
+                  caption: '最新正式版',
+                },
+                { version: '1.17 - 1.17.1', format: 7 },
+                { version: '1.16.2 - 1.16.5', format: 6 },
+                { version: '1.15 - 1.16.1', format: 5 },
+                { version: '1.13 - 1.14.4', format: 4 },
+                { version: '1.11 - 1.12.2', format: 3, caption: '兼容版' },
+              ].map((i) => (
+                <MenuItem key={i.version} value={i.format}>
+                  {i.version}
+                  <Typography
+                    component="span"
+                    className="version-caption"
+                    variant="body2"
+                    sx={{ color: 'GrayText', mr: 0, ml: 'auto' }}
+                    hidden={!i.caption}
+                  >
+                    {i.caption}
+                  </Typography>
+                </MenuItem>
+              ))}
             </Select>
             <FormHelperText>{t('form.version.helper')}</FormHelperText>
           </FormControl>
@@ -94,8 +217,9 @@ export default function JavaForm() {
             <Select
               label={t('form.mod.label')}
               multiple
+              defaultValue={api?.mods}
               onChange={(e) => {
-                setEnabledMods(enabledMods.push(e.target.value))
+                handleSelectChange(e, setEnabledMods)
               }}
             >
               <MenuItem disabled={true}>
@@ -166,8 +290,8 @@ export default function JavaForm() {
               (i) => i.name.startsWith('lang_') // seperate lang modules
             )!
           }
-          defaultOptions={
-            enabledCollections
+          defaultOptions={[
+            ...(enabledCollections
               .map((m) =>
                 api?.je_modules.resource!.filter(
                   (r) =>
@@ -175,10 +299,11 @@ export default function JavaForm() {
                 )
               )
               .flat()
-              .filter((i) => i !== undefined) as MemeModule[]
-          }
-          disabledOptions={
-            enabledCollections
+              .filter((i) => i !== undefined) as MemeModule[]),
+            ...enabledFixedLanguageModules,
+          ]}
+          disabledOptions={[
+            ...(enabledCollections
               .map((m) =>
                 api?.je_modules.resource!.filter(
                   (r) =>
@@ -186,8 +311,9 @@ export default function JavaForm() {
                 )
               )
               .flat()
-              .filter((i) => i !== undefined) as MemeModule[]
-          }
+              .filter((i) => i !== undefined) as MemeModule[]),
+            ...enabledFixedLanguageModules,
+          ]}
           label={t('form.language.label')}
           helper={t('form.language.helper')}
           prependIcon={<Cog />}
@@ -198,6 +324,8 @@ export default function JavaForm() {
           onChange={(v) => {
             setEnabledCollections(v)
           }}
+          defaultOptions={fixedCollections}
+          disabledOptions={fixedCollections}
           options={api?.je_modules.collection!}
           label={t('form.collections.label')}
           helper={t('form.collections.helper')}
@@ -207,11 +335,23 @@ export default function JavaForm() {
       <Grid item xs={12}>
         <FormControl fullWidth>
           <FormControlLabel
-            control={<Switch defaultChecked />}
+            control={
+              <Switch
+                checked={useCompatible || forceUseCompatible}
+                disabled={forceUseCompatible}
+                onChange={(e, c) => setUseCompatible(c)}
+              />
+            }
             label={t('form.compatible.label')}
             sx={{ color: 'GrayText' }}
           />
-          <FormHelperText>{t('form.compatible.helper')}</FormHelperText>
+          <FormHelperText>
+            {t(
+              forceUseCompatible
+                ? 'form.compatible.disabled'
+                : 'form.compatible.helper'
+            )}
+          </FormHelperText>
         </FormControl>
       </Grid>
       <Grid item xs={12}>
@@ -225,10 +365,10 @@ export default function JavaForm() {
           <Box sx={{ width: '100%' }}>
             <Slider
               onChange={(e, v) => {
-                setSfw(v)
+                setSfw(v as number)
               }}
               sx={{ mx: 1 }}
-              defaultValue={sfw}
+              value={sfw}
               step={1}
               marks={[
                 { value: 1, label: t('form.child.ticks.1') },
@@ -238,33 +378,10 @@ export default function JavaForm() {
               min={1}
               max={3}
             />
-            <FormHelperText>{t('form.child.helpers.1')}</FormHelperText>
+            <FormHelperText>{t('form.child.helpers.' + sfw)}</FormHelperText>
           </Box>
         </Stack>
       </Grid>
     </Grid>
-  )
-}
-
-function VersionMenuItems({
-  items,
-}: {
-  items: { format: number; version: string; caption?: string }[]
-}) {
-  return (
-    <>
-      {items.map((i) => (
-        <MenuItem value={i.format}>
-          {i.version}
-          <Typography
-            component="span"
-            variant="body2"
-            sx={{ color: 'GrayText', mr: 0, ml: 'auto' }}
-          >
-            {i.caption}
-          </Typography>
-        </MenuItem>
-      ))}
-    </>
   )
 }

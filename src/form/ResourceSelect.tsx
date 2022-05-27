@@ -5,7 +5,7 @@ import {
   TextField,
   Typography,
   Checkbox,
-  SvgIcon,
+  Popper,
   SvgIconProps,
 } from '@mui/material'
 import { Archive } from 'mdi-material-ui'
@@ -108,6 +108,24 @@ export default function ResourceSelect(props: ResourceSelectProps) {
             inputProps={{
               ...params.inputProps,
             }}
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <Box
+                  sx={{
+                    overflowX: 'hidden',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {params.InputProps.startAdornment}
+                </Box>
+              ),
+            }}
+            css={css`
+              .MuiInputBase-root {
+                flex-wrap: nowrap;
+              }
+            `}
           />
         </Box>
       )}
@@ -120,6 +138,15 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           />
         ))
       }
+      PopperComponent={(props) => (
+        <Popper
+          {...props}
+          css={css`
+            width: fit-content !important;
+          `}
+          placement="bottom-start"
+        />
+      )}
     />
   )
 }
