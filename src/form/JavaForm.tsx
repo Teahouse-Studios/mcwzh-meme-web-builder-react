@@ -307,7 +307,9 @@ export default function JavaForm({
                 </Typography>
               </MenuItem>
               {api?.mods.map((m) => (
-                <MenuItem value={m}>{m}</MenuItem>
+                <MenuItem key={m} value={m}>
+                  {m}
+                </MenuItem>
               ))}
               <MenuItem disabled={true}>
                 <Typography component="span" variant="subtitle2">
@@ -315,7 +317,9 @@ export default function JavaForm({
                 </Typography>
               </MenuItem>
               {api?.enmods.map((m) => (
-                <MenuItem value={m}>{m}</MenuItem>
+                <MenuItem key={m} value={m}>
+                  {m}
+                </MenuItem>
               ))}
             </Select>
             <FormHelperText>{t('form.mod.helper')}</FormHelperText>
