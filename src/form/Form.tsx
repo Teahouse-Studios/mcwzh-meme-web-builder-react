@@ -1,5 +1,7 @@
 import './Form.css'
 import {
+  Alert,
+  AlertTitle,
   Box,
   Tabs,
   Tab,
@@ -18,7 +20,7 @@ import {
 import {
   Coffee,
   Devices,
-  Alert,
+  Alert as AlertIcon,
   CloseCircle,
   ChevronDown,
   Check,
@@ -105,6 +107,16 @@ export default function Form() {
           flexWrap: 'wrap',
         }}
       >
+        <Container sx={{ mb: 1 }}>
+          <Alert severity="warning">
+            <AlertTitle>高能警告</AlertTitle>
+            您已被挑选进入实验性的新版在线构建。在使用过程中如有任何问题，请到{' '}
+            <a href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder-react/issues">
+              GitHub Issues
+            </a>{' '}
+            报告。
+          </Alert>
+        </Container>
         {apiError ? (
           <ApiFailed error={apiError} load={loadApi} />
         ) : !api ? (
@@ -243,7 +255,7 @@ function ApiFailed({ error, load }: { error: Error; load: MouseEventHandler }) {
         py: 2,
       }}
     >
-      <Alert color="error" fontSize="large" sx={{ mb: 1 }} />
+      <AlertIcon color="error" fontSize="large" sx={{ mb: 1 }} />
       <Typography variant="h5" sx={{ mb: 2, fontWeight: 'bold' }}>
         {t('form.fetchListFailed.headline')}
       </Typography>
