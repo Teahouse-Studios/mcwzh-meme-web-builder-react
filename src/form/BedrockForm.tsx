@@ -20,9 +20,9 @@ import {
   MenuItem,
   Box,
   Typography,
-  SelectChangeEvent,
-  Button,
+  SelectChangeEvent
 } from '@mui/material'
+import {LoadingButton} from '@mui/lab'
 import {
   Archive,
   Group,
@@ -162,7 +162,6 @@ export default function BedrockForm({
           time: Date.now(),
         })
       })
-    setSubmitting(false)
     document.getElementById('build-log')?.scrollIntoView({
       behavior: 'smooth',
     })
@@ -307,7 +306,7 @@ export default function BedrockForm({
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Button
+        <LoadingButton
           color="primary"
           variant="contained"
           startIcon={<CloudDownload />}
@@ -315,7 +314,7 @@ export default function BedrockForm({
           onClick={() => handleSubmit()}
         >
           {t('form.submit')}
-        </Button>
+        </LoadingButton>
       </Grid>
     </Grid>
   )

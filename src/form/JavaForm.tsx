@@ -23,6 +23,7 @@ import {
   SelectChangeEvent,
   Button,
 } from '@mui/material'
+import {LoadingButton} from '@mui/lab'
 import {
   Archive,
   Clock,
@@ -222,7 +223,6 @@ export default function JavaForm({
           time: Date.now(),
         })
       })
-    setSubmitting(false)
     document.getElementById('build-log')?.scrollIntoView({
       behavior: 'smooth',
     })
@@ -307,9 +307,7 @@ export default function JavaForm({
                 </Typography>
               </MenuItem>
               {api?.mods.map((m) => (
-                <MenuItem key={m} value={m}>
-                  {m}
-                </MenuItem>
+                <MenuItem value={m}>{m}</MenuItem>
               ))}
               <MenuItem disabled={true}>
                 <Typography component="span" variant="subtitle2">
@@ -317,9 +315,7 @@ export default function JavaForm({
                 </Typography>
               </MenuItem>
               {api?.enmods.map((m) => (
-                <MenuItem key={m} value={m}>
-                  {m}
-                </MenuItem>
+                <MenuItem value={m}>{m}</MenuItem>
               ))}
             </Select>
             <FormHelperText>{t('form.mod.helper')}</FormHelperText>
@@ -466,7 +462,7 @@ export default function JavaForm({
         </Stack>
       </Grid>
       <Grid item xs={12}>
-        <Button
+        <LoadingButton
           color="primary"
           variant="contained"
           startIcon={<CloudDownload />}
@@ -474,7 +470,7 @@ export default function JavaForm({
           onClick={() => handleSubmit()}
         >
           {t('form.submit')}
-        </Button>
+        </LoadingButton>
       </Grid>
     </Grid>
   )
