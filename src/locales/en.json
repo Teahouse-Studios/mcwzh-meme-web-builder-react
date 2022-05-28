@@ -89,12 +89,13 @@
     "Memified Chinese is an active project. Please check back often."
   ],
   "log": {
-    "buildSucceeded": "Build success",
-    "buildFailed": "Build failed",
+    "buildSuccess": "Build success",
+    "buildError": "Build failed",
     "headline": "Build log",
     "download": "Download",
-    "share": "Share your options",
-    "feedback": "Feedback"
+    "share": "Share",
+    "feedback": "Feedback",
+    "clipboard": "Copied to clipboard, link is vaild in 7 days"
   },
   "sponsor": {
     "overline": "SPONSOR",
@@ -128,8 +129,8 @@
   "snackbar": {
     "close": "Close",
     "feedback": "Feedback",
-    "buildSucceeded": "Build succeeded.",
-    "buildFailed": "Build failed.",
+    "buildSuccess": "Build succeeded.",
+    "buildError": "Build failed.",
     "shareLinkParsed": "Successfully parsed share link.",
     "shareCopyedToClipboard": "Link copied to clipboard."
   },

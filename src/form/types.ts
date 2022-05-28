@@ -22,3 +22,11 @@ export interface MemeModule {
   name: string
   type: string
 }
+
+export interface BuildLog {
+  status: 'error' | 'success'
+  log: string
+  platform: 'java' | 'bedrock'
+  downloadUrl?: string
+  time: number
+}

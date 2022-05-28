@@ -89,11 +89,13 @@
     "梗体中文是一个持续更新的项目，欢迎 常 回 家 看 看。"
   ],
   "log": {
-    "buildSucceeded": "构建成了",
-    "buildFailed": "构建 大 失 败",
+    "buildSuccess": "构建成了",
+    "buildError": "构建 大 失 败",
     "headline": "构建原木",
     "download": "下载",
-    "feedback": "控诉开发者"
+    "share": "分享",
+    "feedback": "控诉开发者",
+    "clipboard": "已复制到剪贴板，7 天内有效"
   },
   "sponsor": {
     "overline": "金主爸爸",
@@ -127,8 +129,8 @@
   "snackbar": {
     "close": "关掉！关掉！",
     "feedback": "投诉开发者",
-    "buildSucceeded": "构建成了。",
-    "buildFailed": "构建 大 失 败。",
+    "buildSuccess": "构建成了。",
+    "buildError": "构建 大 失 败。",
     "shareLinkParsed": "成功解析你朋友（不知道是不是你自己）发过来的配置链接。",
     "shareCopyedToClipboard": "链接已复制到剪贴板。"
   },

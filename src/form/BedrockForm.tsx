@@ -25,21 +25,22 @@ import {
 } from '@mui/material'
 import {
   Archive,
-  Clock,
-  Cog,
-  SelectGroup,
   Group,
   AccountChildCircle,
   CloudDownload,
   FolderInformation,
 } from 'mdi-material-ui'
 import { css } from '@emotion/react'
-import { ApiContext } from './Form'
 import ResourceSelect from './ResourceSelect'
-import { MemeModule } from './types'
+import { MemeModule, MemeApi, BuildLog } from './types'
 
-export default function Bedrock() {
-  const api = useContext(ApiContext)
+export default function BedrockForm({
+  api,
+  addLog,
+}: {
+  api: MemeApi
+  addLog: (log: BuildLog) => void
+}) {
   const [enabledCollections, setEnabledCollections] = useState<MemeModule[]>([])
   const [fixedCollections, setFixedCollections] = useState<MemeModule[]>([])
   const [enabledResourceModules, setEnabledResourceModules] = useState<
@@ -128,7 +129,43 @@ export default function Bedrock() {
         'Content-Type': 'application/json',
       },
     })
+      .then((res) => {
+        if (res.status === 200) {
+          res.json().then((data) => {
+            setSubmitting(false)
+            addLog({
+              status: 'success',
+              platform: 'bedrock',
+              log: data.logs as string,
+              downloadUrl: data.root + data.filename,
+              time: Date.now(),
+            })
+          })
+        } else {
+          res.json().then((data) => {
+            setSubmitting(false)
+            addLog({
+              status: 'error',
+              platform: 'bedrock',
+              log: data.logs as string,
+              time: Date.now(),
+            })
+          })
+        }
+      })
+      .catch((err) => {
+        setSubmitting(false)
+        addLog({
+          status: 'error',
+          platform: 'bedrock',
+          log: err as string,
+          time: Date.now(),
+        })
+      })
     setSubmitting(false)
+    document.getElementById('build-log')?.scrollIntoView({
+      behavior: 'smooth',
+    })
   }
 
   return (

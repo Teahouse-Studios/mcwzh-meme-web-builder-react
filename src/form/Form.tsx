@@ -1,3 +1,4 @@
+import './Form.css'
 import {
   Box,
   Tabs,
@@ -6,37 +7,52 @@ import {
   Button,
   Container,
   CircularProgress,
+  Divider,
   useMediaQuery,
   useTheme,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Paper,
 } from '@mui/material'
-import { Coffee, Devices, Alert, CloseCircle } from 'mdi-material-ui'
+import {
+  Coffee,
+  Devices,
+  Alert,
+  CloseCircle,
+  ChevronDown,
+  Check,
+  Download,
+  Bug,
+  ShareVariant,
+  Heart,
+} from 'mdi-material-ui'
 import {
   useState,
   useEffect,
-  createContext,
-  SyntheticEvent,
   ReactNode,
   MouseEvent,
   MouseEventHandler,
+  SyntheticEvent,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
-import { MemeApi } from './types'
-
-export const ApiContext = createContext<MemeApi | undefined>(undefined)
+import { MemeApi, BuildLog } from './types'
 
 export default function Form() {
   const { t } = useTranslation()
   const theme = useTheme()
-  const [apiData, setApiData] = useState<MemeApi | undefined>(undefined)
+  const [api, setApi] = useState<MemeApi | undefined>(undefined)
   const [apiError, setApiError] = useState<Error | null>(null)
+  const [logs, setLogs] = useState<BuildLog[]>([])
+  const [shareCopiedToClipboard, setShareCopiedToClipboard] = useState(false)
   const smAndUp = useMediaQuery(theme.breakpoints.up('sm'))
 
   const load = async () => {
     const data = await fetch('https://meme.wd-api.com/')
     const api = await data.json()
-    setApiData(api)
+    setApi(api)
     setApiError(null)
   }
   const catchLoad = async (e: Error) => {
@@ -44,7 +60,7 @@ export default function Form() {
     console.error(e)
   }
 
-  const loadApiData = (event: MouseEvent) => {
+  const loadApi = (event: MouseEvent) => {
     setApiError(null)
     load().catch(catchLoad)
   }
@@ -58,56 +74,162 @@ export default function Form() {
     setTab(newValue)
   }
 
+  const addLog = (log: BuildLog) => {
+    setLogs([...logs, log])
+  }
+
+  const shareUrl = (url: string) => {
+    if (navigator.share) {
+      navigator.share({
+        title: '梗体中文构建配置分享',
+        text: '你的好友给你分享了 ta 他的梗体中文！此链接 7 日内有效：',
+        url: url,
+      })
+    } else {
+      navigator.clipboard.writeText(url)
+      setShareCopiedToClipboard(true)
+      setTimeout(() => {
+        setShareCopiedToClipboard(false)
+      }, 3000)
+    }
+  }
+
   return (
-    <ApiContext.Provider value={apiData}>
-      <ApiContext.Consumer>
-        {(value) => {
-          return (
-            <Box
-              sx={{
-                minHeight: 'calc(75vh)',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: apiError || !value ? 'center' : 'start',
-              }}
-            >
-              {apiError ? (
-                <ApiFailed error={apiError} load={loadApiData} />
-              ) : !value ? (
-                <ApiLoading />
-              ) : (
-                <Container>
-                  <Tabs value={tab} onChange={handleChange} centered={smAndUp}>
-                    <Tab
-                      icon={<Coffee />}
-                      iconPosition="start"
-                      label={t('java')}
-                      sx={{
-                        minHeight: 'unset',
-                      }}
-                    />
-                    <Tab
-                      icon={<Devices />}
-                      iconPosition="start"
-                      label={t('bedrock')}
-                      sx={{
-                        minHeight: 'unset',
-                      }}
-                    />
-                  </Tabs>
-                  <TabPanel value={tab} index={0}>
-                    <JavaForm />
-                  </TabPanel>
-                  <TabPanel value={tab} index={1}>
-                    <BedrockForm />
-                  </TabPanel>
-                </Container>
-              )}
-            </Box>
-          )
+    <>
+      <Box
+        sx={{
+          minHeight: 'calc(75vh)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: apiError || !api ? 'center' : 'start',
+          flexWrap: 'wrap',
         }}
-      </ApiContext.Consumer>
-    </ApiContext.Provider>
+      >
+        {apiError ? (
+          <ApiFailed error={apiError} load={loadApi} />
+        ) : !api ? (
+          <ApiLoading />
+        ) : (
+          <Container>
+            <Tabs value={tab} onChange={handleChange} centered={smAndUp}>
+              <Tab
+                icon={<Coffee />}
+                iconPosition="start"
+                label={t('java')}
+                sx={{
+                  minHeight: 'unset',
+                }}
+              />
+              <Tab
+                icon={<Devices />}
+                iconPosition="start"
+                label={t('bedrock')}
+                sx={{
+                  minHeight: 'unset',
+                }}
+              />
+            </Tabs>
+            <TabPanel value={tab} index={0}>
+              <JavaForm api={api!} addLog={addLog} />
+            </TabPanel>
+            <TabPanel value={tab} index={1}>
+              <BedrockForm api={api!} addLog={addLog} />
+            </TabPanel>
+          </Container>
+        )}
+        {logs.length > 0 && (
+          <Container id="build-logs">
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="h5" component="h2" sx={{ mb: 1 }}>
+              {t('log.headline')}
+            </Typography>
+            <Box>
+              {logs.reverse().map((log) => (
+                <Accordion key="log.time">
+                  <AccordionSummary expandIcon={<ChevronDown />}>
+                    <Typography
+                      sx={{
+                        width: '33%',
+                        flexShrink: 0,
+                        color: `${log.status}.main`,
+                      }}
+                    >
+                      {log.status === 'success' ? (
+                        <Check sx={{ mr: 1, verticalAlign: 'top' }} />
+                      ) : (
+                        <CloseCircle sx={{ mr: 1, verticalAlign: 'top' }} />
+                      )}
+                      {t(
+                        `log.build${log.status.replace(/^\S/, (s) =>
+                          s.toUpperCase()
+                        )}`
+                      )}
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>
+                      {new Date(log.time).toLocaleString()}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Paper
+                      elevation={0}
+                      sx={{
+                        padding: 2,
+                        fontFamily: 'monospace',
+                        filter: 'invert(.05)',
+                        mb: 2,
+                      }}
+                    >
+                      {log.log}
+                    </Paper>
+                    {log.status === 'success' ? (
+                      <>
+                        <Button
+                          variant="contained"
+                          startIcon={<Download />}
+                          href={log.downloadUrl}
+                          sx={{ mr: 1 }}
+                        >
+                          {t('log.download')}
+                        </Button>
+                        <Button
+                          startIcon={
+                            shareCopiedToClipboard ? (
+                              <Check />
+                            ) : (
+                              <ShareVariant />
+                            )
+                          }
+                          onClick={() => {}}
+                        >
+                          {t('log.share')}
+                        </Button>
+                        <Button
+                          className="donate-button"
+                          startIcon={<Heart />}
+                          color="warning"
+                          href="https://afdian.net/@teahouse"
+                        >
+                          {t('footer.donate')}
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        startIcon={<Bug />}
+                        color="error"
+                        href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
+                      >
+                        {t('log.feedback')}
+                      </Button>
+                    )}
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </Box>
+          </Container>
+        )}
+      </Box>
+    </>
   )
 }
 

@@ -89,12 +89,13 @@
     "梗体中文是一个持续更新的项目，欢迎常回来看看。"
   ],
   "log": {
-    "buildSucceeded": "构建成功",
-    "buildFailed": "构建失败",
+    "buildSuccess": "构建成功",
+    "buildError": "构建失败",
     "headline": "构建日志",
     "download": "下载",
-    "share": "分享配置",
-    "feedback": "反馈"
+    "share": "分享",
+    "feedback": "反馈",
+    "clipboard": "已复制到剪贴板，7 天内有效"
   },
   "sponsor": {
     "overline": "SPONSOR",
@@ -128,8 +129,8 @@
   "snackbar": {
     "close": "关闭",
     "feedback": "反馈",
-    "buildSucceeded": "构建已成功。",
-    "buildFailed": "构建已失败。",
+    "buildSuccess": "构建已成功。",
+    "buildError": "构建已失败。",
     "shareLinkParsed": "成功解析配置分享链接。",
     "shareCopyedToClipboard": "链接已复制到剪贴板。"
   },
@@ -180,6 +181,6 @@
     "slogan": "Built with ❤️ ️love, 🔮 fantasies, 🐝 bees and 🤣 memes.",
     "terms": "服务条款",
     "privacy": "隐私政策",
-    "donate": "捐款"
+    "donate": "赞助"
   }
 }
