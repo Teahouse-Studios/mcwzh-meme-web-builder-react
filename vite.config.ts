@@ -11,6 +11,6 @@ export default defineConfig({
         plugins: ['@emotion/babel-plugin'],
       },
     }),
-    legacy({ targets: ['> 1% in CN', 'last 2 major versions', 'not dead'] }),
+    legacy(),
   ],
 })
