@@ -144,7 +144,9 @@ export default function TeahouseFooter() {
               <img
                 src={new URL('../assets/logo.svg', import.meta.url).href}
                 height="50"
-                style={{ filter: 'invert(1)' }}
+                css={css`
+                  filter: invert(1);
+                `}
                 alt="Teahouse Studios"
                 loading="lazy"
               />

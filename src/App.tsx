@@ -1,5 +1,6 @@
 import './App.css'
 import MemeAppBar from './template/AppBar'
+
 import { useMemo, createContext, useState } from 'react'
 import {
   CssBaseline,
@@ -8,7 +9,9 @@ import {
   useMediaQuery,
   Container,
 } from '@mui/material'
+
 import { css } from '@emotion/react'
+
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import en from './locales/en.json'
@@ -72,7 +75,7 @@ function App() {
         css={css`
           color-scheme: ${mode === 'light' ? 'light' : 'dark'};
 
-          a {
+          a:not(.MuiButton-root) {
             color: ${theme.palette.primary.main};
           }
         `}

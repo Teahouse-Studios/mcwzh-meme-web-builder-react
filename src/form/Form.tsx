@@ -211,7 +211,10 @@ export default function Form() {
                               <ShareVariant />
                             )
                           }
-                          onClick={() => {}}
+                          onClick={() => {
+                            shareUrl(log.downloadUrl!)
+                          }}
+                          sx={{ mr: 1 }}
                         >
                           {t('log.share')}
                         </Button>
@@ -220,6 +223,7 @@ export default function Form() {
                           startIcon={<Heart />}
                           color="warning"
                           href="https://afdian.net/@teahouse"
+                          sx={{ mr: 1 }}
                         >
                           {t('footer.donate')}
                         </Button>
@@ -230,6 +234,7 @@ export default function Form() {
                         startIcon={<Bug />}
                         color="error"
                         href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
+                        sx={{ mr: 1 }}
                       >
                         {t('log.feedback')}
                       </Button>

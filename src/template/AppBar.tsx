@@ -20,6 +20,7 @@ import {
   Box,
   SxProps,
 } from '@mui/material'
+import { css } from '@emotion/react'
 import {
   Github,
   Disc,
@@ -34,14 +35,7 @@ import { useTranslation } from 'react-i18next'
 
 export default function MemeAppBar() {
   const { t } = useTranslation()
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#fff',
-        dark: '#000',
-      },
-    },
-  })
+  const theme = useTheme()
   const smAndDown = useMediaQuery(theme.breakpoints.up('md'))
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -54,39 +48,44 @@ export default function MemeAppBar() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <AppBar position="sticky" color="primary" sx={{ mb: 2 }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {t('appbar.title')}
-          </Typography>
-          {smAndDown ? (
-            <BarLinks sx={{}} />
-          ) : (
-            <>
-              <IconButton sx={{ ml: 1 }} onClick={handleClick} color="inherit">
-                <DotsVertical />
-              </IconButton>
-              <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                <BarLinks
-                  sx={{
-                    display: 'flex',
-                    flexWrap: 'warp',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    pr: 1,
-                  }}
-                />
-              </Menu>
-            </>
-          )}
-        </Toolbar>
-      </AppBar>
-    </ThemeProvider>
+    <AppBar
+      color="default"
+      position="sticky"
+      sx={{ mb: 2 }}
+      css={css`
+        background-color: ${theme.palette.background.paper};
+      `}
+    >
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          {t('appbar.title')}
+        </Typography>
+        {smAndDown ? (
+          <BarLinks sx={{}} />
+        ) : (
+          <>
+            <IconButton sx={{ ml: 1 }} onClick={handleClick} color="inherit">
+              <DotsVertical />
+            </IconButton>
+            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+              <BarLinks
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'warp',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  pr: 1,
+                }}
+              />
+            </Menu>
+          </>
+        )}
+      </Toolbar>
+    </AppBar>
   )
 }
 
-function BarLinks({ sx }: { sx: SxProps }) {
+function BarLinks({ sx }: { sx: SxProps | undefined }) {
   const { t } = useTranslation()
 
   return (
