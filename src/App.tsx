@@ -8,6 +8,7 @@ import {
   useMediaQuery,
   Container,
 } from '@mui/material'
+import { css } from '@emotion/react'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import en from './locales/en.json'
@@ -67,14 +68,24 @@ function App() {
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <MemeAppBar />
-        <Container>
-          <Form />
-        </Container>
-        <TeahouseFooter />
-      </ThemeProvider>
+      <div
+        css={css`
+          color-scheme: ${mode === 'light' ? 'light' : 'dark'};
+
+          a {
+            color: ${theme.palette.primary.main};
+          }
+        `}
+      >
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <MemeAppBar />
+          <Container>
+            <Form />
+          </Container>
+          <TeahouseFooter />
+        </ThemeProvider>
+      </div>
     </ColorModeContext.Provider>
   )
 }
