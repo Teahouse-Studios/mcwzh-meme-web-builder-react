@@ -15,7 +15,10 @@ import {
   MenuItem,
   createTheme,
   useTheme,
+  useMediaQuery,
   IconButton,
+  Box,
+  SxProps,
 } from '@mui/material'
 import {
   Github,
@@ -25,6 +28,7 @@ import {
   ChevronDown,
   Brightness7,
   Brightness4,
+  DotsVertical,
 } from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 
@@ -34,9 +38,20 @@ export default function MemeAppBar() {
     palette: {
       primary: {
         main: '#fff',
+        dark: '#000',
       },
     },
   })
+  const smAndDown = useMediaQuery(theme.breakpoints.up('md'))
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -45,18 +60,37 @@ export default function MemeAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {t('appbar.title')}
           </Typography>
-          <BarLinks />
+          {smAndDown ? (
+            <BarLinks sx={{}} />
+          ) : (
+            <>
+              <IconButton sx={{ ml: 1 }} onClick={handleClick} color="inherit">
+                <DotsVertical />
+              </IconButton>
+              <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+                <BarLinks
+                  sx={{
+                    display: 'flex',
+                    flexWrap: 'warp',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    pr: 1,
+                  }}
+                />
+              </Menu>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </ThemeProvider>
   )
 }
 
-function BarLinks() {
+function BarLinks({ sx }: { sx: SxProps }) {
   const { t } = useTranslation()
 
   return (
-    <>
+    <Box sx={sx}>
       <CompositeMenu
         icon={<Post />}
         items={[
@@ -103,7 +137,7 @@ function BarLinks() {
         {t('appbar.discPack')}
       </CompositeMenu>
       <LangMenu />
-    </>
+    </Box>
   )
 }
 
