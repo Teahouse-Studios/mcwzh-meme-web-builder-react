@@ -216,7 +216,11 @@ export default function Form() {
                           }}
                           sx={{ mr: 1 }}
                         >
-                          {t('log.share')}
+                          {t(
+                            shareCopiedToClipboard
+                              ? 'log.clipboard'
+                              : 'log.share'
+                          )}
                         </Button>
                         <Button
                           className="donate-button"
