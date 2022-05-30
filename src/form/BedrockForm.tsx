@@ -20,9 +20,9 @@ import {
   MenuItem,
   Box,
   Typography,
-  SelectChangeEvent
+  SelectChangeEvent,
 } from '@mui/material'
-import {LoadingButton} from '@mui/lab'
+import { LoadingButton } from '@mui/lab'
 import {
   Archive,
   Group,
@@ -281,14 +281,16 @@ export default function BedrockForm({
               value={sfw}
               step={1}
               marks={[
-                { value: 1, label: t('form.child.ticks.1') },
-                { value: 2, label: t('form.child.ticks.2') },
-                { value: 3, label: t('form.child.ticks.3') },
+                { value: 1, label: t('form.child.ticks.0') },
+                { value: 2, label: t('form.child.ticks.1') },
+                { value: 3, label: t('form.child.ticks.2') },
               ]}
               min={1}
               max={3}
             />
-            <FormHelperText>{t('form.child.helpers.' + sfw)}</FormHelperText>
+            <FormHelperText>
+              {t('form.child.helpers.' + (sfw - 1))}
+            </FormHelperText>
           </Box>
         </Stack>
       </Grid>
@@ -315,6 +317,14 @@ export default function BedrockForm({
         >
           {t('form.submit')}
         </LoadingButton>
+        <Typography
+          variant="body2"
+          component="span"
+          sx={{ ml: 2, color: 'text.secondary' }}
+        >
+          {t('form.modified')}
+          {new Date(api?.be_modified).toLocaleString()}
+        </Typography>
       </Grid>
     </Grid>
   )

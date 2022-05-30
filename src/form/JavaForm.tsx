@@ -23,7 +23,7 @@ import {
   SelectChangeEvent,
   Button,
 } from '@mui/material'
-import {LoadingButton} from '@mui/lab'
+import { LoadingButton } from '@mui/lab'
 import {
   Archive,
   Clock,
@@ -450,14 +450,16 @@ export default function JavaForm({
               value={sfw}
               step={1}
               marks={[
-                { value: 1, label: t('form.child.ticks.1') },
-                { value: 2, label: t('form.child.ticks.2') },
-                { value: 3, label: t('form.child.ticks.3') },
+                { value: 1, label: t('form.child.ticks.0') },
+                { value: 2, label: t('form.child.ticks.1') },
+                { value: 3, label: t('form.child.ticks.2') },
               ]}
               min={1}
               max={3}
             />
-            <FormHelperText>{t('form.child.helpers.' + sfw)}</FormHelperText>
+            <FormHelperText>
+              {t('form.child.helpers.' + (sfw - 1))}
+            </FormHelperText>
           </Box>
         </Stack>
       </Grid>
@@ -471,6 +473,14 @@ export default function JavaForm({
         >
           {t('form.submit')}
         </LoadingButton>
+        <Typography
+          variant="body2"
+          component="span"
+          sx={{ ml: 2, color: 'text.secondary' }}
+        >
+          {t('form.modified')}
+          {new Date(api?.je_modified).toLocaleString()}
+        </Typography>
       </Grid>
     </Grid>
   )
