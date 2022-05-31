@@ -327,7 +327,7 @@ export default function JavaForm({
           }}
           options={
             api?.je_modules.resource!.filter(
-              (i) => !i.name.startsWith('lang_') // seperate lang modules
+              (i) => !i.name.startsWith('lang_') // separate lang modules
             )!
           }
           defaultOptions={
@@ -335,7 +335,7 @@ export default function JavaForm({
               .map((m) =>
                 api?.je_modules.resource!.filter(
                   (r) =>
-                    m.contains!.includes(r.name) && !r.name.startsWith('lang_') // seperate lang modules
+                    m.contains!.includes(r.name) && !r.name.startsWith('lang_') // separate lang modules
                 )
               )
               .flat()
@@ -346,7 +346,7 @@ export default function JavaForm({
               .map((m) =>
                 api?.je_modules.resource!.filter(
                   (r) =>
-                    m.contains!.includes(r.name) && !r.name.startsWith('lang_') // seperate lang modules
+                    m.contains!.includes(r.name) && !r.name.startsWith('lang_') // separate lang modules
                 )
               )
               .flat()
@@ -364,7 +364,7 @@ export default function JavaForm({
           }}
           options={
             api?.je_modules.resource!.filter(
-              (i) => i.name.startsWith('lang_') // seperate lang modules
+              (i) => i.name.startsWith('lang_') // separate lang modules
             )!
           }
           defaultOptions={[
@@ -372,7 +372,7 @@ export default function JavaForm({
               .map((m) =>
                 api?.je_modules.resource!.filter(
                   (r) =>
-                    m.contains!.includes(r.name) && r.name.startsWith('lang_') // seperate lang modules
+                    m.contains!.includes(r.name) && r.name.startsWith('lang_') // separate lang modules
                 )
               )
               .flat()
@@ -384,7 +384,7 @@ export default function JavaForm({
               .map((m) =>
                 api?.je_modules.resource!.filter(
                   (r) =>
-                    m.contains!.includes(r.name) && r.name.startsWith('lang_') // seperate lang modules
+                    m.contains!.includes(r.name) && r.name.startsWith('lang_') // separate lang modules
                 )
               )
               .flat()

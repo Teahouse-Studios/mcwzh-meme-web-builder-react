@@ -30,7 +30,7 @@
       "label": "Add-on modules"
     },
     "language": {
-      "helper": "Please select old/special verison-specific strings.",
+      "helper": "Please select old/special version-specific strings.",
       "label": "Language modules"
     },
     "mod": {
@@ -95,7 +95,7 @@
     "download": "Download",
     "share": "Share",
     "feedback": "Feedback",
-    "clipboard": "Copied to clipboard, link is vaild in 7 days"
+    "clipboard": "Copied to clipboard, link is valid in 7 days"
   },
   "sponsor": {
     "overline": "SPONSOR",
