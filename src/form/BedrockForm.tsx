@@ -262,7 +262,7 @@ export default function BedrockForm({
               />
             }
             label={t('form.compatible.label')}
-            sx={{ color: 'GrayText' }}
+            sx={{ color: 'text.secondary' }}
           />
           <FormHelperText>
             {t(
@@ -304,7 +304,7 @@ export default function BedrockForm({
         </Stack>
       </Grid>
       <Grid item xs={12}>
-        <Typography variant="body2" sx={{ color: 'GrayText' }}>
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {t('form.bedrockHint.text')}
           <a
             href="https://github.com/Teahouse-Studios/mcwzh-meme-resourcepack-bedrock"

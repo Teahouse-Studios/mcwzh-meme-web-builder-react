@@ -67,7 +67,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           <Checkbox checked={selected} style={{ marginRight: 8 }} />
           <div>
             <Typography variant="body1">{option.name}</Typography>
-            <Typography variant="body2" sx={{ color: 'GrayText' }}>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               {option.description}
               {option.contains
                 ? ' · ' +

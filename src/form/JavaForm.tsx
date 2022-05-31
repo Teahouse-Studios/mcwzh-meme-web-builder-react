@@ -272,7 +272,7 @@ export default function JavaForm({
                     component="span"
                     className="version-caption"
                     variant="body2"
-                    sx={{ color: 'GrayText', mr: 0, ml: 'auto' }}
+                    sx={{ color: 'text.secondary', mr: 0, ml: 'auto' }}
                     hidden={!i.caption}
                   >
                     {i.caption}
@@ -420,7 +420,7 @@ export default function JavaForm({
               />
             }
             label={t('form.compatible.label')}
-            sx={{ color: 'GrayText' }}
+            sx={{ color: 'text.secondary' }}
           />
           <FormHelperText>
             {t(
