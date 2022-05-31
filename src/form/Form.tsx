@@ -28,6 +28,7 @@ import {
   Bug,
   ShareVariant,
   Heart,
+  Refresh,
 } from 'mdi-material-ui'
 import {
   useState,
@@ -284,13 +285,21 @@ function ApiFailed({ error, load }: { error: Error; load: MouseEventHandler }) {
           {error.name}: {error.message}
         </code>
       </Typography>
-      <Button variant="text" color="primary" onClick={load}>
+      <Button
+        variant="text"
+        color="primary"
+        onClick={load}
+        startIcon={<Refresh />}
+        sx={{ mr: 1 }}
+      >
         {t('form.fetchListFailed.retry')}
       </Button>
       <Button
         variant="text"
         color="error"
         href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
+        startIcon={<Bug />}
+        sx={{ mr: 1 }}
       >
         {t('form.fetchListFailed.feedback')}
       </Button>

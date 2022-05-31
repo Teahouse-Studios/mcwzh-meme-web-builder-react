@@ -19,6 +19,7 @@ import en from './locales/en.json'
 import zhHans from './locales/zh-hans.json'
 import zhMeme from './locales/zh-meme.json'
 import TeahouseFooter from './template/Footer'
+import WebviewWarning from './template/WebviewWarning'
 import Form from './form/Form'
 
 i18n.use(initReactI18next).init({
@@ -89,6 +90,7 @@ function App() {
               <Form />
             </Container>
             <TeahouseFooter />
+            <WebviewWarning />
           </SnackbarProvider>
         </ThemeProvider>
       </div>
