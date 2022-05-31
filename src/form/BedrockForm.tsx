@@ -5,7 +5,7 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react'
-import { useTranslation, Trans } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import {
   Grid,
   Stack,
@@ -23,6 +23,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
+import { useSnackbar } from 'notistack'
 import {
   Archive,
   Group,
@@ -57,6 +58,7 @@ export default function BedrockForm({
   const [forceUseCompatible, setForceUseCompatible] = useState(false)
   const [sfw, setSfw] = useState<number>(2)
   const [submitting, setSubmitting] = useState(false)
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { t } = useTranslation()
 
   const enableFixedModules = (
@@ -140,6 +142,7 @@ export default function BedrockForm({
               downloadUrl: data.root + data.filename,
               time: Date.now(),
             })
+            enqueueSnackbar(t('snackbar.buildSuccess'), { variant: 'success' })
           })
         } else {
           res.json().then((data) => {
@@ -149,6 +152,9 @@ export default function BedrockForm({
               platform: 'bedrock',
               log: data.logs as string,
               time: Date.now(),
+            })
+            enqueueSnackbar(t('snackbar.buildError'), {
+              variant: 'error',
             })
           })
         }
@@ -160,6 +166,9 @@ export default function BedrockForm({
           platform: 'bedrock',
           log: err as string,
           time: Date.now(),
+        })
+        enqueueSnackbar(t('snackbar.buildError'), {
+          variant: 'error',
         })
       })
     document.getElementById('build-log')?.scrollIntoView({

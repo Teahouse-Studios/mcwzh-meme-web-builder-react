@@ -9,6 +9,7 @@ import {
   useMediaQuery,
   Container,
 } from '@mui/material'
+import { SnackbarProvider } from 'notistack'
 
 import { css } from '@emotion/react'
 
@@ -81,12 +82,14 @@ function App() {
         `}
       >
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <MemeAppBar />
-          <Container>
-            <Form />
-          </Container>
-          <TeahouseFooter />
+          <SnackbarProvider maxSnack={3}>
+            <CssBaseline />
+            <MemeAppBar />
+            <Container>
+              <Form />
+            </Container>
+            <TeahouseFooter />
+          </SnackbarProvider>
         </ThemeProvider>
       </div>
     </ColorModeContext.Provider>
