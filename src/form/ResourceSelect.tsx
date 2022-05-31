@@ -76,7 +76,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                   t('form.collections.resource_suffix')
                 : ''}
             </Typography>
-            <Typography variant="body2" sx={{ color: 'Highlight' }}>
+            <Typography variant="body2" sx={{ color: 'info.main' }}>
               {t('form.author')}
               {option.author.join(t('metadata.ideographicComma'))}
               {option.incompatible_with ? (
