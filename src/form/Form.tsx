@@ -202,6 +202,7 @@ export default function Form() {
                           onClick={() =>
                             window.gtag('event', 'download', {
                               eventType: log.platform,
+                              eventLabel: new URL(log.downloadUrl!).pathname,
                             })
                           }
                           href={log.downloadUrl}
