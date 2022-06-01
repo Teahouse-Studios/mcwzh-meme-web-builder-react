@@ -20,6 +20,7 @@ import zhHans from './locales/zh-hans.json'
 import zhMeme from './locales/zh-meme.json'
 import TeahouseFooter from './template/Footer'
 import WebviewWarning from './template/WebviewWarning'
+import DynamicAlerts from './template/DynamicAlerts'
 import Form from './form/Form'
 
 i18n.use(initReactI18next).init({
@@ -80,10 +81,15 @@ function App() {
           a:not(.MuiButton-root) {
             color: ${theme.palette.primary.main};
           }
+
+          .SnackbarContent-root:not(.SnackbarContent-variantSuccess, .SnackbarContent-variantError, .SnackbarContent-variantWarning, .SnackbarContent-variantInfo)
+            a {
+            color: ${theme.palette.primary.light};
+          }
         `}
       >
         <ThemeProvider theme={theme}>
-          <SnackbarProvider maxSnack={3}>
+          <SnackbarProvider maxSnack={4}>
             <CssBaseline />
             <MemeAppBar />
             <Container>
@@ -91,6 +97,7 @@ function App() {
             </Container>
             <TeahouseFooter />
             <WebviewWarning />
+            <DynamicAlerts />
           </SnackbarProvider>
         </ThemeProvider>
       </div>

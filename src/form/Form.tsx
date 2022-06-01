@@ -42,6 +42,7 @@ import { useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
 import { MemeApi, BuildLog } from './types'
+import allowTracking from '../allowTracking'
 
 export default function Form() {
   const { t } = useTranslation()
@@ -82,7 +83,7 @@ export default function Form() {
   }
 
   const shareUrl = (url: string) => {
-    window.gtag('event', 'share')
+    if (allowTracking) window.gtag('event', 'share')
 
     if (navigator.share) {
       navigator.share({

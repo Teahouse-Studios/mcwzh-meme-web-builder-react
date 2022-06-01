@@ -30,6 +30,7 @@ import {
 import { css } from '@emotion/react'
 import ResourceSelect from './ResourceSelect'
 import { MemeModule, MemeApi, BuildLog } from './types'
+import allowTracking from '../allowTracking'
 
 export default function JavaForm({
   api,
@@ -160,9 +161,10 @@ export default function JavaForm({
   }
 
   const handleSubmit = () => {
-    window.gtag('event', 'build', {
-      eventType: 'be',
-    })
+    if (allowTracking)
+      window.gtag('event', 'build', {
+        eventType: 'be',
+      })
 
     setSubmitting(true)
     fetch('https://meme.wd-api.com/ajax', {
