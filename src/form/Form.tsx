@@ -82,6 +82,8 @@ export default function Form() {
   }
 
   const shareUrl = (url: string) => {
+    window.gtag('event', 'share')
+
     if (navigator.share) {
       navigator.share({
         title: '梗体中文构建配置分享',
