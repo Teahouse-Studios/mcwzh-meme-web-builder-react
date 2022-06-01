@@ -106,6 +106,10 @@ export default function BedrockForm({
   }
 
   const handleSubmit = () => {
+    window.gtag('event', 'build', {
+      eventType: 'be',
+    })
+
     setSubmitting(true)
     fetch('https://meme.wd-api.com/ajax', {
       method: 'POST',

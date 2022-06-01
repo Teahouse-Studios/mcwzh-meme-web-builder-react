@@ -199,6 +199,11 @@ export default function Form() {
                         <Button
                           variant="contained"
                           startIcon={<Download />}
+                          onClick={() =>
+                            window.gtag('event', 'download', {
+                              eventType: log.platform,
+                            })
+                          }
                           href={log.downloadUrl}
                           sx={{ mr: 1 }}
                         >

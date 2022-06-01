@@ -17,10 +17,12 @@
     "notistack": "^2.0.5",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-i18next": "^11.16.9"
+    "react-i18next": "^11.16.9",
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.9.2",
+    "@types/gtag.js": "^0.0.10",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.5",
     "@vitejs/plugin-legacy": "^1.8.2",
