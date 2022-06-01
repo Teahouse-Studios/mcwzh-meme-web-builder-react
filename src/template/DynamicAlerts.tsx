@@ -31,7 +31,9 @@ export default function DynamicAlerts() {
       enqueueSnackbar(
         <span
           dangerouslySetInnerHTML={{
-            __html: alert.emoji ? alert.emoji + '&nbsp;' : '' + alert.message,
+            __html: alert.emoji
+              ? alert.emoji + '&nbsp;' + alert.message
+              : '' + alert.message,
           }}
         ></span>,
         {
