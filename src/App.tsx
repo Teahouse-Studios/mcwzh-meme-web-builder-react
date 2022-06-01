@@ -21,6 +21,7 @@ import zhMeme from './locales/zh-meme.json'
 import TeahouseFooter from './template/Footer'
 import WebviewWarning from './template/WebviewWarning'
 import DynamicAlerts from './template/DynamicAlerts'
+import DynamicNews from './template/DynamicNews'
 import Form from './form/Form'
 
 i18n.use(initReactI18next).init({
@@ -98,6 +99,7 @@ function App() {
             <TeahouseFooter />
             <WebviewWarning />
             <DynamicAlerts />
+            <DynamicNews />
           </SnackbarProvider>
         </ThemeProvider>
       </div>

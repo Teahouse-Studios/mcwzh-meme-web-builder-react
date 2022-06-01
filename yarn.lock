@@ -2810,6 +2810,11 @@ magic-string@^0.26.1:
   dependencies:
     sourcemap-codec "^1.4.8"
 
+markdown-to-jsx@^7.1.7:
+  version "7.1.7"
+  resolved "https://registry.npmjs.org/markdown-to-jsx/-/markdown-to-jsx-7.1.7.tgz#a5f22102fb12241c8cea1ca6a4050bb76b23a25d"
+  integrity sha512-VI3TyyHlGkO8uFle0IOibzpO1c1iJDcXcS/zBrQrXQQvJ2tpdwVzVZ7XdKsyRz1NdRmre4dqQkMZzUHaKIG/1w==
+
 mdi-material-ui@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/mdi-material-ui/-/mdi-material-ui-7.3.0.tgz#db3ed681d35ae12c37fb1c95bcfe679a1be80c0b"
@@ -2851,6 +2856,11 @@ ms@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
+
+mui-markdown@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.npmjs.org/mui-markdown/-/mui-markdown-0.5.3.tgz#b50e4c43825cf5701a00279340c8b86e7115aa39"
+  integrity sha512-hSs2XhxMHxFrwyFbmRg9r1MonBaVy04aoY0fG2e525MBIHkIPTy/JIauH0WRZ12i7bwg5dh+QNn5gkb97VoKog==
 
 nanoid@^3.3.4:
   version "3.3.4"
@@ -2994,6 +3004,11 @@ pretty-bytes@^6.0.0:
   version "6.0.0"
   resolved "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-6.0.0.tgz#928be2ad1f51a2e336add8ba764739f9776a8140"
   integrity sha512-6UqkYefdogmzqAZWzJ7laYeJnaXDy2/J+ZqiiMtS7t7OfpXWTlaeGMwX8U6EFvPV/YWWEKRkS8hKS4k60WHTOg==
+
+prism-react-renderer@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.npmjs.org/prism-react-renderer/-/prism-react-renderer-1.3.3.tgz#9b5a4211a6756eee3c96fee9a05733abc0b0805c"
+  integrity sha512-Viur/7tBTCH2HmYzwCHmt2rEFn+rdIWNIINXyg0StiISbDiIhHKhrFuEK8eMkKgvsIYSjgGqy/hNyucHp6FpoQ==
 
 prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"

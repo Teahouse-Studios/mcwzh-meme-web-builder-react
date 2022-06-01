@@ -22,42 +22,46 @@ export default function DynamicAlerts() {
     setAlertsRead((prev) => [...prev, name])
   }
 
-  fetch('https://fe.wd-ljt.com/meme/dynamic/alerts.json').then(async (res) => {
-    const alerts = (await res.json()) as Alert[]
+  fetch('https://fe.wd-ljt.com/meme/dynamic/alerts.json')
+    .then(async (res) => {
+      const alerts = (await res.json()) as Alert[]
 
-    alerts.forEach((alert) => {
-      if (alertsRead.includes(alert.name)) return
+      alerts.forEach((alert) => {
+        if (alertsRead.includes(alert.name)) return
 
-      enqueueSnackbar(
-        <span
-          dangerouslySetInnerHTML={{
-            __html: alert.emoji
-              ? alert.emoji + '&nbsp;' + alert.message
-              : '' + alert.message,
-          }}
-        ></span>,
-        {
-          key: alert.name,
-          persist: true,
-          preventDuplicate: true,
-          anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
-          },
-          action: (key) => (
-            <Fragment>
-              <IconButton
-                onClick={() => dismissAlert(key, alert.name)}
-                sx={{ color: 'white' }}
-              >
-                <Close />
-              </IconButton>
-            </Fragment>
-          ),
-        }
-      )
+        enqueueSnackbar(
+          <span
+            dangerouslySetInnerHTML={{
+              __html: alert.emoji
+                ? alert.emoji + '&nbsp;' + alert.message
+                : '' + alert.message,
+            }}
+          ></span>,
+          {
+            key: alert.name,
+            persist: true,
+            preventDuplicate: true,
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+            action: (key) => (
+              <Fragment>
+                <IconButton
+                  onClick={() => dismissAlert(key, alert.name)}
+                  sx={{ color: 'white' }}
+                >
+                  <Close />
+                </IconButton>
+              </Fragment>
+            ),
+          }
+        )
+      })
     })
-  })
+    .catch((e) => {
+      console.error(e)
+    })
 
   return <></>
 }
