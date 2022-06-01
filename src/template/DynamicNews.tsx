@@ -82,11 +82,11 @@ export default function DynamicNews() {
             src={news.video}
             css={css`
               width: 100%;
+              border: 0;
             `}
             scrolling="no"
-            frameborder="no"
-            framespacing="0"
-            allowfullscreen="true"
+            frameBorder="0"
+            allow="autoplay; encrypted-media; fullscreen"
           />
         )}
         <Box
