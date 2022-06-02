@@ -7,7 +7,7 @@ import {
   Box,
 } from '@mui/material'
 import { css } from '@emotion/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Close, ArrowRight } from 'mdi-material-ui'
 import { useLocalStorage } from 'usehooks-ts'
 import MuiMarkdown from 'mui-markdown'
@@ -28,16 +28,19 @@ export default function DynamicNews() {
 
   // let news: News | undefined
 
-  fetch('https://fe.wd-ljt.com/meme/dynamic/news.json')
-    .then(async (res) => {
-      setNews(await res.json())
-      if (news?.id! > newsIgnored) {
-        setDialogOpen(true)
-      }
-    })
-    .catch((e) => {
-      console.error(e)
-    })
+  useEffect(() => {
+    fetch('https://fe.wd-ljt.com/meme/dynamic/news.json')
+      .then(async (res) => {
+        const data: News = await res.json()
+        setNews(data)
+        if (data.id! > newsIgnored) {
+          setDialogOpen(true)
+        }
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }, [])
 
   const dismissNews = (name: number) => {
     setDialogOpen(false)
