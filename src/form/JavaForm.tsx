@@ -480,7 +480,20 @@ export default function JavaForm({
         <Typography
           variant="body2"
           component="span"
-          sx={{ ml: 2, color: 'text.secondary' }}
+          sx={{
+            ml: {
+              md: 2,
+            },
+            mt: {
+              xs: 1,
+              md: 0,
+            },
+            display: {
+              xs: 'block',
+              md: 'inline',
+            },
+            color: 'text.secondary',
+          }}
         >
           {t('form.modified')}
           {new Date(api?.je_modified).toLocaleString()}
