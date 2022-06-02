@@ -1,7 +1,7 @@
 import './App.css'
 import MemeAppBar from './template/AppBar'
 
-import { useMemo, createContext, useState } from 'react'
+import { useMemo, createContext, useState, lazy } from 'react'
 import {
   CssBaseline,
   ThemeProvider,
@@ -21,7 +21,7 @@ import zhMeme from './locales/zh-meme.json'
 import TeahouseFooter from './template/Footer'
 import WebviewWarning from './template/WebviewWarning'
 import DynamicAlerts from './template/DynamicAlerts'
-import DynamicNews from './template/DynamicNews'
+const DynamicNews = lazy(() => import('./template/DynamicNews'))
 import Form from './form/Form'
 
 i18n.use(initReactI18next).init({

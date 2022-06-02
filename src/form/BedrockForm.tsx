@@ -34,7 +34,7 @@ import {
 import { css } from '@emotion/react'
 import ResourceSelect from './ResourceSelect'
 import { MemeModule, MemeApi, BuildLog } from './types'
-import allowTracking from '../allowTracking'
+import allowTracking from '../tracking'
 
 export default function BedrockForm({
   api,

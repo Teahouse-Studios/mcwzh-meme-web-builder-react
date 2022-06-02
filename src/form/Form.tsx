@@ -42,7 +42,7 @@ import { useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
 import { MemeApi, BuildLog } from './types'
-import allowTracking from '../allowTracking'
+import allowTracking from '../tracking'
 
 export default function Form() {
   const { t } = useTranslation()
@@ -59,6 +59,7 @@ export default function Form() {
     setApi(api)
     setApiError(null)
   }
+
   const catchLoad = async (e: Error) => {
     setApiError(e)
     console.error(e)
@@ -102,6 +103,16 @@ export default function Form() {
 
   return (
     <>
+      <Container sx={{ mb: 1 }}>
+        <Alert severity="warning">
+          <AlertTitle>高能警告</AlertTitle>
+          您已被挑选进入实验性的新版在线构建。在使用过程中如有任何问题，请到{' '}
+          <a href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder-react/issues">
+            GitHub Issues
+          </a>{' '}
+          报告。
+        </Alert>
+      </Container>
       <Box
         sx={{
           minHeight: 'calc(75vh)',
@@ -111,16 +122,6 @@ export default function Form() {
           flexWrap: 'wrap',
         }}
       >
-        <Container sx={{ mb: 1 }}>
-          <Alert severity="warning">
-            <AlertTitle>高能警告</AlertTitle>
-            您已被挑选进入实验性的新版在线构建。在使用过程中如有任何问题，请到{' '}
-            <a href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder-react/issues">
-              GitHub Issues
-            </a>{' '}
-            报告。
-          </Alert>
-        </Container>
         {apiError ? (
           <ApiFailed error={apiError} load={loadApi} />
         ) : !api ? (
