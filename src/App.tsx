@@ -21,6 +21,7 @@ import zhMeme from './locales/zh-meme.json'
 import TeahouseFooter from './template/Footer'
 import WebviewWarning from './template/WebviewWarning'
 import DynamicAlerts from './template/DynamicAlerts'
+import BackToTop from './template/BackToTop'
 const DynamicNews = memo(lazy(() => import('./template/DynamicNews')))
 import Form from './form/Form'
 
@@ -100,6 +101,7 @@ function App() {
             <WebviewWarning />
             <DynamicAlerts />
             <DynamicNews />
+            <BackToTop />
           </SnackbarProvider>
         </ThemeProvider>
       </div>
