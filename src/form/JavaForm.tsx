@@ -311,7 +311,9 @@ export default function JavaForm({
                 </Typography>
               </MenuItem>
               {api?.mods.map((m) => (
-                <MenuItem value={m}>{m}</MenuItem>
+                <MenuItem value={m} key={m}>
+                  {m}
+                </MenuItem>
               ))}
               <MenuItem disabled={true}>
                 <Typography component="span" variant="subtitle2">
@@ -319,7 +321,9 @@ export default function JavaForm({
                 </Typography>
               </MenuItem>
               {api?.enmods.map((m) => (
-                <MenuItem value={m}>{m}</MenuItem>
+                <MenuItem value={m} key={m}>
+                  {m}
+                </MenuItem>
               ))}
             </Select>
             <FormHelperText>{t('form.mod.helper')}</FormHelperText>
@@ -338,24 +342,22 @@ export default function JavaForm({
           }
           defaultOptions={
             enabledCollections
-              .map((m) =>
+              .flatMap((m) =>
                 api?.je_modules.resource!.filter(
                   (r) =>
                     m.contains!.includes(r.name) && !r.name.startsWith('lang_') // separate lang modules
                 )
               )
-              .flat()
               .filter((i) => i !== undefined) as MemeModule[]
           }
           disabledOptions={
             enabledCollections
-              .map((m) =>
+              .flatMap((m) =>
                 api?.je_modules.resource!.filter(
                   (r) =>
                     m.contains!.includes(r.name) && !r.name.startsWith('lang_') // separate lang modules
                 )
               )
-              .flat()
               .filter((i) => i !== undefined) as MemeModule[]
           }
           label={t('form.resource.label')}
@@ -375,25 +377,23 @@ export default function JavaForm({
           }
           defaultOptions={[
             ...(enabledCollections
-              .map((m) =>
+              .flatMap((m) =>
                 api?.je_modules.resource!.filter(
                   (r) =>
                     m.contains!.includes(r.name) && r.name.startsWith('lang_') // separate lang modules
                 )
               )
-              .flat()
               .filter((i) => i !== undefined) as MemeModule[]),
             ...enabledFixedLanguageModules,
           ]}
           disabledOptions={[
             ...(enabledCollections
-              .map((m) =>
+              .flatMap((m) =>
                 api?.je_modules.resource!.filter(
                   (r) =>
                     m.contains!.includes(r.name) && r.name.startsWith('lang_') // separate lang modules
                 )
               )
-              .flat()
               .filter((i) => i !== undefined) as MemeModule[]),
             ...enabledFixedLanguageModules,
           ]}
