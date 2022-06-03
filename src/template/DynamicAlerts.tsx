@@ -49,7 +49,7 @@ export default function DynamicAlerts() {
               <Fragment>
                 <IconButton
                   onClick={() => dismissAlert(key, alert.name)}
-                  sx={{ color: 'white' }}
+                  sx={{ filter: 'invert(1)' }}
                 >
                   <Close />
                 </IconButton>

@@ -90,7 +90,9 @@ function App() {
 
           .SnackbarContent-root:not(.SnackbarContent-variantSuccess, .SnackbarContent-variantError, .SnackbarContent-variantWarning, .SnackbarContent-variantInfo)
             a {
-            color: ${theme.palette.primary.light};
+            color: ${mode === 'light'
+              ? theme.palette.primary.light
+              : theme.palette.primary.dark};
           }
         `}
       >
