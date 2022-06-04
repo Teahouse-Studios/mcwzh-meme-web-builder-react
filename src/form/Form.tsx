@@ -130,11 +130,7 @@ export default function Form() {
         <Alert severity="warning">
           <AlertTitle>高能警告</AlertTitle>
           您已被挑选进入实验性的新版在线构建。在使用过程中如有任何问题，请到{' '}
-          <a
-            href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder-react/issues"
-            target="_blank"
-            rel="noreferer noopener"
-          >
+          <a href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder-react/issues">
             GitHub Issues
           </a>{' '}
           报告。
@@ -188,16 +184,20 @@ export default function Form() {
               {t('log.headline')}
             </Typography>
             <Box>
-              {logs.reverse().map((log, index) => (
-                <LogAccordion
-                  key={log.time}
-                  log={log}
-                  adLS={adLS}
-                  setLS={setLS}
-                  adSettings={adSettings}
-                  setAdSettings={setAdSettings}
-                />
-              ))}
+              {logs
+                .slice()
+                .reverse()
+                .map((log, index) => (
+                  <LogAccordion
+                    key={log.time}
+                    log={log}
+                    adLS={adLS}
+                    setLS={setLS}
+                    adSettings={adSettings}
+                    setAdSettings={setAdSettings}
+                    defaultExpanded={index === 0}
+                  />
+                ))}
             </Box>
           </Container>
         )}
@@ -212,12 +212,14 @@ function LogAccordion({
   setLS,
   adSettings,
   setAdSettings,
+  defaultExpanded,
 }: {
   log: BuildLog
   adLS: { shown: boolean; lastShown: number; clicked: boolean }
   setLS: Dispatch<SetStateAction<typeof adLS>>
   adSettings: { shouldDisplayAd: boolean; adType: AdType }
   setAdSettings: Dispatch<SetStateAction<typeof adSettings>>
+  defaultExpanded: boolean
 }) {
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
@@ -241,7 +243,7 @@ function LogAccordion({
   }
 
   return (
-    <Accordion key="log.time">
+    <Accordion key="log.time" defaultExpanded={defaultExpanded}>
       <AccordionSummary expandIcon={<ChevronDown />}>
         <Typography
           sx={{
@@ -309,6 +311,10 @@ function LogAccordion({
                       lastShown: Date.now(),
                       clicked: true,
                     })
+                    enqueueSnackbar(t('log.ad.donateSnackbar'), {
+                      autoHideDuration: 10000,
+                      variant: 'success',
+                    })
                   }}
                   sx={{ mr: 1, md: 1 }}
                 >
@@ -328,6 +334,7 @@ function LogAccordion({
                     })
                     enqueueSnackbar(t('log.ad.dismissSnackbar'), {
                       autoHideDuration: 10000,
+                      variant: 'info',
                     })
                   }}
                   size="small"
@@ -385,7 +392,6 @@ function LogAccordion({
               startIcon={<Bug />}
               color="error"
               href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
-              target="_blank"
               rel="noreferer noopener"
               sx={{ mr: 1 }}
             >
@@ -440,8 +446,6 @@ function ApiFailed({ error, load }: { error: Error; load: MouseEventHandler }) {
         variant="text"
         color="error"
         href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
-        target="_blank"
-        rel="noreferer noopener"
         startIcon={<Bug />}
         sx={{ mr: 1 }}
       >
