@@ -141,20 +141,24 @@ export default function TeahouseFooter() {
                 textAlign: smAndDown ? 'right' : 'center',
               }}
             >
-              <img
-                src={new URL('../assets/logo.svg', import.meta.url).href}
-                height="50"
-                css={css`
-                  filter: invert(1);
-                `}
-                alt="Teahouse Studios"
-                loading="lazy"
-              />
+              <a href="https://teahouse.team/" target="_blank">
+                <img
+                  src={new URL('../assets/logo.svg', import.meta.url).href}
+                  height="50"
+                  css={css`
+                    filter: invert(1);
+                  `}
+                  alt="Teahouse Studios"
+                  loading="lazy"
+                />
+              </a>
               <br />
               <Typography
                 variant="body2"
                 component="a"
-                href=""
+                href="https://beian.miit.gov.cn/"
+                target="_blank"
+                rel="noreferer noopener"
                 sx={{
                   color: 'white !important',
                   textDecoration: 'none',

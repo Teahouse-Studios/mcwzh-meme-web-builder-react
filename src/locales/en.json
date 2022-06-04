@@ -68,7 +68,11 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": ["12+", "16+", "18+"],
+      "ticks": [
+        "12+",
+        "16+",
+        "18+"
+      ],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
@@ -95,7 +99,16 @@
     "download": "Download",
     "share": "Share",
     "feedback": "Feedback",
-    "clipboard": "Copied to clipboard, link is valid in 7 days"
+    "clipboard": "Copied to clipboard, link is valid in 7 days",
+    "ad": {
+      "title": "Don't click the button just yet. We need your support today.",
+      "dismiss": "No, thanks. I don't care and I just want to see the download.",
+      "dismissSnackbar": "Sorry for the inconvenience and shameless moral coercion! We have disabled this prompt until your next session. However, we really need your help. If you changed your mind, you can always press the Donate button. Thanks!",
+      "firstTime": "This might be a bit awkward, but please don't scroll away. Today we humbly ask for your help in order for us to better create. We never any ads on the website, but it needs ￥5 to survive every day. This fund has been paid by members of the Studio since Day 1. However, among the thousands who use this pack, only 15‰ or the people bas actually donate and supported us (this is the real number). If you can donate ￥10 today, we will work harder than ever, and you will be shouted out on out bilibili post. If our pack has ever brought you ￥10 worth of fun and laughter, please give us some support now. Thank you.",
+      "reconsider": "Hey! Nice to see ya! We are asking you for help again. You may not like it, but we need your help. If you are still hesitating, we want you pull out some info: We never any ads on the website, but it needs ￥5 to survive every day. This fund has been paid by members of the Studio since Day 1. However, among the thousands who use this pack, only 15‰ or the people bas actually donate and supported us (this is the real number). If you can donate ￥10 today, we will work harder than ever, and you will be shouted out on out bilibili post. If our pack has ever brought you ￥10 worth of fun and laughter, please give us some support now. Thank you.",
+      "renew": "Thanks for your previous support! Even if you just clicked the link to have a look, but thank you anyway. It really helps us A LOT! Although this is kinda shameless, but it's been a while since your previous donation. If you want to keep supporting our creation, please click the Donate button. Nope? All right, no problem! Thank you.",
+      "donationNotice": "Please do not make a donation unless you are an adult or with parental advisory. We recommend you to only make a donation if you are economic independent. Full refund available in 7 days after donation (transaction fee not included). Partial refund available in 30 days after donation. Supports Alipay and WeChat Pay. Your transaction will be processed by afdian.net and afidian.net terms apply. 6% transaction fee is needed and will be deducted from your donation."
+    }
   },
   "sponsor": {
     "overline": "SPONSOR",

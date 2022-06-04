@@ -103,7 +103,13 @@ export default function DynamicNews() {
           <MuiMarkdown>{news.content}</MuiMarkdown>
         </Box>
         {news.detail && (
-          <Button sx={{ mt: 1 }} href={news.detail} startIcon={<ArrowRight />}>
+          <Button
+            sx={{ mt: 1 }}
+            href={news.detail}
+            target="_blank"
+            rel="noreferer noopener"
+            startIcon={<ArrowRight />}
+          >
             阅读更多
           </Button>
         )}

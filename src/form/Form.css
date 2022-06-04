@@ -1,4 +1,5 @@
-.donate-button .MuiButton-startIcon svg {
+.donate-button svg,
+svg.donate-button {
   -webkit-animation: heart 1s infinite;
   animation: heart 1s infinite;
 }
