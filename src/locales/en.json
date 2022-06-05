@@ -68,11 +68,7 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": [
-        "12+",
-        "16+",
-        "18+"
-      ],
+      "ticks": ["12+", "16+", "18+"],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
@@ -93,8 +89,8 @@
     "Memified Chinese is an active project. Please check back often."
   ],
   "log": {
-    "buildSuccess": "Build success",
-    "buildError": "Build failed",
+    "buildSuccess": "Success",
+    "buildError": "Error",
     "headline": "Build log",
     "download": "Download",
     "share": "Share",

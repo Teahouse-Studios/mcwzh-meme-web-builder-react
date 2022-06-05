@@ -100,9 +100,7 @@ function App() {
           <SnackbarProvider maxSnack={4}>
             <CssBaseline />
             <MemeAppBar />
-            <Container>
-              <Form />
-            </Container>
+            <Form />
             <TeahouseFooter />
             <WebviewWarning />
             <DynamicAlerts />

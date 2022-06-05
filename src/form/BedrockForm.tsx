@@ -185,12 +185,10 @@ export default function BedrockForm({
   return (
     <Grid
       container
-      spacing={2}
-      css={css`
-        .MuiGrid-item {
-          margin-bottom: 8px;
-        }
-      `}
+      spacing={{
+        xs: 1,
+        md: 2,
+      }}
     >
       <Grid item xs={12} md={6}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>

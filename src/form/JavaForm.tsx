@@ -235,7 +235,10 @@ export default function JavaForm({
   return (
     <Grid
       container
-      spacing={2}
+      spacing={{
+        xs: 1,
+        md: 2,
+      }}
       css={css`
         .MuiGrid-item {
           margin-bottom: 8px;
@@ -438,7 +441,10 @@ export default function JavaForm({
         </FormControl>
       </Grid>
       <Grid item xs={12}>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          spacing={{ xs: 0, md: 2 }}
+        >
           <FormLabel sx={{ whiteSpace: 'nowrap' }}>
             <AccountChildCircle
               sx={{ color: 'action.active', mr: 1, verticalAlign: 'bottom' }}

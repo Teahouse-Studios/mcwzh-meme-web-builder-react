@@ -10,7 +10,6 @@ import {
   Container,
   CircularProgress,
   Divider,
-  useMediaQuery,
   useTheme,
   Accordion,
   AccordionDetails,
@@ -61,7 +60,6 @@ export default function Form() {
   const [api, setApi] = useState<MemeApi | undefined>(undefined)
   const [apiError, setApiError] = useState<Error | null>(null)
   const [logs, setLogs] = useState<BuildLog[]>([])
-  const smAndUp = useMediaQuery(theme.breakpoints.up('sm'))
 
   const load = async () => {
     const data = await fetch('https://meme.wd-api.com/')
@@ -151,7 +149,7 @@ export default function Form() {
           <ApiLoading />
         ) : (
           <Container>
-            <Tabs value={tab} onChange={handleChange} centered={smAndUp}>
+            <Tabs value={tab} onChange={handleChange} centered>
               <Tab
                 icon={<Coffee />}
                 iconPosition="start"
@@ -277,71 +275,85 @@ function LogAccordion({
         </Paper>
         {adSettings.shouldDisplayAd && (
           <>
-            <Alert severity="error" icon={<Heart className="donate-button" />}>
-              <AlertTitle>{t('log.ad.title')}</AlertTitle>
-              {
+            <Alert
+              severity="error"
+              icon={false}
+              sx={{
+                '& > div': {
+                  display: 'flex',
+                  flexDirection: { xs: 'column', md: 'row' },
+                },
+              }}
+            >
+              <Box sx={{ mb: 1, display: 'flex', opacity: 0.8, mr: 2 }}>
+                <Heart color="error" className="donate-button" />
+              </Box>
+              <Box>
+                <AlertTitle>{t('log.ad.title')}</AlertTitle>
                 {
-                  [AdType.FirstTime]: t('log.ad.firstTime'),
-                  [AdType.Reconsider]: t('log.ad.reconsider'),
-                  [AdType.Renew]: t('log.ad.renew'),
-                }[adSettings.adType]
-              }
-              <Typography
-                variant="caption"
-                component="p"
-                sx={{ mt: 1, color: 'text.secondary' }}
-              >
-                {t('log.ad.donationNotice')}
-              </Typography>
-              <Box sx={{ mt: 1 }}>
-                <Button
-                  className="donate-button"
-                  startIcon={<Heart />}
-                  variant="contained"
-                  color="error"
-                  href="https://afdian.net/@teahouse"
-                  target="_blank"
-                  rel="noreferer noopener"
-                  onClick={() => {
-                    setAdSettings((adSettings) => {
-                      return { ...adSettings, shouldDisplayAd: false }
-                    })
-                    setLS({
-                      shown: true,
-                      lastShown: Date.now(),
-                      clicked: true,
-                    })
-                    enqueueSnackbar(t('log.ad.donateSnackbar'), {
-                      autoHideDuration: 10000,
-                      variant: 'success',
-                    })
-                  }}
-                  sx={{ mr: 1, md: 1 }}
+                  {
+                    [AdType.FirstTime]: t('log.ad.firstTime'),
+                    [AdType.Reconsider]: t('log.ad.reconsider'),
+                    [AdType.Renew]: t('log.ad.renew'),
+                  }[adSettings.adType]
+                }
+                <Typography
+                  variant="caption"
+                  component="p"
+                  sx={{ mt: 1, color: 'text.secondary' }}
                 >
-                  {t('footer.donate')}
-                </Button>
-                <Button
-                  startIcon={<HeartBroken />}
-                  color="inherit"
-                  onClick={() => {
-                    setAdSettings((adSettings) => {
-                      return { ...adSettings, shouldDisplayAd: false }
-                    })
-                    setLS({
-                      shown: true,
-                      lastShown: Date.now(),
-                      clicked: false,
-                    })
-                    enqueueSnackbar(t('log.ad.dismissSnackbar'), {
-                      autoHideDuration: 10000,
-                      variant: 'info',
-                    })
-                  }}
-                  size="small"
-                  sx={{ mr: 1 }}
-                >
-                  {t('log.ad.dismiss')}
-                </Button>
+                  {t('log.ad.donationNotice')}
+                </Typography>
+                <Box sx={{ mt: 1 }}>
+                  <Button
+                    className="donate-button"
+                    startIcon={<Heart />}
+                    variant="contained"
+                    color="error"
+                    href="https://afdian.net/@teahouse"
+                    target="_blank"
+                    rel="noreferer noopener"
+                    onClick={() => {
+                      setAdSettings((adSettings) => {
+                        return { ...adSettings, shouldDisplayAd: false }
+                      })
+                      setLS({
+                        shown: true,
+                        lastShown: Date.now(),
+                        clicked: true,
+                      })
+                      enqueueSnackbar(t('log.ad.donateSnackbar'), {
+                        autoHideDuration: 10000,
+                        variant: 'success',
+                      })
+                    }}
+                    sx={{ mr: 1, md: 1 }}
+                  >
+                    {t('footer.donate')}
+                  </Button>
+                  <Button
+                    startIcon={<HeartBroken />}
+                    color="inherit"
+                    onClick={() => {
+                      setAdSettings((adSettings) => {
+                        return { ...adSettings, shouldDisplayAd: false }
+                      })
+                      setLS({
+                        shown: true,
+                        lastShown: Date.now(),
+                        clicked: false,
+                      })
+                      enqueueSnackbar(t('log.ad.dismissSnackbar'), {
+                        autoHideDuration: 10000,
+                        variant: 'info',
+                      })
+                    }}
+                    size="small"
+                    sx={{ mr: 1 }}
+                  >
+                    {t('log.ad.dismiss')}
+                  </Button>
+                </Box>
               </Box>
             </Alert>
           </>
@@ -473,7 +485,17 @@ function TabPanel(props: TabPanelProps) {
   return (
     <div role="tabpanel" hidden={value !== index} {...other}>
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box
+          sx={{
+            p: {
+              xs: 2,
+              md: 3,
+            },
+            pt: {
+              xs: 3,
+            },
+          }}
+        >
           <Typography>{children}</Typography>
         </Box>
       )}
