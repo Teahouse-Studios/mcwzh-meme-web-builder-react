@@ -303,7 +303,7 @@ export default function JavaForm({
             <Select
               label={t('form.mod.label')}
               multiple
-              value={api?.mods}
+              value={enabledMods}
               onChange={(e) => {
                 handleSelectChange(e, setEnabledMods)
               }}
