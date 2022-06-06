@@ -68,7 +68,11 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": ["12+", "16+", "18+"],
+      "ticks": [
+        "12+",
+        "16+",
+        "18+"
+      ],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
@@ -79,7 +83,8 @@
       "text": "We assume that you are using the latest Minecraft version. Read more at ",
       "readme": "README.md",
       "end": " in the GitHub repo."
-    }
+    },
+    "search": "Type to search"
   },
   "helpers": [
     "Don't know how to choose those options? Just click the button below.",

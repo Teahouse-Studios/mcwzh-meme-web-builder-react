@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { useState, useEffect, Dispatch, SetStateAction, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Grid,
@@ -47,7 +47,16 @@ export default function JavaForm({
   const [enabledLanguageModules, setEnabledLanguageModule] = useState<string[]>(
     []
   )
-  const [enabledFixedLanguageModules, setFixedLanguageModule] = useState<
+  const [defaultResourceModules, setDefaultResourceModules] = useState<
+    string[]
+  >([])
+  const [defaultLanguageModules, setDefaultLanguageModules] = useState<
+    string[]
+  >([])
+  const [disabledResourceModules, setDisabledResourceModules] = useState<
+    string[]
+  >([])
+  const [disabledLanguageModules, setDisabledLanguageModules] = useState<
     string[]
   >([])
   const [gameVersion, setGameVersion] = useState<number>(9)
@@ -97,16 +106,68 @@ export default function JavaForm({
   useEffect(() => {
     switch (sfw) {
       case 1:
-        setFixedLanguageModule(['lang_sfc', 'lang_sfw'])
+        setDefaultLanguageModules((o) => [...o, 'lang_sfc', 'lang_sfw'])
         break
       case 2:
-        setFixedLanguageModule(['lang_sfc', 'lang_sfw'])
+        setDefaultLanguageModules((o) => [...o, 'lang_sfc', 'lang_sfw'])
         break
       case 3:
-        setFixedLanguageModule(['lang_sfc', 'lang_sfw'])
+        setDefaultLanguageModules((o) => [...o, 'lang_sfc', 'lang_sfw'])
         break
     }
   }, [sfw])
+
+  const resourcePredicate = (i: string) => !i.startsWith('lang_')
+  const langPredicate = (i: string) => i.startsWith('lang_')
+  const undefinedPredicate = <T,>(i: T | undefined) => i !== undefined
+
+  useEffect(() => {
+    type ArrayFilterPredicate = (
+      value: string,
+      index: number,
+      array: string[]
+    ) => boolean
+
+    const getModulesInCollection = (predicate: ArrayFilterPredicate) => {
+      return enabledCollections
+        .flatMap((m) =>
+          api?.je_modules
+            .collection!.find((c) => c.name === m)
+            ?.contains?.filter(predicate)
+        )
+        .filter(undefinedPredicate) as string[]
+    }
+    const getIncompatibleModulesInCollection = (
+      predicate: ArrayFilterPredicate
+    ) => {
+      return api?.je_modules.resource
+        .filter((resourceModules) =>
+          enabledCollections
+            .flatMap((enabledCollection) =>
+              api?.je_modules
+                .collection!.find(
+                  (collection) => collection.name === enabledCollection
+                )
+                ?.contains?.filter(predicate)
+            )
+            .filter(undefinedPredicate)
+            .includes(resourceModules.name)
+        )
+        .flatMap((resourceModule) => resourceModule.incompatible_with)
+        .filter(undefinedPredicate) as string[]
+    }
+
+    setDefaultResourceModules([...getModulesInCollection(resourcePredicate)])
+    setDisabledLanguageModules([
+      ...getModulesInCollection(resourcePredicate),
+      ...getIncompatibleModulesInCollection(resourcePredicate),
+    ])
+    setDefaultLanguageModules([...getModulesInCollection(langPredicate)])
+    setDisabledLanguageModules([
+      ...getModulesInCollection(langPredicate),
+      ...getIncompatibleModulesInCollection(langPredicate),
+    ])
+  }, [enabledCollections, api])
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
@@ -117,6 +178,21 @@ export default function JavaForm({
     } = event
     setState(value as unknown as T)
   }
+
+  const calculatedEnabledCollections = useMemo(
+    () => [...enabledCollections, ...fixedCollections],
+    [enabledCollections, fixedCollections]
+  )
+
+  const calculatedEnabledResourceModules = useMemo(
+    () => [...enabledResourceModules, ...defaultResourceModules],
+    [enabledResourceModules, defaultResourceModules]
+  )
+
+  const calculatedEnabledLanguageModules = useMemo(
+    () => [...enabledLanguageModules, ...defaultLanguageModules],
+    [enabledLanguageModules, defaultLanguageModules]
+  )
 
   const handleSubmit = () => {
     if (allowTracking)
@@ -134,12 +210,11 @@ export default function JavaForm({
         format: gameVersion,
         mod: enabledMods,
         modules: {
-          collection: [...enabledCollections, ...fixedCollections],
           resource: [
-            ...enabledResourceModules,
-            ...enabledLanguageModules,
-            ...enabledFixedLanguageModules,
+            ...calculatedEnabledLanguageModules,
+            ...calculatedEnabledLanguageModules,
           ],
+          collection: calculatedEnabledCollections,
         },
       }),
       headers: {
@@ -298,54 +373,8 @@ export default function JavaForm({
               (i) => !i.name.startsWith('lang_') // separate lang modules
             )!
           }
-          defaultOptions={[
-            ...((enabledCollections
-              .flatMap((m) =>
-                api?.je_modules
-                  .collection!.find((c) => c.name === m)
-                  ?.contains?.filter((i) => !i.startsWith('lang_'))
-              )
-              .filter((i) => i !== undefined) as string[]) || []),
-            ...(
-              (api?.je_modules.resource
-                .filter((r) =>
-                  (
-                    (enabledCollections
-                      .flatMap((m) =>
-                        api?.je_modules
-                          .collection!.find((c) => c.name === m)
-                          ?.contains?.filter((i) => !i.startsWith('lang_'))
-                      )
-                      .filter((i) => i !== undefined) as string[]) || []
-                  ).includes(r.name)
-                )
-                .flatMap((r) => r.incompatible_with) || []) as string[]
-            ).filter((i) => !i.startsWith('lang_')),
-          ]}
-          disabledOptions={[
-            ...((enabledCollections
-              .flatMap((m) =>
-                api?.je_modules
-                  .collection!.find((c) => c.name === m)
-                  ?.contains?.filter((i) => !i.startsWith('lang_'))
-              )
-              .filter((i) => i !== undefined) as string[]) || []),
-            ...(
-              (api?.je_modules.resource
-                .filter((r) =>
-                  (
-                    (enabledCollections
-                      .flatMap((m) =>
-                        api?.je_modules
-                          .collection!.find((c) => c.name === m)
-                          ?.contains?.filter((i) => !i.startsWith('lang_'))
-                      )
-                      .filter((i) => i !== undefined) as string[]) || []
-                  ).includes(r.name)
-                )
-                .flatMap((r) => r.incompatible_with) || []) as string[]
-            ).filter((i) => !i.startsWith('lang_')),
-          ]}
+          defaultOptions={defaultResourceModules}
+          disabledOptions={disabledResourceModules}
           label={t('form.resource.label')}
           helper={t('form.resource.helper')}
           prependIcon={<Archive />}
@@ -361,57 +390,8 @@ export default function JavaForm({
               (i) => i.name.startsWith('lang_') // separate lang modules
             )!
           }
-          defaultOptions={[
-            ...((enabledCollections
-              .flatMap((m) =>
-                api?.je_modules
-                  .collection!.find((c) => c.name === m)
-                  ?.contains?.filter((i) => i.startsWith('lang_'))
-              )
-              .filter((i) => i !== undefined) as string[]) || []),
-            ...(
-              (api?.je_modules.resource
-                .filter((r) =>
-                  (
-                    (enabledCollections
-                      .flatMap((m) =>
-                        api?.je_modules
-                          .collection!.find((c) => c.name === m)
-                          ?.contains?.filter((i) => i.startsWith('lang_'))
-                      )
-                      .filter((i) => i !== undefined) as string[]) || []
-                  ).includes(r.name)
-                )
-                .flatMap((r) => r.incompatible_with)
-                .filter((i) => i !== undefined) || []) as string[]
-            ).filter((i) => !i.startsWith('lang_')),
-            ...enabledFixedLanguageModules,
-          ]}
-          disabledOptions={[
-            ...((enabledCollections
-              .flatMap((m) =>
-                api?.je_modules
-                  .collection!.find((c) => c.name === m)
-                  ?.contains?.filter((i) => i.startsWith('lang_'))
-              )
-              .filter((i) => i !== undefined) as string[]) || []),
-            ...(
-              (api?.je_modules.resource
-                .filter((r) =>
-                  (
-                    (enabledCollections
-                      .flatMap((m) =>
-                        api?.je_modules
-                          .collection!.find((c) => c.name === m)
-                          ?.contains?.filter((i) => i.startsWith('lang_'))
-                      )
-                      .filter((i) => i !== undefined) as string[]) || []
-                  ).includes(r.name)
-                )
-                .flatMap((r) => r.incompatible_with) || []) as string[]
-            ).filter((i) => i.startsWith('lang_')),
-            ...enabledFixedLanguageModules,
-          ]}
+          defaultOptions={defaultLanguageModules}
+          disabledOptions={disabledLanguageModules}
           label={t('form.language.label')}
           helper={t('form.language.helper')}
           prependIcon={<Cog />}

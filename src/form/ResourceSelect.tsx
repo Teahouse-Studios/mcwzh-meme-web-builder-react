@@ -19,7 +19,13 @@ import { Magnify } from 'mdi-material-ui'
 import { css } from '@emotion/react'
 import { useTranslation } from 'react-i18next'
 import type { MemeModule } from './types'
-import { cloneElement, ReactElement, useState, MouseEvent } from 'react'
+import {
+  cloneElement,
+  ReactElement,
+  useState,
+  MouseEvent,
+  useEffect,
+} from 'react'
 
 interface ResourceSelectProps {
   onChange: (value: string[]) => void
@@ -43,7 +49,11 @@ export default function ResourceSelect(props: ResourceSelectProps) {
 
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
-  const [selected, setSelected] = useState<string[]>(props.defaultOptions || [])
+  const [selected, setSelected] = useState<string[]>([])
+
+  useEffect(() => {
+    setSelected((o) => [...o, ...props.defaultOptions!])
+  }, [props.defaultOptions])
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -53,6 +63,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
       <FormControl fullWidth>
         <InputLabel>{props.label}</InputLabel>
         <Select
+          MenuProps={{ autoFocus: false }}
           value={[...new Set(selected.concat(props.defaultOptions || []))]}
           multiple
           onClick={handleClick}
@@ -73,8 +84,9 @@ export default function ResourceSelect(props: ResourceSelectProps) {
         >
           <ListSubheader>
             <TextField
+              key="searchTextField"
               size="small"
-              placeholder="Type to search..."
+              placeholder={t('form.search')}
               fullWidth
               InputProps={{
                 startAdornment: (
@@ -83,7 +95,9 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e) => setSearchText(e.target.value)}
+              onChange={(e) => {
+                setSearchText(e.target.value)
+              }}
               onKeyDown={(e) => {
                 if (e.key !== 'Escape') {
                   e.stopPropagation()
@@ -91,65 +105,71 @@ export default function ResourceSelect(props: ResourceSelectProps) {
               }}
             />
           </ListSubheader>
-          {props.options.map((option, i) => (
-            <MenuItem
-              key={i}
-              value={option.name}
-              disabled={
-                props.disabledOptions?.includes(option.name) ||
-                option.incompatible_with?.some((module) =>
-                  selected.some((m) => m === module)
-                ) ||
-                false
-              }
-            >
-              <Box
-                component="li"
-                sx={{
-                  alignItems: 'flex-start',
-                }}
-                css={css`
-                  p {
-                    width: 100%;
-                  }
-                `}
+          {props.options
+            .filter((i) => i.name.includes(searchText))
+            .map((option, i) => (
+              <MenuItem
+                key={i}
+                value={option.name}
+                disabled={
+                  props.disabledOptions?.includes(option.name) ||
+                  option.incompatible_with?.some((module) =>
+                    selected.some((m) => m === module)
+                  ) ||
+                  false
+                }
               >
-                <Checkbox
-                  checked={selected.includes(option.name)}
-                  sx={{ mr: 1 }}
-                />
-                <div>
-                  <Typography variant="body1">{option.name}</Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {option.description}
-                    {option.contains
-                      ? ' · ' +
-                        t('form.collections.description_prefix') +
-                        option.contains.length +
-                        t('form.collections.resource_suffix')
-                      : ''}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'info.main' }}>
-                    {t('form.author')}
-                    {option.author.join(t('metadata.ideographicComma'))}
-                    {option.incompatible_with ? (
-                      <>
-                        {' '}
-                        ·{' '}
-                        {t('form.incompatible', {
-                          i: option.incompatible_with?.join(
-                            t('metadata.ideographicComma')
-                          ),
-                        })}
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </Typography>
-                </div>
-              </Box>
-            </MenuItem>
-          ))}
+                <Box
+                  sx={{
+                    alignItems: 'flex-start',
+                    display: 'flex',
+                    flexDirection: 'row',
+                  }}
+                  css={css`
+                    p {
+                      width: 100%;
+                    }
+                  `}
+                >
+                  <Checkbox
+                    checked={selected.includes(option.name)}
+                    sx={{ mr: 1 }}
+                  />
+                  <div>
+                    <Typography variant="body1">{option.name}</Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ color: 'text.secondary' }}
+                    >
+                      {option.description}
+                      {option.contains
+                        ? ' · ' +
+                          t('form.collections.description_prefix') +
+                          option.contains.length +
+                          t('form.collections.resource_suffix')
+                        : ''}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'info.main' }}>
+                      {t('form.author')}
+                      {option.author.join(t('metadata.ideographicComma'))}
+                      <Box component="span" sx={{ color: 'error.main' }}>
+                        {option.incompatible_with && (
+                          <>
+                            {' '}
+                            ·{' '}
+                            {t('form.incompatible', {
+                              i: option.incompatible_with?.join(
+                                t('metadata.ideographicComma')
+                              ),
+                            })}
+                          </>
+                        )}
+                      </Box>
+                    </Typography>
+                  </div>
+                </Box>
+              </MenuItem>
+            ))}
         </Select>
         <FormHelperText>{props.helper}</FormHelperText>
       </FormControl>
