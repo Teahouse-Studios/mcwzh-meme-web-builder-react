@@ -39,16 +39,16 @@ export default function JavaForm({
   api: MemeApi
   addLog: (log: BuildLog) => void
 }) {
-  const [enabledCollections, setEnabledCollections] = useState<MemeModule[]>([])
-  const [fixedCollections, setFixedCollections] = useState<MemeModule[]>([])
+  const [enabledCollections, setEnabledCollections] = useState<string[]>([])
+  const [fixedCollections, setFixedCollections] = useState<string[]>([])
   const [enabledResourceModules, setEnabledResourceModules] = useState<
-    MemeModule[]
+    string[]
   >([])
-  const [enabledLanguageModules, setEnabledLanguageModule] = useState<
-    MemeModule[]
-  >([])
+  const [enabledLanguageModules, setEnabledLanguageModule] = useState<string[]>(
+    []
+  )
   const [enabledFixedLanguageModules, setFixedLanguageModule] = useState<
-    MemeModule[]
+    string[]
   >([])
   const [gameVersion, setGameVersion] = useState<number>(9)
   const [enabledMods, setEnabledMods] = useState<string[]>([])
@@ -56,69 +56,39 @@ export default function JavaForm({
   const [forceUseCompatible, setForceUseCompatible] = useState(false)
   const [sfw, setSfw] = useState<number>(2)
   const [submitting, setSubmitting] = useState(false)
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar()
   const { t } = useTranslation()
-
-  const enableFixedModules = (
-    collections: string[],
-    setState: Dispatch<SetStateAction<MemeModule[]>>,
-    arr: MemeModule[]
-  ) => {
-    setState(arr.filter((m) => collections.includes(m.name))!)
-  }
 
   useEffect(() => {
     setEnabledMods(api?.mods!)
-    setEnabledCollections([
-      api?.je_modules.collection.find((i) => i.name === 'choice_modules_1')!,
-    ])
+    setEnabledCollections(['choice_modules_1'])
   }, [api])
 
   useEffect(() => {
     switch (gameVersion) {
       case 9:
-        enableFixedModules([], setFixedCollections, api?.je_modules.collection!)
+        setFixedCollections([])
         setForceUseCompatible(false)
         break
       case 8:
-        enableFixedModules(
-          ['version_1.18.2'],
-          setFixedCollections,
-          api?.je_modules.collection!
-        )
+        setFixedCollections(['version_1.18.2'])
         setForceUseCompatible(false)
         break
       case 7:
-        enableFixedModules(
-          ['version_1.17.1'],
-          setFixedCollections,
-          api?.je_modules.collection!
-        )
+        setFixedCollections(['version_1.17.1'])
         setForceUseCompatible(false)
         break
       case 6:
-        enableFixedModules(
-          ['version_1.16.5'],
-          setFixedCollections,
-          api?.je_modules.collection!
-        )
+        setFixedCollections(['version_1.16.5'])
         setForceUseCompatible(false)
         break
       case 5:
       case 4:
-        enableFixedModules(
-          ['version_1.12.2-1.15.2'],
-          setFixedCollections,
-          api?.je_modules.collection!
-        )
+        setFixedCollections(['version_1.12.2-1.15.2'])
         setForceUseCompatible(false)
         break
       case 3:
-        enableFixedModules(
-          ['version_1.12.2-1.15.2'],
-          setFixedCollections,
-          api?.je_modules.collection!
-        )
+        setFixedCollections(['version_1.12.2-1.15.2'])
         setForceUseCompatible(true)
         break
     }
@@ -127,25 +97,13 @@ export default function JavaForm({
   useEffect(() => {
     switch (sfw) {
       case 1:
-        enableFixedModules(
-          ['lang_sfc', 'lang_sfw'],
-          setFixedLanguageModule,
-          api?.je_modules.resource!
-        )
+        setFixedLanguageModule(['lang_sfc', 'lang_sfw'])
         break
       case 2:
-        enableFixedModules(
-          ['lang_sfw'],
-          setFixedLanguageModule,
-          api?.je_modules.resource!
-        )
+        setFixedLanguageModule(['lang_sfc', 'lang_sfw'])
         break
       case 3:
-        enableFixedModules(
-          [],
-          setFixedLanguageModule,
-          api?.je_modules.resource!
-        )
+        setFixedLanguageModule(['lang_sfc', 'lang_sfw'])
         break
     }
   }, [sfw])
@@ -176,14 +134,11 @@ export default function JavaForm({
         format: gameVersion,
         mod: enabledMods,
         modules: {
-          collection: [
-            ...enabledCollections.map((m) => m.name),
-            ...fixedCollections.map((m) => m.name),
-          ],
+          collection: [...enabledCollections, ...fixedCollections],
           resource: [
-            ...enabledResourceModules.map((m) => m.name),
-            ...enabledLanguageModules.map((m) => m.name),
-            ...enabledFixedLanguageModules.map((m) => m.name),
+            ...enabledResourceModules,
+            ...enabledLanguageModules,
+            ...enabledFixedLanguageModules,
           ],
         },
       }),
@@ -343,26 +298,54 @@ export default function JavaForm({
               (i) => !i.name.startsWith('lang_') // separate lang modules
             )!
           }
-          defaultOptions={
-            enabledCollections
+          defaultOptions={[
+            ...((enabledCollections
               .flatMap((m) =>
-                api?.je_modules.resource!.filter(
-                  (r) =>
-                    m.contains!.includes(r.name) && !r.name.startsWith('lang_') // separate lang modules
-                )
+                api?.je_modules
+                  .collection!.find((c) => c.name === m)
+                  ?.contains?.filter((i) => !i.startsWith('lang_'))
               )
-              .filter((i) => i !== undefined) as MemeModule[]
-          }
-          disabledOptions={
-            enabledCollections
+              .filter((i) => i !== undefined) as string[]) || []),
+            ...(
+              (api?.je_modules.resource
+                .filter((r) =>
+                  (
+                    (enabledCollections
+                      .flatMap((m) =>
+                        api?.je_modules
+                          .collection!.find((c) => c.name === m)
+                          ?.contains?.filter((i) => !i.startsWith('lang_'))
+                      )
+                      .filter((i) => i !== undefined) as string[]) || []
+                  ).includes(r.name)
+                )
+                .flatMap((r) => r.incompatible_with) || []) as string[]
+            ).filter((i) => !i.startsWith('lang_')),
+          ]}
+          disabledOptions={[
+            ...((enabledCollections
               .flatMap((m) =>
-                api?.je_modules.resource!.filter(
-                  (r) =>
-                    m.contains!.includes(r.name) && !r.name.startsWith('lang_') // separate lang modules
-                )
+                api?.je_modules
+                  .collection!.find((c) => c.name === m)
+                  ?.contains?.filter((i) => !i.startsWith('lang_'))
               )
-              .filter((i) => i !== undefined) as MemeModule[]
-          }
+              .filter((i) => i !== undefined) as string[]) || []),
+            ...(
+              (api?.je_modules.resource
+                .filter((r) =>
+                  (
+                    (enabledCollections
+                      .flatMap((m) =>
+                        api?.je_modules
+                          .collection!.find((c) => c.name === m)
+                          ?.contains?.filter((i) => !i.startsWith('lang_'))
+                      )
+                      .filter((i) => i !== undefined) as string[]) || []
+                  ).includes(r.name)
+                )
+                .flatMap((r) => r.incompatible_with) || []) as string[]
+            ).filter((i) => !i.startsWith('lang_')),
+          ]}
           label={t('form.resource.label')}
           helper={t('form.resource.helper')}
           prependIcon={<Archive />}
@@ -379,25 +362,54 @@ export default function JavaForm({
             )!
           }
           defaultOptions={[
-            ...(enabledCollections
+            ...((enabledCollections
               .flatMap((m) =>
-                api?.je_modules.resource!.filter(
-                  (r) =>
-                    m.contains!.includes(r.name) && r.name.startsWith('lang_') // separate lang modules
-                )
+                api?.je_modules
+                  .collection!.find((c) => c.name === m)
+                  ?.contains?.filter((i) => i.startsWith('lang_'))
               )
-              .filter((i) => i !== undefined) as MemeModule[]),
+              .filter((i) => i !== undefined) as string[]) || []),
+            ...(
+              (api?.je_modules.resource
+                .filter((r) =>
+                  (
+                    (enabledCollections
+                      .flatMap((m) =>
+                        api?.je_modules
+                          .collection!.find((c) => c.name === m)
+                          ?.contains?.filter((i) => i.startsWith('lang_'))
+                      )
+                      .filter((i) => i !== undefined) as string[]) || []
+                  ).includes(r.name)
+                )
+                .flatMap((r) => r.incompatible_with)
+                .filter((i) => i !== undefined) || []) as string[]
+            ).filter((i) => !i.startsWith('lang_')),
             ...enabledFixedLanguageModules,
           ]}
           disabledOptions={[
-            ...(enabledCollections
+            ...((enabledCollections
               .flatMap((m) =>
-                api?.je_modules.resource!.filter(
-                  (r) =>
-                    m.contains!.includes(r.name) && r.name.startsWith('lang_') // separate lang modules
-                )
+                api?.je_modules
+                  .collection!.find((c) => c.name === m)
+                  ?.contains?.filter((i) => i.startsWith('lang_'))
               )
-              .filter((i) => i !== undefined) as MemeModule[]),
+              .filter((i) => i !== undefined) as string[]) || []),
+            ...(
+              (api?.je_modules.resource
+                .filter((r) =>
+                  (
+                    (enabledCollections
+                      .flatMap((m) =>
+                        api?.je_modules
+                          .collection!.find((c) => c.name === m)
+                          ?.contains?.filter((i) => i.startsWith('lang_'))
+                      )
+                      .filter((i) => i !== undefined) as string[]) || []
+                  ).includes(r.name)
+                )
+                .flatMap((r) => r.incompatible_with) || []) as string[]
+            ).filter((i) => i.startsWith('lang_')),
             ...enabledFixedLanguageModules,
           ]}
           label={t('form.language.label')}
