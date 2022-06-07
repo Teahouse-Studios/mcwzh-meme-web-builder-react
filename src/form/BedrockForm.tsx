@@ -1,10 +1,4 @@
-import {
-  useState,
-  useContext,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from 'react'
+import { useState, useEffect, Dispatch, SetStateAction, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Grid,
@@ -43,58 +37,22 @@ export default function BedrockForm({
   api: MemeApi
   addLog: (log: BuildLog) => void
 }) {
-  const [enabledCollections, setEnabledCollections] = useState<MemeModule[]>([])
-  const [fixedCollections, setFixedCollections] = useState<MemeModule[]>([])
-  const [enabledResourceModules, setEnabledResourceModules] = useState<
-    MemeModule[]
-  >([])
-  const [enabledLanguageModules, setEnabledLanguageModule] = useState<
-    MemeModule[]
-  >([])
-  const [enabledFixedLanguageModules, setFixedLanguageModule] = useState<
-    MemeModule[]
-  >([])
+  const [enabledCollections, setEnabledCollections] = useState<string[]>([])
+  const [defaultCollections, setDefaultCollections] = useState<string[]>([])
+  const [disabledCollections, setDisabledCollections] = useState<string[]>([])
+  const [enabledModules, setEnabledModules] = useState<string[]>([])
+  const [defaultModules, setDefaultModules] = useState<string[]>([])
+  const [disabledModules, setDisabledModules] = useState<string[]>([])
   const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>('mcpack')
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
-  const [forceUseCompatible, setForceUseCompatible] = useState(false)
   const [sfw, setSfw] = useState<number>(2)
   const [submitting, setSubmitting] = useState(false)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const { t } = useTranslation()
 
-  const enableFixedModules = (
-    collections: string[],
-    setState: Dispatch<SetStateAction<MemeModule[]>>,
-    arr: MemeModule[]
-  ) => {
-    setState(arr.filter((m) => collections.includes(m.name))!)
-  }
-
   useEffect(() => {
-    switch (sfw) {
-      case 1:
-        enableFixedModules(
-          ['lang_sfc', 'lang_sfw'],
-          setFixedLanguageModule,
-          api?.be_modules.resource!
-        )
-        break
-      case 2:
-        enableFixedModules(
-          ['lang_sfw'],
-          setFixedLanguageModule,
-          api?.be_modules.resource!
-        )
-        break
-      case 3:
-        enableFixedModules(
-          [],
-          setFixedLanguageModule,
-          api?.be_modules.resource!
-        )
-        break
-    }
-  }, [sfw])
+    setDefaultCollections(['choice_modules_1'])
+  })
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
@@ -105,6 +63,67 @@ export default function BedrockForm({
     } = event
     setState(value as unknown as T)
   }
+
+  const undefinedPredicate = <T,>(i: T | undefined) => i !== undefined
+
+  useEffect(() => {
+    const getModulesInCollection = () => {
+      return enabledCollections
+        .flatMap(
+          (m) => api?.be_modules.collection!.find((c) => c.name === m)?.contains
+        )
+        .filter(undefinedPredicate) as string[]
+    }
+    const getIncompatibleModulesInCollection = () => {
+      return api?.be_modules.resource
+        .filter((resourceModules) =>
+          enabledCollections
+            .flatMap(
+              (enabledCollection) =>
+                api?.be_modules.collection!.find(
+                  (collection) => collection.name === enabledCollection
+                )?.contains
+            )
+            .filter(undefinedPredicate)
+            .includes(resourceModules.name)
+        )
+        .flatMap((resourceModule) => resourceModule.incompatible_with)
+        .filter(undefinedPredicate) as string[]
+    }
+
+    let sfwModules: string[] = []
+
+    switch (sfw) {
+      case 1:
+        sfwModules = ['lang_sfc', 'lang_sfw']
+        break
+      case 2:
+        sfwModules = ['lang_sfw']
+        break
+      case 3:
+        sfwModules = []
+        break
+    }
+
+    let versionModules: string[] = []
+
+    setDefaultModules([
+      ...getModulesInCollection(),
+      ...getIncompatibleModulesInCollection(),
+      ...sfwModules,
+      ...versionModules,
+    ])
+  }, [enabledCollections, sfw, api])
+
+  const calculatedEnabledCollections = useMemo(
+    () => [...enabledCollections, ...defaultCollections],
+    [enabledCollections, defaultCollections]
+  )
+
+  const calculatedEnabledModules = useMemo(
+    () => [...enabledModules, ...defaultModules],
+    [enabledModules, defaultModules]
+  )
 
   const handleSubmit = () => {
     if (allowTracking)
@@ -122,15 +141,8 @@ export default function BedrockForm({
         mod: [],
 
         modules: {
-          collection: [
-            ...enabledCollections.map((m) => m.name),
-            ...fixedCollections.map((m) => m.name),
-          ],
-          resource: [
-            ...enabledResourceModules.map((m) => m.name),
-            ...enabledLanguageModules.map((m) => m.name),
-            ...enabledFixedLanguageModules.map((m) => m.name),
-          ],
+          resource: calculatedEnabledModules,
+          collection: calculatedEnabledCollections,
         },
       }),
       headers: {
@@ -214,29 +226,11 @@ export default function BedrockForm({
       <Grid item xs={12} md={6}>
         <ResourceSelect
           onChange={(v) => {
-            setEnabledResourceModules(v)
+            setEnabledModules(v)
           }}
           options={api?.be_modules.resource!}
-          defaultOptions={
-            enabledCollections
-              .map((m) =>
-                api?.be_modules.resource!.filter((r) =>
-                  m.contains!.includes(r.name)
-                )
-              )
-              .flat()
-              .filter((i) => i !== undefined) as MemeModule[]
-          }
-          disabledOptions={
-            enabledCollections
-              .map((m) =>
-                api?.be_modules.resource!.filter((r) =>
-                  m.contains!.includes(r.name)
-                )
-              )
-              .flat()
-              .filter((i) => i !== undefined) as MemeModule[]
-          }
+          defaultOptions={defaultModules}
+          disabledOptions={disabledModules}
           label={t('form.resource.label')}
           helper={t('form.resource.helper')}
           prependIcon={<Archive />}
@@ -247,8 +241,8 @@ export default function BedrockForm({
           onChange={(v) => {
             setEnabledCollections(v)
           }}
-          defaultOptions={fixedCollections}
-          disabledOptions={fixedCollections}
+          defaultOptions={defaultCollections}
+          disabledOptions={disabledCollections}
           options={api?.be_modules.collection!}
           label={t('form.collections.label')}
           helper={t('form.collections.helper')}
@@ -260,21 +254,14 @@ export default function BedrockForm({
           <FormControlLabel
             control={
               <Switch
-                checked={useCompatible || forceUseCompatible}
-                disabled={forceUseCompatible}
+                checked={useCompatible}
                 onChange={(e, c) => setUseCompatible(c)}
               />
             }
             label={t('form.compatible.label')}
             sx={{ color: 'text.secondary' }}
           />
-          <FormHelperText>
-            {t(
-              forceUseCompatible
-                ? 'form.compatible.disabled'
-                : 'form.compatible.helper'
-            )}
-          </FormHelperText>
+          <FormHelperText>{t('form.compatible.disabled')}</FormHelperText>
         </FormControl>
       </Grid>
       <Grid item xs={12}>

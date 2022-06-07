@@ -73,50 +73,6 @@ export default function JavaForm({
     setEnabledCollections(['choice_modules_1'])
   }, [api])
 
-  useEffect(() => {
-    switch (gameVersion) {
-      case 9:
-        setFixedCollections([])
-        setForceUseCompatible(false)
-        break
-      case 8:
-        setFixedCollections(['version_1.18.2'])
-        setForceUseCompatible(false)
-        break
-      case 7:
-        setFixedCollections(['version_1.17.1'])
-        setForceUseCompatible(false)
-        break
-      case 6:
-        setFixedCollections(['version_1.16.5'])
-        setForceUseCompatible(false)
-        break
-      case 5:
-      case 4:
-        setFixedCollections(['version_1.12.2-1.15.2'])
-        setForceUseCompatible(false)
-        break
-      case 3:
-        setFixedCollections(['version_1.12.2-1.15.2'])
-        setForceUseCompatible(true)
-        break
-    }
-  }, [gameVersion])
-
-  useEffect(() => {
-    switch (sfw) {
-      case 1:
-        setDefaultLanguageModules((o) => [...o, 'lang_sfc', 'lang_sfw'])
-        break
-      case 2:
-        setDefaultLanguageModules((o) => [...o, 'lang_sfc', 'lang_sfw'])
-        break
-      case 3:
-        setDefaultLanguageModules((o) => [...o, 'lang_sfc', 'lang_sfw'])
-        break
-    }
-  }, [sfw])
-
   const resourcePredicate = (i: string) => !i.startsWith('lang_')
   const langPredicate = (i: string) => i.startsWith('lang_')
   const undefinedPredicate = <T,>(i: T | undefined) => i !== undefined
@@ -157,17 +113,67 @@ export default function JavaForm({
         .filter(undefinedPredicate) as string[]
     }
 
+    let sfwModules: string[] = []
+
+    switch (sfw) {
+      case 1:
+        sfwModules = ['lang_sfc', 'lang_sfw']
+        break
+      case 2:
+        sfwModules = ['lang_sfw']
+        break
+      case 3:
+        sfwModules = []
+        break
+    }
+
+    let versionModules: string[] = []
+
+    switch (gameVersion) {
+      case 9:
+        versionModules = []
+        setForceUseCompatible(false)
+        break
+      case 8:
+        versionModules = ['version_1.18.2']
+        setForceUseCompatible(false)
+        break
+      case 7:
+        versionModules = ['version_1.17.1']
+        setForceUseCompatible(false)
+        break
+      case 6:
+        versionModules = ['version_1.16.5']
+        setForceUseCompatible(false)
+        break
+      case 5:
+      case 4:
+        versionModules = ['version_1.12.2-1.15.2']
+        setForceUseCompatible(false)
+        break
+      case 3:
+        versionModules = ['version_1.12.2-1.15.2']
+        setForceUseCompatible(true)
+        break
+    }
+
     setDefaultResourceModules([...getModulesInCollection(resourcePredicate)])
-    setDisabledLanguageModules([
+    setDisabledResourceModules([
       ...getModulesInCollection(resourcePredicate),
       ...getIncompatibleModulesInCollection(resourcePredicate),
     ])
-    setDefaultLanguageModules([...getModulesInCollection(langPredicate)])
+    setDefaultLanguageModules([
+      ...getModulesInCollection(langPredicate),
+      ...sfwModules,
+      ...versionModules,
+    ])
     setDisabledLanguageModules([
+      ...sfwModules,
+      ...versionModules,
       ...getModulesInCollection(langPredicate),
       ...getIncompatibleModulesInCollection(langPredicate),
     ])
-  }, [enabledCollections, api])
+  }, [enabledCollections, sfw, gameVersion, api])
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
@@ -211,7 +217,7 @@ export default function JavaForm({
         mod: enabledMods,
         modules: {
           resource: [
-            ...calculatedEnabledLanguageModules,
+            ...calculatedEnabledResourceModules,
             ...calculatedEnabledLanguageModules,
           ],
           collection: calculatedEnabledCollections,
