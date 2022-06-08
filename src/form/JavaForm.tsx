@@ -263,12 +263,8 @@ export default function JavaForm({
               }}
             >
               {[
-                { version: '1.19+', format: 9, caption: '最新快照' },
-                {
-                  version: '1.18 - 1.18.2',
-                  format: 8,
-                  caption: '最新正式版',
-                },
+                { version: '1.19+', format: 9, caption: '最新正式版' },
+                { version: '1.18 - 1.18.2',format: 8 },
                 { version: '1.17 - 1.17.1', format: 7 },
                 { version: '1.16.2 - 1.16.5', format: 6 },
                 { version: '1.15 - 1.16.1', format: 5 },
