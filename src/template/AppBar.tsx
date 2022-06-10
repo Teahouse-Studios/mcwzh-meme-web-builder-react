@@ -160,11 +160,6 @@ function CompositeMenu(props: CompositeMenuProps) {
     setAnchorEl(null)
   }
 
-  const openHref = (href: string) => {
-    window.open(href, '_blank')
-    handleClose()
-  }
-
   return (
     <>
       <Button
@@ -190,7 +185,13 @@ function CompositeMenu(props: CompositeMenuProps) {
         onClose={handleClose}
       >
         {props.items.map((item) => (
-          <MenuItem onClick={() => openHref(item.href)} key={item.name}>
+          <MenuItem
+            onClick={() => handleClose()}
+            key={item.name}
+            href={item.href}
+            rel="noopener noreferer"
+            target="_blank"
+          >
             {item.name}
           </MenuItem>
         ))}
