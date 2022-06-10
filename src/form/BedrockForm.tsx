@@ -264,7 +264,7 @@ export default function BedrockForm({
             label={t('form.compatible.label')}
             sx={{ color: 'text.secondary' }}
           />
-          <FormHelperText>{t('form.compatible.disabled')}</FormHelperText>
+          <FormHelperText>{t('form.compatible.helper')}</FormHelperText>
         </FormControl>
       </Grid>
       <Grid item xs={12}>
