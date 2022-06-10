@@ -216,17 +216,15 @@ function LinkIconButton({
         mr: 1,
       }}
     >
-      <a
+      <IconButton
         href={href}
         target="_blank"
         rel="noopener noreferer"
         title={title}
-        css={css`
-          text-decoration: none;
-        `}
+        size="small"
       >
-        <IconButton size="small">{children}</IconButton>
-      </a>
+        {children}
+      </IconButton>
     </Box>
   )
 }
@@ -247,25 +245,19 @@ function LinkButton({
         mr: 1,
       }}
     >
-      <a
+      <Button
+        variant="text"
+        size="small"
+        startIcon={icon}
         href={href}
         target="_blank"
         rel="noopener noreferer"
-        css={css`
-          text-decoration: none;
-        `}
+        sx={{
+          color: 'white',
+        }}
       >
-        <Button
-          variant="text"
-          size="small"
-          startIcon={icon}
-          sx={{
-            color: 'white',
-          }}
-        >
-          {children}
-        </Button>
-      </a>
+        {children}
+      </Button>
     </Box>
   )
 }

@@ -142,6 +142,7 @@ export default function Form() {
           alignItems: apiError || !api ? 'center' : 'start',
           flexWrap: 'wrap',
         }}
+        id="form"
       >
         {apiError ? (
           <ApiFailed error={apiError} load={loadApi} />

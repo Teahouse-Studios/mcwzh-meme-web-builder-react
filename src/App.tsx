@@ -24,6 +24,7 @@ import TeahouseFooter from './template/Footer'
 import WebviewWarning from './template/WebviewWarning'
 import DynamicAlerts from './template/DynamicAlerts'
 import BackToTop from './template/BackToTop'
+import SkipToForm from './template/SkipToForm'
 const DynamicNews = memo(lazy(() => import('./template/DynamicNews')))
 import Form from './form/Form'
 
@@ -84,7 +85,7 @@ function App() {
         css={css`
           color-scheme: ${mode === 'light' ? 'light' : 'dark'};
 
-          a:not(.MuiButton-root) {
+          a:not(.MuiButtonBase-root) {
             color: ${theme.palette.primary.main};
           }
 
@@ -98,6 +99,7 @@ function App() {
       >
         <ThemeProvider theme={theme}>
           <SnackbarProvider maxSnack={4}>
+            <SkipToForm />
             <CssBaseline />
             <MemeAppBar />
             <Form />
