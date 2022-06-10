@@ -44,11 +44,12 @@ import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
+import QuoteAd from './QuoteAd'
 import { MemeApi, BuildLog } from './types'
 import allowTracking from '../tracking'
 import { useLocalStorage } from 'usehooks-ts'
 
-enum AdType {
+export enum AdType {
   FirstTime,
   Reconsider,
   Renew,
@@ -201,6 +202,15 @@ export default function Form() {
           </Container>
         )}
       </Box>
+      <Container>
+        <Divider sx={{ mb: 2 }} />
+        <QuoteAd
+          adLS={adLS}
+          setLS={setLS}
+          adSettings={adSettings}
+          setAdSettings={setAdSettings}
+        />
+      </Container>
     </>
   )
 }
