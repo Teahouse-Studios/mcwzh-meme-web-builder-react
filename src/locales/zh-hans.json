@@ -87,7 +87,8 @@
     "search": "搜索",
     "quote_ad": {
       "none": "Hmm……这里什么都没有啊。这里是赞助消息区。每一个在爱发电赞助我们的人都可以在这里留言。仅需 1 块钱，留个言吧。",
-      "author": "电量量"
+      "author": "电量量",
+      "commercial_warning": "任何试图推广某一商业产品或服务的消息均会被忽略，并无法退款。"
     }
   },
   "helpers": [
@@ -199,7 +200,10 @@
     "slogan": "Built with ❤️ ️love, 🔮 fantasies, 🐝 bees and 🤣 memes.",
     "terms": "服务条款",
     "privacy": "隐私政策",
-    "donate": "赞助"
+    "donate": "赞助",
+    "quote_ad": {
+      "subtitle": "来自赞助者的留言"
+    }
   },
   "skipToForm": "快进到表单"
 }

@@ -6,7 +6,7 @@ import {
   Button,
   Divider,
 } from '@mui/material'
-import { FormatQuoteOpen, Heart } from 'mdi-material-ui'
+import { FormatQuoteOpen, Heart, MessageText } from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import { useSnackbar } from 'notistack'
 import type { Dispatch, SetStateAction } from 'react'
@@ -34,64 +34,81 @@ export default function QuoteAd({
       <Card sx={{ width: '100%' }}>
         <CardContent
           sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
             '&:last-child': {
               pb: '16px',
             },
           }}
         >
-          <Box sx={{ mb: 1, display: 'flex', opacity: 0.8, mr: 2 }}>
-            <FormatQuoteOpen
-              fontSize="large"
-              sx={{ color: 'text.secondary' }}
-            />
-          </Box>
+          <Typography
+            component="p"
+            variant="caption"
+            sx={{ mb: 1, color: 'text.secondary' }}
+          >
+            <MessageText
+              fontSize="small"
+              sx={{ verticalAlign: 'middle', mr: 1 }}
+            ></MessageText>
+            {t('footer.quote_ad.subtitle')}
+          </Typography>
           <Box
             sx={{
-              width: '100%',
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
             }}
           >
-            <Typography variant="body1" sx={{ mb: 1 }}>
-              {t('form.quote_ad.none')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {t('form.quote_ad.author')}
-            </Typography>
-            <Divider sx={{ mt: 2, mb: 1 }} />
-            <Typography
-              variant="caption"
-              component="p"
-              sx={{ mt: 1, color: 'text.secondary' }}
-            >
-              {t('log.ad.donationNotice')}
-            </Typography>
-            <Button
-              className="donate-button"
-              startIcon={<Heart />}
-              color="error"
-              href="https://afdian.net/@teahouse"
-              target="_blank"
-              rel="noreferer noopener"
-              onClick={() => {
-                setAdSettings((adSettings) => {
-                  return { ...adSettings, shouldDisplayAd: false }
-                })
-                setLS({
-                  shown: true,
-                  lastShown: Date.now(),
-                  clicked: true,
-                })
-                enqueueSnackbar(t('log.ad.donateSnackbar'), {
-                  autoHideDuration: 10000,
-                  variant: 'success',
-                })
+            <Box sx={{ mb: 1, display: 'flex', opacity: 0.8, mr: 2 }}>
+              <FormatQuoteOpen
+                fontSize="large"
+                sx={{ color: 'text.secondary' }}
+              />
+            </Box>
+            <Box
+              sx={{
+                width: '100%',
               }}
-              sx={{ mr: 1 }}
             >
-              {t('footer.donate')}
-            </Button>
+              <Typography variant="body1" sx={{ mb: 1 }}>
+                {t('form.quote_ad.none')}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {t('form.quote_ad.author')}
+              </Typography>
+            </Box>
           </Box>
+          <Divider sx={{ mt: 2, mb: 1 }} />
+          <Typography
+            variant="caption"
+            component="p"
+            sx={{ mt: 1, color: 'text.secondary' }}
+          >
+            {t('log.ad.donationNotice')}
+            {t('form.quote_ad.commercial_warning')}
+          </Typography>
+          <Button
+            className="donate-button"
+            startIcon={<Heart />}
+            color="error"
+            href="https://afdian.net/@teahouse"
+            target="_blank"
+            rel="noreferer noopener"
+            onClick={() => {
+              setAdSettings((adSettings) => {
+                return { ...adSettings, shouldDisplayAd: false }
+              })
+              setLS({
+                shown: true,
+                lastShown: Date.now(),
+                clicked: true,
+              })
+              enqueueSnackbar(t('log.ad.donateSnackbar'), {
+                autoHideDuration: 10000,
+                variant: 'success',
+              })
+            }}
+            sx={{ mr: 1 }}
+          >
+            {t('footer.donate')}
+          </Button>
         </CardContent>
       </Card>
     </>

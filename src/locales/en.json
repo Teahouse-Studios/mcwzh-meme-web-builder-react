@@ -87,7 +87,8 @@
     "search": "Type to search",
     "quote_ad": {
       "none": "Hmm, nothing here. This is the sponsor meesage spot. We accept any message except commercial ads. Leave a message?",
-      "author": "Dianliang233"
+      "author": "Dianliang233",
+      "commercial_warning": "Any message that tries to promote a commercial product or service will be ignored and the donation will not be refundable."
     }
   },
   "helpers": [
@@ -200,7 +201,10 @@
     "slogan": "Built with ❤️ ️love, 🔮 fantasies, 🐝 bees and 🤣 memes.",
     "terms": "Terms",
     "privacy": "Privacy",
-    "donate": "Donate"
+    "donate": "Donate",
+    "quote_ad": {
+      "subtitle": "A word from our sponsor"
+    }
   },
   "skipToForm": "Skip to form"
 }
