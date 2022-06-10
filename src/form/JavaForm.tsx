@@ -59,6 +59,8 @@ export default function JavaForm({
   const [disabledLanguageModules, setDisabledLanguageModules] = useState<
     string[]
   >([])
+  const [fixedResourceModules, setFixedResourceModules] = useState<string[]>([])
+  const [fixedLanguageModules, setFixedLanguageModules] = useState<string[]>([])
   const [gameVersion, setGameVersion] = useState<number>(9)
   const [enabledMods, setEnabledMods] = useState<string[]>([])
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
@@ -157,20 +159,16 @@ export default function JavaForm({
         break
     }
 
-    setDefaultResourceModules([...getModulesInCollection(resourcePredicate)])
+    setFixedResourceModules([...getModulesInCollection(resourcePredicate)])
+    setFixedLanguageModules([
+      ...getModulesInCollection(langPredicate),
+      ...sfwModules,
+      ...versionModules,
+    ])
     setDisabledResourceModules([
-      ...getModulesInCollection(resourcePredicate),
       ...getIncompatibleModulesInCollection(resourcePredicate),
     ])
-    setDefaultLanguageModules([
-      ...getModulesInCollection(langPredicate),
-      ...sfwModules,
-      ...versionModules,
-    ])
     setDisabledLanguageModules([
-      ...sfwModules,
-      ...versionModules,
-      ...getModulesInCollection(langPredicate),
       ...getIncompatibleModulesInCollection(langPredicate),
     ])
   }, [enabledCollections, sfw, gameVersion, api])
@@ -381,6 +379,7 @@ export default function JavaForm({
           }
           defaultOptions={defaultResourceModules}
           disabledOptions={disabledResourceModules}
+          fixedOptions={fixedResourceModules}
           label={t('form.resource.label')}
           helper={t('form.resource.helper')}
           prependIcon={<Archive />}
@@ -398,6 +397,7 @@ export default function JavaForm({
           }
           defaultOptions={defaultLanguageModules}
           disabledOptions={disabledLanguageModules}
+          fixedOptions={fixedLanguageModules}
           label={t('form.language.label')}
           helper={t('form.language.helper')}
           prependIcon={<Cog />}

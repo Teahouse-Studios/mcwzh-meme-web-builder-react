@@ -43,6 +43,7 @@ export default function BedrockForm({
   const [enabledModules, setEnabledModules] = useState<string[]>([])
   const [defaultModules, setDefaultModules] = useState<string[]>([])
   const [disabledModules, setDisabledModules] = useState<string[]>([])
+  const [fixedModules, setFixedModules] = useState<string[]>([])
   const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>('mcpack')
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
   const [sfw, setSfw] = useState<number>(2)
@@ -107,12 +108,13 @@ export default function BedrockForm({
 
     let versionModules: string[] = []
 
-    setDefaultModules([
+    setFixedModules([
       ...getModulesInCollection(),
-      ...getIncompatibleModulesInCollection(),
+
       ...sfwModules,
       ...versionModules,
     ])
+    setDisabledModules([...getIncompatibleModulesInCollection()])
   }, [enabledCollections, sfw, api])
 
   const calculatedEnabledCollections = useMemo(
@@ -228,9 +230,10 @@ export default function BedrockForm({
           onChange={(v) => {
             setEnabledModules(v)
           }}
-          options={api?.be_modules.resource!}
+          options={api?.be_modules.resource}
           defaultOptions={defaultModules}
           disabledOptions={disabledModules}
+          fixedOptions={fixedModules}
           label={t('form.resource.label')}
           helper={t('form.resource.helper')}
           prependIcon={<Archive />}

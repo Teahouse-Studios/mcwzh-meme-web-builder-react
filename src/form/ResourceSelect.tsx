@@ -35,6 +35,7 @@ interface ResourceSelectProps {
   helper?: string
   defaultOptions?: string[]
   disabledOptions?: string[]
+  fixedOptions?: string[]
   disabled?: boolean
 }
 
@@ -50,10 +51,22 @@ export default function ResourceSelect(props: ResourceSelectProps) {
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
   const [selected, setSelected] = useState<string[]>([])
+  const [fixedSelected, setFixedSelected] = useState<string[]>([])
 
   useEffect(() => {
-    setSelected((o) => [...o, ...props.defaultOptions!])
+    setSelected((o) => [...new Set([...o, ...(props.defaultOptions || [])])])
   }, [props.defaultOptions])
+
+  useEffect(() => {
+    setSelected((o) => {
+      const old = fixedSelected.filter(
+        (o) => !(props.fixedOptions || []).includes(o)
+      ) // old fixed options
+      const filtered = o.filter((v) => !old!.includes(v)) // get rid of old fixed options
+      return [...new Set([...filtered, ...(props.fixedOptions || [])])] // add new fixed options
+    })
+    setFixedSelected(props.fixedOptions!)
+  }, [props.fixedOptions])
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -64,7 +77,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
         <InputLabel>{props.label}</InputLabel>
         <Select
           MenuProps={{ autoFocus: false }}
-          value={[...new Set(selected.concat(props.defaultOptions || []))]}
+          value={selected}
           multiple
           onClick={handleClick}
           onChange={(event) => {
