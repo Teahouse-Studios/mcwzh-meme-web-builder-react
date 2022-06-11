@@ -15,6 +15,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Paper,
+  Backdrop,
 } from '@mui/material'
 import {
   Coffee,
@@ -45,7 +46,8 @@ import { useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
 import QuoteAd from './QuoteAd'
-import { MemeApi, BuildLog } from './types'
+import type { MemeApi, BuildLog } from './types'
+import fakeApiData from './fakeApiData'
 import allowTracking from '../tracking'
 import { useLocalStorage } from 'usehooks-ts'
 
@@ -147,8 +149,6 @@ export default function Form() {
       >
         {apiError ? (
           <ApiFailed error={apiError} load={loadApi} />
-        ) : !api ? (
-          <ApiLoading />
         ) : (
           <Container>
             <Tabs value={tab} onChange={handleChange} centered>
@@ -170,7 +170,13 @@ export default function Form() {
               />
             </Tabs>
             <TabPanel value={tab} index={0}>
-              <JavaForm api={api!} addLog={addLog} />
+              {!api ? (
+                <LoadingMask>
+                  <JavaForm api={fakeApiData} addLog={addLog} />
+                </LoadingMask>
+              ) : (
+                <JavaForm api={api!} addLog={addLog} />
+              )}
             </TabPanel>
             <TabPanel value={tab} index={1}>
               <BedrockForm api={api!} addLog={addLog} />
@@ -511,5 +517,28 @@ function TabPanel(props: TabPanelProps) {
         </Box>
       )}
     </div>
+  )
+}
+
+function LoadingMask({ children }: { children: ReactNode }) {
+  return (
+    <Box sx={{ width: '100%', float: 'left', position: 'relative' }}>
+      <Box
+        sx={{
+          position: 'absolute',
+          zIndex: 50,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+      <Box sx={{ filter: 'blur(2.5px)', position: 'relative', zIndex: 10 }}>
+        {children}
+      </Box>
+    </Box>
   )
 }
