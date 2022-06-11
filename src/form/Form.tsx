@@ -179,7 +179,13 @@ export default function Form() {
               )}
             </TabPanel>
             <TabPanel value={tab} index={1}>
-              <BedrockForm api={api!} addLog={addLog} />
+              {!api ? (
+                <LoadingMask>
+                  <BedrockForm api={api!} addLog={addLog} />
+                </LoadingMask>
+              ) : (
+                <BedrockForm api={api!} addLog={addLog} />
+              )}
             </TabPanel>
           </Container>
         )}
@@ -527,9 +533,8 @@ function LoadingMask({ children }: { children: ReactNode }) {
         sx={{
           position: 'absolute',
           zIndex: 50,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          top: '40%',
+          left: '50%',
           width: '100%',
           height: '100%',
         }}
