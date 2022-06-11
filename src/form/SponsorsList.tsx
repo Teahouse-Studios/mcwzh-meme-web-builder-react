@@ -77,19 +77,26 @@ export default function QuoteAd({
             </Box>
           </Box>
           <Divider sx={{ mt: 2, mb: 1 }} />
-          <Box sx={{ textAlign: 'center', maxWidth: '800px', mx: 'auto' }}>
+          <Box sx={{ textAlign: 'center', maxWidth: '500px', mx: 'auto' }}>
             <Typography component="h2" variant="h5" sx={{ mt: 2, mb: 1 }}>
               {t('sponsor.overline')}
             </Typography>
             <Typography variant="body1">{t('sponsor.thankYou')}</Typography>
-            <img
-              src="https://fe.wd-ljt.com/m3me/sP0ns0r5/sP0ns0r5.svg" // lol easylist
-              css={css`
-                width: 100%;
-                height: auto;
-                margin: 0;
-              `}
-            />
+            <a
+              href="https://afdian.net/@teahouse"
+              rel="noopener noreferer"
+              target="_blank"
+            >
+              <img
+                src="https://fe.wd-ljt.com/m3me/sP0ns0r5/sP0ns0r5.svg" // lol easylist
+                alt="爱发电赞助者列表"
+                css={css`
+                  width: 100%;
+                  height: auto;
+                  margin: 0;
+                `}
+              />
+            </a>
           </Box>
 
           <Typography
