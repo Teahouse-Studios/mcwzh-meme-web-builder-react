@@ -68,11 +68,7 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": [
-        "12+",
-        "16+",
-        "18+"
-      ],
+      "ticks": ["12+", "16+", "18+"],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
@@ -118,7 +114,7 @@
       "subtitle": "A word from our sponsor",
       "none": "Hmm, nothing here. This is the sponsor meesage spot. We accept any message except commercial ads. Leave a message?",
       "author": "Dianliang233",
-      "commercial_warning": "Any message that tries to promote a commercial product or service will be ignored and the donation will not be refundable."
+      "commercialWarning": "Any message that tries to promote a commercial product or service will be ignored and the donation will not be refundable."
     },
     "thankYou": "Thank you for your support! Your donation enabled us create better work and really helps us A LOT."
   },
