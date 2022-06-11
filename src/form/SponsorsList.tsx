@@ -95,10 +95,11 @@ export default function QuoteAd({
                   height: auto;
                   margin: 0;
                 `}
+                loading="lazy"
               />
             </a>
           </Box>
-
+          <Divider sx={{ my: 1 }} />
           <Typography
             variant="caption"
             component="p"
