@@ -186,6 +186,7 @@ function CompositeMenu(props: CompositeMenuProps) {
           <MenuItem
             onClick={() => handleClose()}
             key={item.name}
+            component="a"
             href={item.href}
             rel="noopener noreferer"
             target="_blank"
