@@ -84,12 +84,7 @@
       "readme": "README.md",
       "end": " in the GitHub repo."
     },
-    "search": "Type to search",
-    "quote_ad": {
-      "none": "Hmm, nothing here. This is the sponsor meesage spot. We accept any message except commercial ads. Leave a message?",
-      "author": "Dianliang233",
-      "commercial_warning": "Any message that tries to promote a commercial product or service will be ignored and the donation will not be refundable."
-    }
+    "search": "Type to search"
   },
   "helpers": [
     "Don't know how to choose those options? Just click the button below.",
@@ -118,33 +113,14 @@
     }
   },
   "sponsor": {
-    "overline": "SPONSOR",
-    "spg": {
-      "headline": "Brought to you by SPGoding",
-      "subtitle": "SPGoding is a Mojira mod, known for his VSCode extension SPYGlass. She kindly gave us 7 days of MCBBS ad.",
-      "dhp": "Introduction of SPYGlass"
+    "overline": "Sponsors",
+    "quoteAd": {
+      "subtitle": "A word from our sponsor",
+      "none": "Hmm, nothing here. This is the sponsor meesage spot. We accept any message except commercial ads. Leave a message?",
+      "author": "Dianliang233",
+      "commercial_warning": "Any message that tries to promote a commercial product or service will be ignored and the donation will not be refundable."
     },
-    "qiuxi": {
-      "headline": "Brought to you by 是秋夕呀mua",
-      "subtitle": "是秋夕呀mua is an Bilibilier. She recommended Memified Chinese to this 100k+ subscribers.",
-      "bilibili": "Bilibili homepage"
-    },
-    "suda": {
-      "headline": "Brought to you by 苏打baka",
-      "subtitle": "苏打baka is an Bilibilier. She recommended Memified Chinese to this 450k+ subscribers.",
-      "bilibili": "Bilibili homepage"
-    },
-    "kkg": {
-      "headline": "Brought to you by Kakagou",
-      "subtitle": "Kakagou is an MCBBS artist. He kindly gave us 14 days of MCBBS ad.",
-      "mcbbs": "MCBBS profile"
-    },
-    "liu": {
-      "headline": "Brought to you by WDLJT",
-      "subtitle": "WDLJT is the provider of some parts of Teahouse Studios cloud services. He provided server and CDN for Web Builder.",
-      "website": "Website"
-    },
-    "disclaimer": "Teahouse Studios are not paid by any of these sponsors. The sponsors did not force Teahouse Studios to add them to the sponsors list. This is just the sincere \"thank you\" from Teahouse Studios for all their support. ❤️"
+    "thankYou": "Thank you for your support! Your donation enabled us create better work and really helps us A LOT."
   },
   "snackbar": {
     "close": "Close",
@@ -201,10 +177,7 @@
     "slogan": "Built with ❤️ ️love, 🔮 fantasies, 🐝 bees and 🤣 memes.",
     "terms": "Terms",
     "privacy": "Privacy",
-    "donate": "Donate",
-    "quote_ad": {
-      "subtitle": "A word from our sponsor"
-    }
+    "donate": "Donate"
   },
   "skipToForm": "Skip to form"
 }

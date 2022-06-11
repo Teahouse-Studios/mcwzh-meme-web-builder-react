@@ -84,12 +84,7 @@
       "readme": "阅读我.md",
       "end": "。"
     },
-    "search": "搜索",
-    "quote_ad": {
-      "none": "Hmm……这里什么都没有啊。这里是赞助消息区。每一个在爱发电赞助我们的人都可以在这里留言。仅需 1 块钱，留个言吧。",
-      "author": "电量量",
-      "commercial_warning": "任何试图推广某一商业产品或服务的消息均会被忽略，并无法退款。"
-    }
+    "search": "搜索"
   },
   "helpers": [
     "若您不知道如何构建，点击下方按钮来直接生草。",
@@ -119,32 +114,13 @@
   },
   "sponsor": {
     "overline": "金主爸爸",
-    "spg": {
-      "headline": "梗体中文 由 SPGoding 赞助",
-      "subtitle": "SPGoding 是一位 Mojang 管理员，代表作《大憨批》VSCode 插件。她热心的赠送了梗体中文 7 天的泥潭广告位。",
-      "dhp": "《大憨批》介绍"
+    "quoteAd": {
+      "subtitle": "来自赞助者的留言",
+      "none": "Hmm……这里什么都没有啊。这里是赞助消息区。每一个在爱发电赞助我们的人都可以在这里留言。仅需 1 块钱，留个言吧。",
+      "author": "电量量",
+      "commercialWarning": "任何试图推广某一商业产品或服务的消息均会被忽略，并无法退款。"
     },
-    "qiuxi": {
-      "headline": "梗体中文 由 是秋夕呀mua 赞助",
-      "subtitle": "是秋夕呀mua 是一位破站 UP 主。她向她的 10w+ 粉丝推荐了梗体中文。",
-      "bilibili": "小破站主页"
-    },
-    "suda": {
-      "headline": "梗体中文 由 苏打baka 赞助",
-      "subtitle": "苏打baka 是一位 Bilibili UP 主。她向她的 35w+ 粉丝推荐了梗体中文。",
-      "bilibili": "Bilibili 主页"
-    },
-    "kkg": {
-      "headline": "梗体中文 由 Kakagou 赞助",
-      "subtitle": "Kakagou 是一位 MCBBS 艺术家。他热心的赠送了梗体中文 14 天的 MCBBS 广告位。",
-      "mcbbs": "MCBBS 资料页"
-    },
-    "liu": {
-      "headline": "梗体中文 由 WDLJT 赞助",
-      "subtitle": "WDLJT 是 Teahouse Studios 部分云服务的金主爸爸。他为梗体中文 · 在线构建提供了服务器和 CDN。",
-      "website": "网站"
-    },
-    "disclaimer": "这些金主爸爸均未给予 Teahouse Studios 梗体中文团队真实金钱，亦未强迫 Teahouse Studios 梗体中文团队将其添加至赞助者列表——这只是 Teahouse Studios 梗体中文团队对他们的支持最诚挚的感谢。❤️"
+    "thankYou": "感谢这些赞助者对梗体中文的支持！正是因为你们的慷慨解囊，梗体中文才能一步步成长。这些赞助者们是："
   },
   "snackbar": {
     "close": "关掉！关掉！",
@@ -201,10 +177,7 @@
     "slogan": "Built with ❤️ ️love, 🔮 fantasies, 🐝 bees and 🤣 memes.",
     "terms": "没人看的服务条款",
     "privacy": "没人看的隐私政策",
-    "donate": "打钱",
-    "quote_ad": {
-      "subtitle": "来自赞助者的留言"
-    }
+    "donate": "打钱"
   },
   "skipToForm": "快进到表单"
 }

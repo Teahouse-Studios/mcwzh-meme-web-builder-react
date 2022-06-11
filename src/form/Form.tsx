@@ -15,7 +15,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Paper,
-  Backdrop,
 } from '@mui/material'
 import {
   Coffee,
@@ -45,7 +44,7 @@ import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
-import QuoteAd from './QuoteAd'
+import SponsorsList from './SponsorsList'
 import type { MemeApi, BuildLog } from './types'
 import fakeApiData from './fakeApiData'
 import allowTracking from '../tracking'
@@ -214,9 +213,9 @@ export default function Form() {
           </Container>
         )}
       </Box>
-      <Container>
+      <Container sx={{ mb: 2 }}>
         <Divider sx={{ mb: 2 }} />
-        <QuoteAd
+        <SponsorsList
           adLS={adLS}
           setLS={setLS}
           adSettings={adSettings}
@@ -541,7 +540,14 @@ function LoadingMask({ children }: { children: ReactNode }) {
       >
         <CircularProgress />
       </Box>
-      <Box sx={{ filter: 'blur(2.5px)', position: 'relative', zIndex: 10 }}>
+      <Box
+        sx={{
+          filter: 'blur(2px)',
+          pointerEvents: 'none',
+          position: 'relative',
+          zIndex: 10,
+        }}
+      >
         {children}
       </Box>
     </Box>

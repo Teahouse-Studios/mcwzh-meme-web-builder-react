@@ -36,6 +36,7 @@ interface ResourceSelectProps {
   defaultOptions?: string[]
   disabledOptions?: string[]
   fixedOptions?: string[]
+  unselectAll?: () => any
   disabled?: boolean
 }
 
@@ -57,14 +58,17 @@ export default function ResourceSelect(props: ResourceSelectProps) {
     setSelected((o) => [...new Set([...o, ...(props.defaultOptions || [])])])
   }, [props.defaultOptions])
 
+  const handleFixedOption = (selected: string[]) => {
+    const old = fixedSelected.filter(
+      (o) => !(props.fixedOptions || []).includes(o)
+    ) // old fixed options
+    const filtered = selected.filter((v) => !old!.includes(v)) // get rid of old fixed options
+    return [...new Set([...filtered, ...(props.fixedOptions || [])])] // add new fixed options
+  }
+
   useEffect(() => {
-    setSelected((o) => {
-      const old = fixedSelected.filter(
-        (o) => !(props.fixedOptions || []).includes(o)
-      ) // old fixed options
-      const filtered = o.filter((v) => !old!.includes(v)) // get rid of old fixed options
-      return [...new Set([...filtered, ...(props.fixedOptions || [])])] // add new fixed options
-    })
+    setSelected(handleFixedOption)
+
     setFixedSelected(props.fixedOptions!)
   }, [props.fixedOptions])
 
@@ -118,6 +122,17 @@ export default function ResourceSelect(props: ResourceSelectProps) {
               }}
             />
           </ListSubheader>
+          <MenuItem
+            disabled={selected.length === 0}
+            onClick={() => setSelected(handleFixedOption([]))}
+          >
+            {t('form.clearSelected')}
+          </MenuItem>
+          {props.unselectAll && (
+            <MenuItem onClick={() => props.unselectAll!()}>
+              {t('form.clearAll')}
+            </MenuItem>
+          )}
           {props.options
             .filter((i) => i.name.includes(searchText))
             .map((option, i) => (
@@ -129,6 +144,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                   option.incompatible_with?.some((module) =>
                     selected.some((m) => m === module)
                   ) ||
+                  (fixedSelected || []).includes(option.name) ||
                   false
                 }
               >

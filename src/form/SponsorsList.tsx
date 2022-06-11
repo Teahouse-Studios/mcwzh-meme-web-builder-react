@@ -10,6 +10,7 @@ import { FormatQuoteOpen, Heart, MessageText } from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import { useSnackbar } from 'notistack'
 import type { Dispatch, SetStateAction } from 'react'
+import { css } from '@emotion/react'
 import { AdType } from './Form'
 
 export default function QuoteAd({
@@ -48,7 +49,7 @@ export default function QuoteAd({
               fontSize="small"
               sx={{ verticalAlign: 'middle', mr: 1 }}
             ></MessageText>
-            {t('footer.quote_ad.subtitle')}
+            {t('sponsor.quoteAd.subtitle')}
           </Typography>
           <Box
             sx={{
@@ -68,21 +69,36 @@ export default function QuoteAd({
               }}
             >
               <Typography variant="body1" sx={{ mb: 1 }}>
-                {t('form.quote_ad.none')}
+                {t('sponsor.quoteAd.none')}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {t('form.quote_ad.author')}
+                {t('sponsor.quoteAd.author')}
               </Typography>
             </Box>
           </Box>
           <Divider sx={{ mt: 2, mb: 1 }} />
+          <Box sx={{ textAlign: 'center', maxWidth: '800px', mx: 'auto' }}>
+            <Typography component="h2" variant="h5" sx={{ mt: 2, mb: 1 }}>
+              {t('sponsor.overline')}
+            </Typography>
+            <Typography variant="body1">{t('sponsor.thankYou')}</Typography>
+            <img
+              src="https://fe.wd-ljt.com/m3me/sP0ns0r5/sP0ns0r5.svg" // lol easylist
+              css={css`
+                width: 100%;
+                height: auto;
+                margin: 0;
+              `}
+            />
+          </Box>
+
           <Typography
             variant="caption"
             component="p"
             sx={{ mt: 1, color: 'text.secondary' }}
           >
             {t('log.ad.donationNotice')}
-            {t('form.quote_ad.commercial_warning')}
+            {t('sponsor.quoteAd.commercialWarning')}
           </Typography>
           <Button
             className="donate-button"

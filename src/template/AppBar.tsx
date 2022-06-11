@@ -6,14 +6,12 @@ import {
   createContext,
 } from 'react'
 import {
-  ThemeProvider,
   AppBar,
   Button,
   Toolbar,
   Typography,
   Menu,
   MenuItem,
-  createTheme,
   useTheme,
   useMediaQuery,
   IconButton,
