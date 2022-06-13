@@ -93,6 +93,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           renderValue={(selected) =>
             selected.map((option, index) => (
               <Chip
+                key="selected"
                 label={option}
                 disabled={(props.disabledOptions || []).includes(option)}
               />
