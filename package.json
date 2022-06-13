@@ -3,7 +3,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "format": "yarn prettier --write \"**/*.{js,ts,jsx,tsx,json}\""
+    "format": "prettier --write \"**/*.{js,ts,jsx,tsx,json}\"",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -30,12 +31,17 @@
     "@types/gtag.js": "^0.0.10",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
     "@vitejs/plugin-legacy": "^1.8.2",
     "@vitejs/plugin-react": "^1.3.0",
-    "eslint": "^8.16.0",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
     "prettier": "^2.6.2",
     "rollup-plugin-visualizer": "^5.6.0",
-    "typescript": "^4.7.2",
+    "typescript": "^4.7.3",
     "vite": "^2.9.9",
     "vite-plugin-pwa": "^0.12.0",
     "workbox-window": "^6.5.3"

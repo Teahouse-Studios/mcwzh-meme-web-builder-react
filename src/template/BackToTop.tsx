@@ -1,4 +1,3 @@
-import { SyntheticEvent } from 'react'
 import { Box, Fab, Zoom, useScrollTrigger } from '@mui/material'
 import { ChevronUp } from 'mdi-material-ui'
 
@@ -8,7 +7,7 @@ export default function BackToTop() {
     threshold: 100,
   })
 
-  const handleClick = (event: SyntheticEvent) => {
+  const handleClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 

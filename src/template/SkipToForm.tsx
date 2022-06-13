@@ -11,11 +11,11 @@ export default function SkipToForm() {
       size="large"
       onClick={() => {
         const form = document.querySelector('#form')
-        ;(
-          form?.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-          )![0] as HTMLButtonElement
-        ).focus()
+
+        const selectable = form?.querySelector(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        ) as HTMLButtonElement
+        selectable.focus()
       }}
       sx={{
         top: -5,

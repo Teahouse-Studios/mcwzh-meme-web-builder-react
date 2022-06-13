@@ -1,10 +1,4 @@
-import {
-  ReactNode,
-  useState,
-  MouseEvent,
-  useContext,
-  createContext,
-} from 'react'
+import { ReactNode, useState, MouseEvent } from 'react'
 import {
   AppBar,
   Button,
@@ -25,8 +19,6 @@ import {
   Post,
   Translate,
   ChevronDown,
-  Brightness7,
-  Brightness4,
   DotsVertical,
 } from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
@@ -188,7 +180,7 @@ function CompositeMenu(props: CompositeMenuProps) {
             key={item.name}
             component="a"
             href={item.href}
-            rel="noopener noreferer"
+            rel="noopener noreferrer"
             target="_blank"
           >
             {item.name}
@@ -213,7 +205,7 @@ function LangMenu() {
     { name: 'English', value: 'en' },
   ]
 
-  let langIndex: number = 1
+  let langIndex = 1
   options.filter((value, index) => {
     if (i18n.language === value.value) {
       langIndex = index
@@ -253,7 +245,7 @@ function LangMenu() {
         {t('appbar.languages')}
       </Button>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {options.map((option, index) => (
+        {options.map((option) => (
           <MenuItem
             key={option.value}
             selected={option === selectedItem}
@@ -264,21 +256,5 @@ function LangMenu() {
         ))}
       </Menu>
     </>
-  )
-}
-
-const ColorModeContext = createContext({ toggleColorMode: () => {} })
-
-function ToggleColorMode() {
-  const theme = useTheme()
-  const colorMode = useContext(ColorModeContext)
-  return (
-    <IconButton
-      sx={{ ml: 1 }}
-      onClick={colorMode.toggleColorMode}
-      color="inherit"
-    >
-      {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
-    </IconButton>
   )
 }

@@ -9,7 +9,6 @@ import {
   IconButton,
   Button,
   Box,
-  useTheme,
   useMediaQuery,
 } from '@mui/material'
 import { css } from '@emotion/react'
@@ -141,7 +140,7 @@ export default function TeahouseFooter() {
                 textAlign: smAndDown ? 'right' : 'center',
               }}
             >
-              <a href="https://teahouse.team/" target="_blank">
+              <a href="https://teahouse.team/" target="_blank" rel="noreferrer">
                 <img
                   src={new URL('../assets/logo.svg', import.meta.url).href}
                   height="50"
@@ -158,7 +157,7 @@ export default function TeahouseFooter() {
                 component="a"
                 href="https://beian.miit.gov.cn/"
                 target="_blank"
-                rel="noreferer noopener"
+                rel="noreferrer noopener"
                 sx={{
                   color: 'white !important',
                   textDecoration: 'none',
@@ -219,7 +218,7 @@ function LinkIconButton({
       <IconButton
         href={href}
         target="_blank"
-        rel="noopener noreferer"
+        rel="noopener noreferrer"
         title={title}
         size="small"
       >
@@ -251,7 +250,7 @@ function LinkButton({
         startIcon={icon}
         href={href}
         target="_blank"
-        rel="noopener noreferer"
+        rel="noopener noreferrer"
         sx={{
           color: 'white',
         }}

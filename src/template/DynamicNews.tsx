@@ -33,14 +33,14 @@ export default function DynamicNews() {
       .then(async (res) => {
         const data: News = await res.json()
         setNews(data)
-        if (data.id! > newsIgnored) {
+        if ((data?.id ?? -Infinity) > newsIgnored) {
           setDialogOpen(true)
         }
       })
       .catch((e) => {
         console.error(e)
       })
-  }, [])
+  })
 
   const dismissNews = (name: number) => {
     setDialogOpen(false)
@@ -107,7 +107,7 @@ export default function DynamicNews() {
             sx={{ mt: 1 }}
             href={news.detail}
             target="_blank"
-            rel="noreferer noopener"
+            rel="noreferrer noopener"
             startIcon={<ArrowRight />}
           >
             阅读更多

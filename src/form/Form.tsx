@@ -58,7 +58,6 @@ export enum AdType {
 
 export default function Form() {
   const { t } = useTranslation()
-  const theme = useTheme()
   const [api, setApi] = useState<MemeApi | undefined>(undefined)
   const [apiError, setApiError] = useState<Error | null>(null)
   const [logs, setLogs] = useState<BuildLog[]>([])
@@ -75,7 +74,7 @@ export default function Form() {
     console.error(e)
   }
 
-  const loadApi = (event: MouseEvent) => {
+  const loadApi = () => {
     setApiError(null)
     load().catch(catchLoad)
   }
@@ -93,7 +92,7 @@ export default function Form() {
     setLogs([...logs, log])
   }
 
-  let [adLS, setLS] = useLocalStorage('memeAd', {
+  const [adLS, setLS] = useLocalStorage('memeAd', {
     shown: false,
     lastShown: 0,
     clicked: false,
@@ -174,16 +173,16 @@ export default function Form() {
                   <JavaForm api={fakeApiData} addLog={addLog} />
                 </LoadingMask>
               ) : (
-                <JavaForm api={api!} addLog={addLog} />
+                <JavaForm api={api} addLog={addLog} />
               )}
             </TabPanel>
             <TabPanel value={tab} index={1}>
               {!api ? (
                 <LoadingMask>
-                  <BedrockForm api={api!} addLog={addLog} />
+                  <BedrockForm api={fakeApiData} addLog={addLog} />
                 </LoadingMask>
               ) : (
-                <BedrockForm api={api!} addLog={addLog} />
+                <BedrockForm api={api} addLog={addLog} />
               )}
             </TabPanel>
           </Container>
@@ -334,7 +333,7 @@ function LogAccordion({
                     color="error"
                     href="https://afdian.net/@teahouse"
                     target="_blank"
-                    rel="noreferer noopener"
+                    rel="noreferrer noopener"
                     onClick={() => {
                       setAdSettings((adSettings) => {
                         return { ...adSettings, shouldDisplayAd: false }
@@ -389,7 +388,11 @@ function LogAccordion({
                 onClick={() =>
                   window.gtag('event', 'download', {
                     eventType: log.platform,
-                    eventLabel: new URL(log.downloadUrl!).pathname,
+                    eventLabel: new URL(
+                      shareUrl(
+                        log?.downloadUrl ?? 'https://meme.teahouse.team/'
+                      )
+                    ).pathname,
                   })
                 }
                 href={log.downloadUrl}
@@ -402,7 +405,7 @@ function LogAccordion({
                   shareCopiedToClipboard ? <Check /> : <ShareVariant />
                 }
                 onClick={() => {
-                  shareUrl(log.downloadUrl!)
+                  shareUrl(log?.downloadUrl ?? 'https://meme.teahouse.team/')
                 }}
                 sx={{ mr: 1 }}
               >
@@ -414,7 +417,7 @@ function LogAccordion({
                 color="warning"
                 href="https://afdian.net/@teahouse"
                 target="_blank"
-                rel="noreferer noopener"
+                rel="noreferrer noopener"
                 sx={{ mr: 1 }}
               >
                 {t('footer.donate')}
@@ -426,7 +429,7 @@ function LogAccordion({
               startIcon={<Bug />}
               color="error"
               href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
-              rel="noreferer noopener"
+              rel="noreferrer noopener"
               sx={{ mr: 1 }}
             >
               {t('log.feedback')}

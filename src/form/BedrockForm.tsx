@@ -48,12 +48,12 @@ export default function BedrockForm({
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
   const [sfw, setSfw] = useState<number>(2)
   const [submitting, setSubmitting] = useState(false)
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar()
   const { t } = useTranslation()
 
   useEffect(() => {
     setDefaultCollections(['choice_modules_1'])
-  })
+  }, [])
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
@@ -106,14 +106,7 @@ export default function BedrockForm({
         break
     }
 
-    let versionModules: string[] = []
-
-    setFixedModules([
-      ...getModulesInCollection(),
-
-      ...sfwModules,
-      ...versionModules,
-    ])
+    setFixedModules([...getModulesInCollection(), ...sfwModules])
     setDisabledModules([...getIncompatibleModulesInCollection()])
   }, [enabledCollections, sfw, api])
 
@@ -246,7 +239,7 @@ export default function BedrockForm({
           }}
           defaultOptions={defaultCollections}
           disabledOptions={disabledCollections}
-          options={api?.be_modules.collection!}
+          options={api?.be_modules.collection}
           label={t('form.collections.label')}
           helper={t('form.collections.helper')}
           prependIcon={<Group />}
@@ -302,7 +295,7 @@ export default function BedrockForm({
           {t('form.bedrockHint.text')}
           <a
             href="https://github.com/Teahouse-Studios/mcwzh-meme-resourcepack-bedrock"
-            rel="noopener noreferer"
+            rel="noopener noreferrer"
             target="_blank"
           >
             {t('form.bedrockHint.readme')}

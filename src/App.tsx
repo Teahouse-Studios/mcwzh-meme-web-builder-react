@@ -1,12 +1,12 @@
 import './App.css'
 
-import { useMemo, createContext, useState, lazy, memo } from 'react'
+import { useMemo, lazy, memo } from 'react'
 import {
   CssBaseline,
   ThemeProvider,
   createTheme,
   useMediaQuery,
-  Container,
+  PaletteMode,
 } from '@mui/material'
 import { SnackbarProvider } from 'notistack'
 
@@ -52,21 +52,11 @@ i18n
     },
   })
 
-export const ColorModeContext = createContext({ toggleColorMode: () => {} })
-
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-  const [mode, setMode] = useState<'light' | 'dark'>(
-    prefersDarkMode ? 'dark' : 'light'
-  )
-
-  const colorMode = useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
-      },
-    }),
-    []
+  const mode = useMemo<PaletteMode>(
+    () => (prefersDarkMode ? 'dark' : 'light'),
+    [prefersDarkMode]
   )
 
   const theme = useMemo(
@@ -80,38 +70,36 @@ function App() {
   )
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <div
-        css={css`
-          color-scheme: ${mode === 'light' ? 'light' : 'dark'};
+    <div
+      css={css`
+        color-scheme: ${mode === 'light' ? 'light' : 'dark'};
 
-          a:not(.MuiButtonBase-root) {
-            color: ${theme.palette.primary.main};
-          }
+        a:not(.MuiButtonBase-root) {
+          color: ${theme.palette.primary.main};
+        }
 
-          .SnackbarContent-root:not(.SnackbarContent-variantSuccess, .SnackbarContent-variantError, .SnackbarContent-variantWarning, .SnackbarContent-variantInfo)
-            a {
-            color: ${mode === 'light'
-              ? theme.palette.primary.light
-              : theme.palette.primary.dark};
-          }
-        `}
-      >
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider maxSnack={4}>
-            <SkipToForm />
-            <CssBaseline />
-            <MemeAppBar />
-            <Form />
-            <TeahouseFooter />
-            <WebviewWarning />
-            <DynamicAlerts />
-            <DynamicNews />
-            <BackToTop />
-          </SnackbarProvider>
-        </ThemeProvider>
-      </div>
-    </ColorModeContext.Provider>
+        .SnackbarContent-root:not(.SnackbarContent-variantSuccess, .SnackbarContent-variantError, .SnackbarContent-variantWarning, .SnackbarContent-variantInfo)
+          a {
+          color: ${mode === 'light'
+            ? theme.palette.primary.light
+            : theme.palette.primary.dark};
+        }
+      `}
+    >
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider maxSnack={4}>
+          <SkipToForm />
+          <CssBaseline />
+          <MemeAppBar />
+          <Form />
+          <TeahouseFooter />
+          <WebviewWarning />
+          <DynamicAlerts />
+          <DynamicNews />
+          <BackToTop />
+        </SnackbarProvider>
+      </ThemeProvider>
+    </div>
   )
 }
 

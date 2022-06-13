@@ -412,7 +412,7 @@ export default function JavaForm({
           }}
           defaultOptions={[...fixedCollections, ...enabledCollections]}
           disabledOptions={fixedCollections}
-          options={api?.je_modules.collection!}
+          options={api?.je_modules.collection}
           label={t('form.collections.label')}
           helper={t('form.collections.helper')}
           prependIcon={<Group />}
