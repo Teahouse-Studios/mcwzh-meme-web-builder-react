@@ -10,7 +10,6 @@ import {
   Container,
   CircularProgress,
   Divider,
-  useTheme,
   Accordion,
   AccordionDetails,
   AccordionSummary,
@@ -34,7 +33,6 @@ import {
   useState,
   useEffect,
   ReactNode,
-  MouseEvent,
   MouseEventHandler,
   SyntheticEvent,
   Dispatch,
@@ -49,6 +47,12 @@ import type { MemeApi, BuildLog } from './types'
 import fakeApiData from './fakeApiData'
 import allowTracking from '../tracking'
 import { useLocalStorage } from 'usehooks-ts'
+import { atom, useRecoilState } from 'recoil'
+
+export const apiState = atom({
+  key: 'apiState',
+  default: fakeApiData,
+})
 
 export enum AdType {
   FirstTime,
@@ -58,18 +62,20 @@ export enum AdType {
 
 export default function Form() {
   const { t } = useTranslation()
-  const [api, setApi] = useState<MemeApi | undefined>(undefined)
+  const [api, setApi] = useRecoilState(apiState)
+  const [apiLoading, setApiLoading] = useState(true)
   const [apiError, setApiError] = useState<Error | null>(null)
   const [logs, setLogs] = useState<BuildLog[]>([])
 
   const load = async () => {
     const data = await fetch('https://meme.wd-api.com/')
-    const api = await data.json()
+    const api = (await data.json()) as MemeApi
     setApi(api)
+    setApiLoading(false)
     setApiError(null)
   }
 
-  const catchLoad = async (e: Error) => {
+  const catchLoad = (e: Error) => {
     setApiError(e)
     console.error(e)
   }
@@ -81,7 +87,7 @@ export default function Form() {
 
   useEffect(() => {
     load().catch(catchLoad)
-  }, [])
+  })
 
   const [tab, setTab] = useState(0)
   const handleChange = (event: SyntheticEvent, newValue: number) => {
@@ -106,8 +112,9 @@ export default function Form() {
       adType = AdType.FirstTime
       shouldDisplayAd = true
     } else if (
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       adLS.shown &&
-      adLS.clicked === false &&
+      !adLS.clicked &&
       Date.now() - adLS.lastShown > 1000 * 60 * 60 * 24 * 7 // 7 days
     ) {
       shouldDisplayAd = true
@@ -140,7 +147,7 @@ export default function Form() {
           minHeight: 'calc(75vh)',
           display: 'flex',
           justifyContent: 'center',
-          alignItems: apiError || !api ? 'center' : 'start',
+          alignItems: apiError ? 'center' : 'start',
           flexWrap: 'wrap',
         }}
         id="form"
@@ -168,22 +175,14 @@ export default function Form() {
               />
             </Tabs>
             <TabPanel value={tab} index={0}>
-              {!api ? (
-                <LoadingMask>
-                  <JavaForm api={fakeApiData} addLog={addLog} />
-                </LoadingMask>
-              ) : (
-                <JavaForm api={api} addLog={addLog} />
-              )}
+              <LoadingMask loading={apiLoading}>
+                <JavaForm api={fakeApiData} addLog={addLog} />
+              </LoadingMask>
             </TabPanel>
             <TabPanel value={tab} index={1}>
-              {!api ? (
-                <LoadingMask>
-                  <BedrockForm api={fakeApiData} addLog={addLog} />
-                </LoadingMask>
-              ) : (
-                <BedrockForm api={api} addLog={addLog} />
-              )}
+              <LoadingMask loading={apiLoading}>
+                <BedrockForm api={fakeApiData} addLog={addLog} />
+              </LoadingMask>
             </TabPanel>
           </Container>
         )}
@@ -246,14 +245,17 @@ function LogAccordion({
   const shareUrl = (url: string) => {
     if (allowTracking) window.gtag('event', 'share')
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (navigator.share) {
-      navigator.share({
-        title: '梗体中文构建配置分享',
-        text: '你的好友给你分享了 ta 他的梗体中文！此链接 7 日内有效：',
-        url: url,
-      })
+      navigator
+        .share({
+          title: '梗体中文构建配置分享',
+          text: '你的好友给你分享了 ta 他的梗体中文！此链接 7 日内有效：',
+          url: url,
+        })
+        .catch(console.error)
     } else {
-      navigator.clipboard.writeText(url)
+      navigator.clipboard.writeText(url).catch(console.error)
       setShareCopiedToClipboard(true)
       setTimeout(() => {
         setShareCopiedToClipboard(false)
@@ -492,12 +494,6 @@ function ApiFailed({ error, load }: { error: Error; load: MouseEventHandler }) {
   )
 }
 
-function ApiLoading() {
-  const { t } = useTranslation()
-
-  return <CircularProgress />
-}
-
 interface TabPanelProps {
   children?: ReactNode
   index: number
@@ -528,7 +524,15 @@ function TabPanel(props: TabPanelProps) {
   )
 }
 
-function LoadingMask({ children }: { children: ReactNode }) {
+function LoadingMask({
+  children,
+  loading,
+}: {
+  children: ReactNode
+  loading: boolean
+}) {
+  if (!loading) return children
+
   return (
     <Box sx={{ width: '100%', float: 'left', position: 'relative' }}>
       <Box

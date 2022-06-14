@@ -25,10 +25,11 @@ import WebviewWarning from './template/WebviewWarning'
 import DynamicAlerts from './template/DynamicAlerts'
 import BackToTop from './template/BackToTop'
 import SkipToForm from './template/SkipToForm'
+import { RecoilRoot } from 'recoil'
 const DynamicNews = memo(lazy(() => import('./template/DynamicNews')))
 import Form from './form/Form'
 
-i18n
+await i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
@@ -70,36 +71,38 @@ function App() {
   )
 
   return (
-    <div
-      css={css`
-        color-scheme: ${mode === 'light' ? 'light' : 'dark'};
+    <RecoilRoot>
+      <div
+        css={css`
+          color-scheme: ${mode === 'light' ? 'light' : 'dark'};
 
-        a:not(.MuiButtonBase-root) {
-          color: ${theme.palette.primary.main};
-        }
+          a:not(.MuiButtonBase-root) {
+            color: ${theme.palette.primary.main};
+          }
 
-        .SnackbarContent-root:not(.SnackbarContent-variantSuccess, .SnackbarContent-variantError, .SnackbarContent-variantWarning, .SnackbarContent-variantInfo)
-          a {
-          color: ${mode === 'light'
-            ? theme.palette.primary.light
-            : theme.palette.primary.dark};
-        }
-      `}
-    >
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider maxSnack={4}>
-          <SkipToForm />
-          <CssBaseline />
-          <MemeAppBar />
-          <Form />
-          <TeahouseFooter />
-          <WebviewWarning />
-          <DynamicAlerts />
-          <DynamicNews />
-          <BackToTop />
-        </SnackbarProvider>
-      </ThemeProvider>
-    </div>
+          .SnackbarContent-root:not(.SnackbarContent-variantSuccess, .SnackbarContent-variantError, .SnackbarContent-variantWarning, .SnackbarContent-variantInfo)
+            a {
+            color: ${mode === 'light'
+              ? theme.palette.primary.light
+              : theme.palette.primary.dark};
+          }
+        `}
+      >
+        <ThemeProvider theme={theme}>
+          <SnackbarProvider maxSnack={4}>
+            <SkipToForm />
+            <CssBaseline />
+            <MemeAppBar />
+            <Form />
+            <TeahouseFooter />
+            <WebviewWarning />
+            <DynamicAlerts />
+            <DynamicNews />
+            <BackToTop />
+          </SnackbarProvider>
+        </ThemeProvider>
+      </div>
+    </RecoilRoot>
   )
 }
 
