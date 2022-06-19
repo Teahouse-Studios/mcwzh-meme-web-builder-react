@@ -108,7 +108,7 @@ export default function TeahouseFooter() {
                 <LinkButton href="https://meme.teahouse.team/">
                   梗体中文
                 </LinkButton>
-                <LinkButton href="https://bot.teahou.se/">小可</LinkButton>
+                <LinkButton href="https://bot.teahouse.team/">小可</LinkButton>
               </Box>
 
               <Box
