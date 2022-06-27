@@ -72,7 +72,7 @@ export default function JavaForm({
 
   useEffect(() => {
     setEnabledMods(api?.mods!)
-    setEnabledCollections(['choice_modules_1'])
+    setEnabledCollections(['default_choice_modules'])
   }, [api])
 
   const resourcePredicate = (i: string) => !i.startsWith('lang_')
