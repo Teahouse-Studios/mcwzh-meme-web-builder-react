@@ -52,7 +52,7 @@ export default function BedrockForm({
   const { t } = useTranslation()
 
   useEffect(() => {
-    setDefaultCollections(['default_choice_modules'])
+    setDefaultCollections(['choice_modules_default'])
   }, [])
 
   const handleSelectChange = <T,>(
