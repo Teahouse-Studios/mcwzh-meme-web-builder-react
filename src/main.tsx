@@ -11,4 +11,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 )
 
-await tracking()
+void tracking()
