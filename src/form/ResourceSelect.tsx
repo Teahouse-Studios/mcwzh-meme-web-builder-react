@@ -1,11 +1,9 @@
 import {
   Chip,
-  Autocomplete,
   Box,
   TextField,
   Typography,
   Checkbox,
-  Popper,
   FormControl,
   InputLabel,
   SvgIconProps,
@@ -36,7 +34,7 @@ interface ResourceSelectProps {
   defaultOptions?: string[]
   disabledOptions?: string[]
   fixedOptions?: string[]
-  unselectAll?: () => any
+  unselectAll?: () => never | void
   disabled?: boolean
 }
 
@@ -47,29 +45,28 @@ export default function ResourceSelect(props: ResourceSelectProps) {
     setAnchorEl(anchorEl ? null : event.currentTarget)
   }
 
-  const open = Boolean(anchorEl)
-
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
   const [selected, setSelected] = useState<string[]>([])
   const [fixedSelected, setFixedSelected] = useState<string[]>([])
 
   useEffect(() => {
-    setSelected((o) => [...new Set([...o, ...(props.defaultOptions || [])])])
+    setSelected((o) => [...new Set([...o, ...(props.defaultOptions ?? [])])])
   }, [props.defaultOptions])
 
   const handleFixedOption = (selected: string[]) => {
     const old = fixedSelected.filter(
-      (o) => !(props.fixedOptions || []).includes(o)
+      (o) => !(props.fixedOptions ?? []).includes(o)
     ) // old fixed options
-    const filtered = selected.filter((v) => !old!.includes(v)) // get rid of old fixed options
-    return [...new Set([...filtered, ...(props.fixedOptions || [])])] // add new fixed options
+    const filtered = selected.filter((v) => !old.includes(v)) // get rid of old fixed options
+    return [...new Set([...filtered, ...(props.fixedOptions ?? [])])] // add new fixed options
   }
 
   useEffect(() => {
     setSelected(handleFixedOption)
 
-    setFixedSelected(props.fixedOptions!)
+    setFixedSelected(props.fixedOptions ?? [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.fixedOptions])
 
   return (
@@ -91,11 +88,11 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           onClose={() => setSearchText('')}
           disabled={props.disabled}
           renderValue={(selected) =>
-            selected.map((option, index) => (
+            selected.map((option) => (
               <Chip
                 key="selected"
                 label={option}
-                disabled={(props.disabledOptions || []).includes(option)}
+                disabled={(props.disabledOptions ?? []).includes(option)}
               />
             ))
           }
@@ -130,7 +127,11 @@ export default function ResourceSelect(props: ResourceSelectProps) {
             {t('form.clearSelected')}
           </MenuItem>
           {props.unselectAll && (
-            <MenuItem onClick={() => props.unselectAll!()}>
+            <MenuItem
+              onClick={() => {
+                props.unselectAll?.()
+              }}
+            >
               {t('form.clearAll')}
             </MenuItem>
           )}
@@ -141,11 +142,11 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                 key={i}
                 value={option.name}
                 disabled={
-                  props.disabledOptions?.includes(option.name) ||
-                  option.incompatible_with?.some((module) =>
-                    selected.some((m) => m === module)
-                  ) ||
-                  (fixedSelected || []).includes(option.name) ||
+                  (props.disabledOptions?.includes(option.name) ??
+                    option.incompatible_with?.some((module) =>
+                      selected.some((m) => m === module)
+                    ) ??
+                    fixedSelected.includes(option.name)) ||
                   false
                 }
               >
@@ -175,7 +176,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                       {option.contains
                         ? ' · ' +
                           t('form.collections.description_prefix') +
-                          option.contains.length +
+                          option.contains.length.toString() +
                           t('form.collections.resource_suffix')
                         : ''}
                     </Typography>
@@ -188,7 +189,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                             {' '}
                             ·{' '}
                             {t('form.incompatible', {
-                              i: option.incompatible_with?.join(
+                              i: option.incompatible_with.join(
                                 t('metadata.ideographicComma')
                               ),
                             })}

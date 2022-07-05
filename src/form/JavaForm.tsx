@@ -29,7 +29,7 @@ import {
 } from 'mdi-material-ui'
 import { css } from '@emotion/react'
 import ResourceSelect from './ResourceSelect'
-import { MemeModule, MemeApi, BuildLog } from './types'
+import { MemeApi, BuildLog } from './types'
 import allowTracking from '../tracking'
 
 export default function JavaForm({
@@ -71,7 +71,7 @@ export default function JavaForm({
   const { t } = useTranslation()
 
   useEffect(() => {
-    setEnabledMods(api?.mods!)
+    setEnabledMods(api.mods)
     setEnabledCollections(['choice_modules_default'])
   }, [api])
 
@@ -89,8 +89,8 @@ export default function JavaForm({
     const getModulesInCollection = (predicate: ArrayFilterPredicate) => {
       return enabledCollections
         .flatMap((m) =>
-          api?.je_modules
-            .collection!.find((c) => c.name === m)
+          api.je_modules.collection
+            .find((c) => c.name === m)
             ?.contains?.filter(predicate)
         )
         .filter(undefinedPredicate) as string[]
@@ -98,14 +98,12 @@ export default function JavaForm({
     const getIncompatibleModulesInCollection = (
       predicate: ArrayFilterPredicate
     ) => {
-      return api?.je_modules.resource
+      return api.je_modules.resource
         .filter((resourceModules) =>
           enabledCollections
             .flatMap((enabledCollection) =>
-              api?.je_modules
-                .collection!.find(
-                  (collection) => collection.name === enabledCollection
-                )
+              api.je_modules.collection
+                .find((collection) => collection.name === enabledCollection)
                 ?.contains?.filter(predicate)
             )
             .filter(undefinedPredicate)
@@ -163,7 +161,6 @@ export default function JavaForm({
     setFixedLanguageModules([
       ...getModulesInCollection(langPredicate),
       ...sfwModules,
-      ...versionModules,
     ])
     setDisabledResourceModules([
       ...getIncompatibleModulesInCollection(resourcePredicate),
@@ -171,6 +168,7 @@ export default function JavaForm({
     setDisabledLanguageModules([
       ...getIncompatibleModulesInCollection(langPredicate),
     ])
+    setFixedCollections([...versionModules])
   }, [enabledCollections, sfw, gameVersion, api])
 
   const handleSelectChange = <T,>(
@@ -189,13 +187,21 @@ export default function JavaForm({
   )
 
   const calculatedEnabledResourceModules = useMemo(
-    () => [...enabledResourceModules, ...defaultResourceModules],
-    [enabledResourceModules, defaultResourceModules]
+    () => [
+      ...enabledResourceModules,
+      ...defaultResourceModules,
+      ...fixedResourceModules,
+    ],
+    [enabledResourceModules, defaultResourceModules, fixedResourceModules]
   )
 
   const calculatedEnabledLanguageModules = useMemo(
-    () => [...enabledLanguageModules, ...defaultLanguageModules],
-    [enabledLanguageModules, defaultLanguageModules]
+    () => [
+      ...enabledLanguageModules,
+      ...defaultLanguageModules,
+      ...fixedLanguageModules,
+    ],
+    [enabledLanguageModules, defaultLanguageModules, fixedLanguageModules]
   )
 
   const handleSubmit = () => {
@@ -205,6 +211,11 @@ export default function JavaForm({
       })
 
     setSubmitting(true)
+    interface Data {
+      logs: string
+      root: string
+      filename: string
+    }
     fetch('https://meme.wd-api.com/ajax', {
       method: 'POST',
       body: JSON.stringify({
@@ -227,43 +238,53 @@ export default function JavaForm({
     })
       .then((res) => {
         if (res.status === 200) {
-          res.json().then((data) => {
-            setSubmitting(false)
-            addLog({
-              status: 'success',
-              platform: 'java',
-              log: data.logs as string,
-              downloadUrl: data.root + data.filename,
-              time: Date.now(),
+          res
+            .json()
+            .then((data: Data) => {
+              setSubmitting(false)
+              addLog({
+                status: 'success',
+                platform: 'java',
+                log: data.logs,
+                downloadUrl: data.root + data.filename,
+                time: Date.now(),
+              })
+              enqueueSnackbar(t('snackbar.buildSuccess'), {
+                variant: 'success',
+              })
             })
-            enqueueSnackbar(t('snackbar.buildSuccess'), { variant: 'success' })
-          })
+            .catch(catchFetch)
         } else {
-          res.json().then((data) => {
-            setSubmitting(false)
-            addLog({
-              status: 'error',
-              platform: 'java',
-              log: data.logs as string,
-              time: Date.now(),
+          res
+            .json()
+            .then((data: Data) => {
+              setSubmitting(false)
+              addLog({
+                status: 'error',
+                platform: 'java',
+                log: data.logs,
+                time: Date.now(),
+              })
+              enqueueSnackbar(t('snackbar.buildError'), { variant: 'error' })
             })
-            enqueueSnackbar(t('snackbar.buildError'), { variant: 'error' })
-          })
+            .catch(catchFetch)
         }
       })
-      .catch((error) => {
-        setSubmitting(false)
-        addLog({
-          status: 'error',
-          platform: 'java',
-          log: `${error.name}: ${error.message}`,
-          time: Date.now(),
-        })
-        enqueueSnackbar(t('snackbar.buildError'), { variant: 'error' })
-      })
+      .catch(catchFetch)
     document.getElementById('build-log')?.scrollIntoView({
       behavior: 'smooth',
     })
+
+    function catchFetch(error: Error) {
+      setSubmitting(false)
+      addLog({
+        status: 'error',
+        platform: 'java',
+        log: `${error.name}: ${error.message}`,
+        time: Date.now(),
+      })
+      enqueueSnackbar(t('snackbar.buildError'), { variant: 'error' })
+    }
   }
 
   return (
@@ -343,7 +364,7 @@ export default function JavaForm({
                   {t('form.mod.header')}
                 </Typography>
               </MenuItem>
-              {api?.mods.map((m) => (
+              {api.mods.map((m) => (
                 <MenuItem value={m} key={m}>
                   {m}
                 </MenuItem>
@@ -353,7 +374,7 @@ export default function JavaForm({
                   {t('form.mod.enHeader')}
                 </Typography>
               </MenuItem>
-              {api?.enmods.map((m) => (
+              {api.enmods.map((m) => (
                 <MenuItem value={m} key={m}>
                   {m}
                 </MenuItem>
@@ -371,11 +392,9 @@ export default function JavaForm({
           unselectAll={() => {
             setEnabledCollections([])
           }}
-          options={
-            api?.je_modules.resource!.filter(
-              (i) => !i.name.startsWith('lang_') // separate lang modules
-            )!
-          }
+          options={api.je_modules.resource.filter(
+            (i) => !i.name.startsWith('lang_') // separate lang modules
+          )}
           defaultOptions={defaultResourceModules}
           disabledOptions={disabledResourceModules}
           fixedOptions={fixedResourceModules}
@@ -392,11 +411,9 @@ export default function JavaForm({
           unselectAll={() => {
             setEnabledCollections([])
           }}
-          options={
-            api?.je_modules.resource!.filter(
-              (i) => i.name.startsWith('lang_') // separate lang modules
-            )!
-          }
+          options={api.je_modules.resource.filter(
+            (i) => i.name.startsWith('lang_') // separate lang modules
+          )}
           defaultOptions={defaultLanguageModules}
           disabledOptions={disabledLanguageModules}
           fixedOptions={fixedLanguageModules}
@@ -412,7 +429,7 @@ export default function JavaForm({
           }}
           defaultOptions={[...fixedCollections, ...enabledCollections]}
           disabledOptions={fixedCollections}
-          options={api?.je_modules.collection}
+          options={api.je_modules.collection}
           label={t('form.collections.label')}
           helper={t('form.collections.helper')}
           prependIcon={<Group />}
@@ -468,7 +485,7 @@ export default function JavaForm({
               max={3}
             />
             <FormHelperText>
-              {t('form.child.helpers.' + (sfw - 1))}
+              {t('form.child.helpers.' + (sfw - 1).toString())}
             </FormHelperText>
           </Box>
         </Stack>
@@ -502,7 +519,7 @@ export default function JavaForm({
           }}
         >
           {t('form.modified')}
-          {new Date(api?.je_modified).toLocaleString()}
+          {new Date(api.je_modified).toLocaleString()}
         </Typography>
       </Grid>
     </Grid>

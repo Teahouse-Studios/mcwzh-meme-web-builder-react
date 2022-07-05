@@ -25,9 +25,8 @@ import {
   CloudDownload,
   FolderInformation,
 } from 'mdi-material-ui'
-import { css } from '@emotion/react'
 import ResourceSelect from './ResourceSelect'
-import { MemeModule, MemeApi, BuildLog } from './types'
+import { MemeApi, BuildLog } from './types'
 import allowTracking from '../tracking'
 
 export default function BedrockForm({
@@ -71,17 +70,17 @@ export default function BedrockForm({
     const getModulesInCollection = () => {
       return enabledCollections
         .flatMap(
-          (m) => api?.be_modules.collection!.find((c) => c.name === m)?.contains
+          (m) => api.be_modules.collection.find((c) => c.name === m)?.contains
         )
         .filter(undefinedPredicate) as string[]
     }
     const getIncompatibleModulesInCollection = () => {
-      return api?.be_modules.resource
+      return api.be_modules.resource
         .filter((resourceModules) =>
           enabledCollections
             .flatMap(
               (enabledCollection) =>
-                api?.be_modules.collection!.find(
+                api.be_modules.collection.find(
                   (collection) => collection.name === enabledCollection
                 )?.contains
             )
@@ -116,8 +115,8 @@ export default function BedrockForm({
   )
 
   const calculatedEnabledModules = useMemo(
-    () => [...enabledModules, ...defaultModules],
-    [enabledModules, defaultModules]
+    () => [...enabledModules, ...defaultModules, ...fixedModules],
+    [enabledModules, defaultModules, fixedModules]
   )
 
   const handleSubmit = () => {
@@ -127,6 +126,11 @@ export default function BedrockForm({
       })
 
     setSubmitting(true)
+    interface Data {
+      logs: string
+      root: string
+      filename: string
+    }
     fetch('https://meme.wd-api.com/ajax', {
       method: 'POST',
       body: JSON.stringify({
@@ -146,47 +150,57 @@ export default function BedrockForm({
     })
       .then((res) => {
         if (res.status === 200) {
-          res.json().then((data) => {
-            setSubmitting(false)
-            addLog({
-              status: 'success',
-              platform: 'bedrock',
-              log: data.logs as string,
-              downloadUrl: data.root + data.filename,
-              time: Date.now(),
+          res
+            .json()
+            .then((data: Data) => {
+              setSubmitting(false)
+              addLog({
+                status: 'success',
+                platform: 'bedrock',
+                log: data.logs,
+                downloadUrl: data.root + data.filename,
+                time: Date.now(),
+              })
+              enqueueSnackbar(t('snackbar.buildSuccess'), {
+                variant: 'success',
+              })
             })
-            enqueueSnackbar(t('snackbar.buildSuccess'), { variant: 'success' })
-          })
+            .catch(catchFetch)
         } else {
-          res.json().then((data) => {
-            setSubmitting(false)
-            addLog({
-              status: 'error',
-              platform: 'bedrock',
-              log: data.logs as string,
-              time: Date.now(),
+          res
+            .json()
+            .then((data: Data) => {
+              setSubmitting(false)
+              addLog({
+                status: 'error',
+                platform: 'bedrock',
+                log: data.logs,
+                time: Date.now(),
+              })
+              enqueueSnackbar(t('snackbar.buildError'), {
+                variant: 'error',
+              })
             })
-            enqueueSnackbar(t('snackbar.buildError'), {
-              variant: 'error',
-            })
-          })
+            .catch(catchFetch)
         }
       })
-      .catch((err) => {
-        setSubmitting(false)
-        addLog({
-          status: 'error',
-          platform: 'bedrock',
-          log: err as string,
-          time: Date.now(),
-        })
-        enqueueSnackbar(t('snackbar.buildError'), {
-          variant: 'error',
-        })
-      })
+      .catch(catchFetch)
     document.getElementById('build-log')?.scrollIntoView({
       behavior: 'smooth',
     })
+
+    function catchFetch(error: Error) {
+      setSubmitting(false)
+      addLog({
+        status: 'error',
+        platform: 'bedrock',
+        log: `${error.name}: ${error.message}`,
+        time: Date.now(),
+      })
+      enqueueSnackbar(t('snackbar.buildError'), {
+        variant: 'error',
+      })
+    }
   }
 
   return (
@@ -223,7 +237,7 @@ export default function BedrockForm({
           onChange={(v) => {
             setEnabledModules(v)
           }}
-          options={api?.be_modules.resource}
+          options={api.be_modules.resource}
           defaultOptions={defaultModules}
           disabledOptions={disabledModules}
           fixedOptions={fixedModules}
@@ -239,7 +253,7 @@ export default function BedrockForm({
           }}
           defaultOptions={defaultCollections}
           disabledOptions={disabledCollections}
-          options={api?.be_modules.collection}
+          options={api.be_modules.collection}
           label={t('form.collections.label')}
           helper={t('form.collections.helper')}
           prependIcon={<Group />}
@@ -285,7 +299,7 @@ export default function BedrockForm({
               max={3}
             />
             <FormHelperText>
-              {t('form.child.helpers.' + (sfw - 1))}
+              {t('form.child.helpers.' + (sfw - 1).toString())}
             </FormHelperText>
           </Box>
         </Stack>
@@ -332,7 +346,7 @@ export default function BedrockForm({
           }}
         >
           {t('form.modified')}
-          {new Date(api?.be_modified).toLocaleString()}
+          {new Date(api.be_modified).toLocaleString()}
         </Typography>
       </Grid>
     </Grid>

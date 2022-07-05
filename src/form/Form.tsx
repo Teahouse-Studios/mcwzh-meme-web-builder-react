@@ -10,7 +10,6 @@ import {
   Container,
   CircularProgress,
   Divider,
-  useTheme,
   Accordion,
   AccordionDetails,
   AccordionSummary,
@@ -34,7 +33,6 @@ import {
   useState,
   useEffect,
   ReactNode,
-  MouseEvent,
   MouseEventHandler,
   SyntheticEvent,
   Dispatch,
@@ -64,12 +62,12 @@ export default function Form() {
 
   const load = async () => {
     const data = await fetch('https://meme.wd-api.com/')
-    const api = await data.json()
+    const api = (await data.json()) as MemeApi
     setApi(api)
     setApiError(null)
   }
 
-  const catchLoad = async (e: Error) => {
+  const catchLoad = (e: Error) => {
     setApiError(e)
     console.error(e)
   }
@@ -106,8 +104,7 @@ export default function Form() {
       adType = AdType.FirstTime
       shouldDisplayAd = true
     } else if (
-      adLS.shown &&
-      adLS.clicked === false &&
+      !adLS.clicked &&
       Date.now() - adLS.lastShown > 1000 * 60 * 60 * 24 * 7 // 7 days
     ) {
       shouldDisplayAd = true
@@ -243,17 +240,18 @@ function LogAccordion({
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
   const [shareCopiedToClipboard, setShareCopiedToClipboard] = useState(false)
-  const shareUrl = (url: string) => {
+  const shareUrl = async (url: string) => {
     if (allowTracking) window.gtag('event', 'share')
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (navigator.share) {
-      navigator.share({
+      await navigator.share({
         title: '梗体中文构建配置分享',
         text: '你的好友给你分享了 ta 他的梗体中文！此链接 7 日内有效：',
         url: url,
       })
     } else {
-      navigator.clipboard.writeText(url)
+      await navigator.clipboard.writeText(url)
       setShareCopiedToClipboard(true)
       setTimeout(() => {
         setShareCopiedToClipboard(false)
@@ -388,11 +386,8 @@ function LogAccordion({
                 onClick={() =>
                   window.gtag('event', 'download', {
                     eventType: log.platform,
-                    eventLabel: new URL(
-                      shareUrl(
-                        log?.downloadUrl ?? 'https://meme.teahouse.team/'
-                      )
-                    ).pathname,
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    eventLabel: new URL(log.downloadUrl!).pathname,
                   })
                 }
                 href={log.downloadUrl}
@@ -405,7 +400,8 @@ function LogAccordion({
                   shareCopiedToClipboard ? <Check /> : <ShareVariant />
                 }
                 onClick={() => {
-                  shareUrl(log?.downloadUrl ?? 'https://meme.teahouse.team/')
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  void shareUrl(log.downloadUrl!)
                 }}
                 sx={{ mr: 1 }}
               >
@@ -490,12 +486,6 @@ function ApiFailed({ error, load }: { error: Error; load: MouseEventHandler }) {
       </Button>
     </Box>
   )
-}
-
-function ApiLoading() {
-  const { t } = useTranslation()
-
-  return <CircularProgress />
 }
 
 interface TabPanelProps {

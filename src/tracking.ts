@@ -14,17 +14,6 @@ export async function tracking() {
   const { getCLS, getFID, getLCP } = await import('web-vitals')
 
   if (allowTracking) {
-    function sendToGoogleAnalytics({ name, delta, value, id }: Metric) {
-      // Assumes the global `gtag()` function exists, see:
-      // https://developers.google.com/analytics/devguides/collection/ga4
-      gtag('event', name, {
-        value: delta,
-        metric_id: id,
-        metric_value: value,
-        metric_delta: delta,
-      })
-    }
-
     getCLS(sendToGoogleAnalytics)
     getFID(sendToGoogleAnalytics)
     getLCP(sendToGoogleAnalytics)
@@ -36,6 +25,17 @@ export async function tracking() {
       // We recommend adjusting this value in production, or using tracesSampler
       // for finer control
       tracesSampleRate: 0.3,
+    })
+  }
+
+  function sendToGoogleAnalytics({ name, delta, value, id }: Metric) {
+    // Assumes the global `gtag()` function exists, see:
+    // https://developers.google.com/analytics/devguides/collection/ga4
+    gtag('event', name, {
+      value: delta,
+      metric_id: id,
+      metric_value: value,
+      metric_delta: delta,
     })
   }
 }

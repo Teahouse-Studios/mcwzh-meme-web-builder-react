@@ -28,7 +28,7 @@ import SkipToForm from './template/SkipToForm'
 const DynamicNews = memo(lazy(() => import('./template/DynamicNews')))
 import Form from './form/Form'
 
-i18n
+await i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({

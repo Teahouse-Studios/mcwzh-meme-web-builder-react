@@ -206,7 +206,7 @@ function LangMenu() {
   ]
 
   let langIndex = 1
-  options.filter((value, index) => {
+  options.forEach((value, index) => {
     if (i18n.language === value.value) {
       langIndex = index
     }
@@ -219,12 +219,12 @@ function LangMenu() {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleMenuItemClick = (
+  const handleMenuItemClick = async (
     event: MouseEvent<HTMLElement>,
     option: Option
   ) => {
     setSelectedItem(option)
-    i18n.changeLanguage(option.value)
+    await i18n.changeLanguage(option.value)
     console.log(option.value)
     setAnchorEl(null)
   }
@@ -249,7 +249,9 @@ function LangMenu() {
           <MenuItem
             key={option.value}
             selected={option === selectedItem}
-            onClick={(event) => handleMenuItemClick(event, option)}
+            onClick={(event) => {
+              void handleMenuItemClick(event, option)
+            }}
           >
             {option.name}（{option.value}）
           </MenuItem>
