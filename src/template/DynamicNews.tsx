@@ -31,9 +31,9 @@ export default function DynamicNews() {
   useEffect(() => {
     fetch('https://fe.wd-ljt.com/meme/dynamic/news.json')
       .then(async (res) => {
-        const data: News = await res.json()
+        const data = (await res.json()) as News
         setNews(data)
-        if ((data?.id ?? -Infinity) > newsIgnored) {
+        if (data.id > newsIgnored) {
           setDialogOpen(true)
         }
       })
@@ -42,17 +42,15 @@ export default function DynamicNews() {
       })
   })
 
-  const dismissNews = (name: number) => {
-    setDialogOpen(false)
-    setNewsIgnored(name || newsIgnored)
-  }
+  useEffect(() => {
+    if (!dialogOpen) {
+      setNewsIgnored(news.id)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dialogOpen])
 
   return (
-    <Dialog
-      open={dialogOpen}
-      onClose={() => dismissNews(news.id)}
-      maxWidth="sm"
-    >
+    <Dialog open={dialogOpen} maxWidth="sm">
       <DialogTitle
         sx={{
           display: 'flex',
@@ -66,7 +64,9 @@ export default function DynamicNews() {
           sx={{
             color: (theme) => theme.palette.grey[500],
           }}
-          onClick={() => setDialogOpen(false)}
+          onClick={() => {
+            setDialogOpen(false)
+          }}
         >
           <Close />
         </IconButton>
