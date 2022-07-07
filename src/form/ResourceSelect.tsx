@@ -99,7 +99,11 @@ export default function ResourceSelect(props: ResourceSelectProps) {
             ))
           }
         >
-          <ListSubheader>
+          <ListSubheader
+            sx={{
+              backgroundColor: 'transparent',
+            }}
+          >
             <TextField
               key="searchTextField"
               size="small"

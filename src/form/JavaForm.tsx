@@ -15,6 +15,7 @@ import {
   Box,
   Typography,
   SelectChangeEvent,
+  ListSubheader,
 } from '@mui/material'
 import { useSnackbar } from 'notistack'
 import { LoadingButton } from '@mui/lab'
@@ -371,21 +372,21 @@ export default function JavaForm({
               >
                 {t('form.clearSelected')}
               </MenuItem>
-              <MenuItem disabled={true}>
+              <ListSubheader>
                 <Typography component="span" variant="subtitle2">
                   {t('form.mod.header')}
                 </Typography>
-              </MenuItem>
+              </ListSubheader>
               {api.mods.map((m) => (
                 <MenuItem value={m} key={m}>
                   {m}
                 </MenuItem>
               ))}
-              <MenuItem disabled={true}>
+              <ListSubheader>
                 <Typography component="span" variant="subtitle2">
                   {t('form.mod.enHeader')}
                 </Typography>
-              </MenuItem>
+              </ListSubheader>
               {api.enmods.map((m) => (
                 <MenuItem value={m} key={m}>
                   {m}
