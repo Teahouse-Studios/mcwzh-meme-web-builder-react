@@ -288,9 +288,40 @@ function LogAccordion({
             fontFamily: 'monospace',
             filter: 'invert(.05)',
             mb: 2,
+            WebkitLineClamp: 6,
+            lineClamp: 6,
           }}
         >
-          {log.log}
+          {log.log.split('\n').map((line, index) => {
+            return (
+              <Typography
+                variant="body1"
+                fontFamily="monospace"
+                key={index}
+                color={
+                  {
+                    warning: 'warning.main',
+                    error: 'error.main',
+                    success: 'success.main',
+                    info: 'info.main',
+                    default: 'text.primary',
+                  }[
+                    line.toLowerCase().match(/(fail|error)/)
+                      ? 'error'
+                      : line.toLowerCase().match(/(warn)/)
+                      ? 'warning'
+                      : line.toLowerCase().match(/(success|succeed)/)
+                      ? 'success'
+                      : line.toLowerCase().match(/(info)/)
+                      ? 'info'
+                      : 'default'
+                  ]
+                }
+              >
+                {line}
+              </Typography>
+            )
+          })}
         </Paper>
         {adSettings.shouldDisplayAd && (
           <>
