@@ -128,7 +128,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           >
             {t('form.clearSelected')}
           </MenuItem>
-          {props.unselectAll && (
+          {/* {props.unselectAll && (
             <MenuItem
               onClick={() => {
                 props.unselectAll?.()
@@ -136,7 +136,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
             >
               {t('form.clearAll')}
             </MenuItem>
-          )}
+          )} */}
           {props.options
             .filter((i) => i.name.includes(searchText))
             .map((option, i) => (
