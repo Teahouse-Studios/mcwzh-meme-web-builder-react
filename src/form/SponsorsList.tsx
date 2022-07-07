@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 import {
   Card,
   CardContent,
@@ -5,11 +6,13 @@ import {
   Box,
   Button,
   Divider,
+  IconButton,
 } from '@mui/material'
-import { FormatQuoteOpen, Heart, MessageText } from 'mdi-material-ui'
+import { Dice5, FormatQuoteOpen, Heart, MessageText } from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import { useSnackbar } from 'notistack'
 import type { Dispatch, SetStateAction } from 'react'
+import { useState, useEffect } from 'react'
 import { css } from '@emotion/react'
 import { AdType } from './Form'
 
@@ -29,6 +32,41 @@ export default function QuoteAd({
 }) {
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
+  const [msgs, setMsgs] = useState<{ [key: string]: string }>({
+    [t('sponsor.quoteAd.author')]: t('sponsor.quoteAd.none'),
+  })
+  const [msg, setMsg] = useState<{
+    msg: string
+    author: string
+  }>({
+    msg: t('sponsor.quoteAd.none'),
+    author: t('sponsor.quoteAd.author'),
+  })
+
+  const roll = (data: { [key: string]: string } = msgs) => {
+    const random = Math.floor(Math.random() * Object.entries(data).length)
+    const entry = Object.entries(data)[random]
+    setMsg({
+      msg: entry[1],
+      author: entry[0],
+    })
+  }
+
+  useEffect(() => {
+    roll()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [msgs])
+
+  useEffect(() => {
+    fetch('https://fe.wd-ljt.com/meme/dynamic/sp_messages.json')
+      .then(async (res) => {
+        const data = (await res.json()) as { [key: string]: string }
+        setMsgs(data)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+  }, [])
 
   return (
     <>
@@ -54,26 +92,34 @@ export default function QuoteAd({
           <Box
             sx={{
               display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
+              justifyContent: 'space-between',
             }}
           >
-            <Box sx={{ mb: 1, display: 'flex', opacity: 0.8, mr: 2 }}>
-              <FormatQuoteOpen
-                fontSize="large"
-                sx={{ color: 'text.secondary' }}
-              />
-            </Box>
             <Box
               sx={{
-                width: '100%',
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
               }}
             >
-              <Typography variant="body1" sx={{ mb: 1 }}>
-                {t('sponsor.quoteAd.none')}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {t('sponsor.quoteAd.author')}
-              </Typography>
+              <Box sx={{ mb: 1, display: 'flex', opacity: 0.8, mr: 2 }}>
+                <FormatQuoteOpen
+                  fontSize="large"
+                  sx={{ color: 'text.secondary' }}
+                />
+              </Box>
+              <Box>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  {msg.msg}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {msg.author}
+                </Typography>
+              </Box>
+            </Box>
+            <Box>
+              <IconButton onClick={() => roll(msgs)}>
+                <Dice5 />
+              </IconButton>
             </Box>
           </Box>
           <Divider sx={{ mt: 2, mb: 1 }} />

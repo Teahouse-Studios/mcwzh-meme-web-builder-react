@@ -40,7 +40,8 @@ export default function DynamicNews() {
       .catch((e) => {
         console.error(e)
       })
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (!dialogOpen) {
@@ -50,7 +51,11 @@ export default function DynamicNews() {
   }, [dialogOpen])
 
   return (
-    <Dialog open={dialogOpen} maxWidth="sm">
+    <Dialog
+      open={dialogOpen}
+      onClose={() => setDialogOpen(false)}
+      maxWidth="sm"
+    >
       <DialogTitle
         sx={{
           display: 'flex',
