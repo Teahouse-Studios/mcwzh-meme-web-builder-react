@@ -93,6 +93,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
               <Chip
                 key="selected"
                 label={option}
+                sx={{ mr: 0.5 }}
                 disabled={(props.disabledOptions ?? []).includes(option)}
               />
             ))

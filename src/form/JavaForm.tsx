@@ -365,6 +365,12 @@ export default function JavaForm({
                 handleSelectChange(e, setEnabledMods)
               }}
             >
+              <MenuItem
+                disabled={enabledMods.length === 0}
+                onClick={() => setEnabledMods([])}
+              >
+                {t('form.clearSelected')}
+              </MenuItem>
               <MenuItem disabled={true}>
                 <Typography component="span" variant="subtitle2">
                   {t('form.mod.header')}
