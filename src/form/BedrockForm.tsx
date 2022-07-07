@@ -40,7 +40,7 @@ export default function BedrockForm({
   const [defaultCollections, setDefaultCollections] = useState<string[]>([])
   const [disabledCollections, setDisabledCollections] = useState<string[]>([])
   const [enabledModules, setEnabledModules] = useState<string[]>([])
-  const [defaultModules, setDefaultModules] = useState<string[]>([])
+  const [defaultModules] = useState<string[]>([])
   const [disabledModules, setDisabledModules] = useState<string[]>([])
   const [fixedModules, setFixedModules] = useState<string[]>([])
   const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>('mcpack')
