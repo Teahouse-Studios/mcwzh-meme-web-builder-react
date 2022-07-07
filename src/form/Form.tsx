@@ -530,21 +530,19 @@ function TabPanel(props: TabPanelProps) {
 
   return (
     <div role="tabpanel" hidden={value !== index} {...other}>
-      {value === index && (
-        <Box
-          sx={{
-            p: {
-              xs: 2,
-              md: 3,
-            },
-            pt: {
-              xs: 3,
-            },
-          }}
-        >
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      <Box
+        sx={{
+          p: {
+            xs: 2,
+            md: 3,
+          },
+          pt: {
+            xs: 3,
+          },
+        }}
+      >
+        <Typography>{children}</Typography>
+      </Box>
     </div>
   )
 }
