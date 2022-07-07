@@ -318,13 +318,23 @@ export default function JavaForm({
               }}
             >
               {[
-                { version: '1.19+', format: 9, caption: '最新正式版' },
+                {
+                  version: '1.19+',
+                  format: 9,
+                  caption: `${t('form.version.captions.release')}${t(
+                    'metadata.ideographicComma'
+                  )}${t('form.version.captions.snapshot')}`,
+                },
                 { version: '1.18 - 1.18.2', format: 8 },
                 { version: '1.17 - 1.17.1', format: 7 },
                 { version: '1.16.2 - 1.16.5', format: 6 },
                 { version: '1.15 - 1.16.1', format: 5 },
                 { version: '1.13 - 1.14.4', format: 4 },
-                { version: '1.11 - 1.12.2', format: 3, caption: '兼容版' },
+                {
+                  version: '1.11 - 1.12.2',
+                  format: 3,
+                  caption: t('form.version.captions.compatible'),
+                },
               ].map((i) => (
                 <MenuItem key={i.version} value={i.format}>
                   {i.version}

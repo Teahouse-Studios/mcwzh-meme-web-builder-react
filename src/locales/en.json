@@ -23,7 +23,12 @@
     },
     "version": {
       "helper": "Please select the period where your game version falls in.",
-      "label": "Game version"
+      "label": "Game version",
+      "captions": {
+        "release": "Latest Release",
+        "snapshot": "Latest Snapshot",
+        "compatible": "With Compatible Option"
+      }
     },
     "resource": {
       "helper": "Please select add-on modules you need.",
