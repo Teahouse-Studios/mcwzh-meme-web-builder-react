@@ -77,6 +77,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
       <FormControl fullWidth>
         <InputLabel>{props.label}</InputLabel>
         <Select
+          label={props.label}
           MenuProps={{ autoFocus: false }}
           value={selected}
           multiple
