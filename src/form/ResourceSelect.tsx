@@ -143,11 +143,13 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                 key={i}
                 value={option.name}
                 disabled={
-                  (props.disabledOptions?.includes(option.name) ??
-                    option.incompatible_with?.some((module) =>
-                      selected.some((m) => m === module)
-                    ) ??
-                    fixedSelected.includes(option.name)) ||
+                  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                  props.disabledOptions?.includes(option.name) ||
+                  option.incompatible_with?.some(
+                    (module) => selected.some((m) => m === module)
+                    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                  ) ||
+                  fixedSelected.includes(option.name) ||
                   false
                 }
               >

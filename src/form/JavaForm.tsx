@@ -47,12 +47,8 @@ export default function JavaForm({
   const [enabledLanguageModules, setEnabledLanguageModule] = useState<string[]>(
     []
   )
-  const [defaultResourceModules, setDefaultResourceModules] = useState<
-    string[]
-  >([])
-  const [defaultLanguageModules, setDefaultLanguageModules] = useState<
-    string[]
-  >([])
+  const [defaultResourceModules] = useState<string[]>([])
+  const [defaultLanguageModules] = useState<string[]>([])
   const [disabledResourceModules, setDisabledResourceModules] = useState<
     string[]
   >([])
