@@ -47,9 +47,6 @@ import type { MemeApi, BuildLog } from './types'
 import fakeApiData from './fakeApiData'
 import allowTracking from '../tracking'
 import { useLocalStorage } from 'usehooks-ts'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import { Swiper as SwiperType } from 'swiper'
 
 export enum AdType {
   FirstTime,
@@ -62,7 +59,6 @@ export default function Form() {
   const [api, setApi] = useState<MemeApi | undefined>(undefined)
   const [apiError, setApiError] = useState<Error | null>(null)
   const [logs, setLogs] = useState<BuildLog[]>([])
-  const [swiper, setSwiper] = useState<SwiperType | null>(null)
 
   const load = async () => {
     const data = await fetch('https://meme.wd-api.com/')
@@ -86,13 +82,8 @@ export default function Form() {
   }, [])
 
   const [tab, setTab] = useState(0)
-  const slideChange = (index: number) => {
-    setTab(index)
-  }
-
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setTab(newValue)
-    swiper?.slideTo(newValue)
   }
 
   const addLog = (log: BuildLog) => {
@@ -173,34 +164,24 @@ export default function Form() {
                 }}
               />
             </Tabs>
-            <Swiper
-              spaceBetween={50}
-              slidesPerView={1}
-              onSlideChange={(index) => slideChange(index.activeIndex)}
-              onSwiper={(swiper) => {
-                const swiperInstance = swiper
-                setSwiper(swiperInstance)
-              }}
-            >
-              <TabPanel>
-                {!api ? (
-                  <LoadingMask>
-                    <JavaForm api={fakeApiData} addLog={addLog} />
-                  </LoadingMask>
-                ) : (
-                  <JavaForm api={api} addLog={addLog} />
-                )}
-              </TabPanel>
-              <TabPanel>
-                {!api ? (
-                  <LoadingMask>
-                    <BedrockForm api={fakeApiData} addLog={addLog} />
-                  </LoadingMask>
-                ) : (
-                  <BedrockForm api={api} addLog={addLog} />
-                )}
-              </TabPanel>
-            </Swiper>
+            <TabPanel value={tab} index={0}>
+              {!api ? (
+                <LoadingMask>
+                  <JavaForm api={fakeApiData} addLog={addLog} />
+                </LoadingMask>
+              ) : (
+                <JavaForm api={api} addLog={addLog} />
+              )}
+            </TabPanel>
+            <TabPanel value={tab} index={1}>
+              {!api ? (
+                <LoadingMask>
+                  <BedrockForm api={fakeApiData} addLog={addLog} />
+                </LoadingMask>
+              ) : (
+                <BedrockForm api={api} addLog={addLog} />
+              )}
+            </TabPanel>
           </Container>
         )}
         {logs.length > 0 && (
@@ -538,11 +519,17 @@ function ApiFailed({ error, load }: { error: Error; load: MouseEventHandler }) {
   )
 }
 
-function TabPanel(props: { children?: ReactNode }) {
-  const { children, ...other } = props
+interface TabPanelProps {
+  children?: ReactNode
+  index: number
+  value: number
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props
 
   return (
-    <SwiperSlide>
+    <div role="tabpanel" hidden={value !== index} {...other}>
       <Box
         sx={{
           p: {
@@ -556,7 +543,7 @@ function TabPanel(props: { children?: ReactNode }) {
       >
         <Typography>{children}</Typography>
       </Box>
-    </SwiperSlide>
+    </div>
   )
 }
 
