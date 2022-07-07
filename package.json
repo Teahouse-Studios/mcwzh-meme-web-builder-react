@@ -23,6 +23,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-i18next": "^11.16.9",
+    "swiper": "^8.3.0",
     "usehooks-ts": "^2.5.4",
     "web-vitals": "^2.1.4"
   },
