@@ -144,6 +144,9 @@ export default function JavaForm({
         setForceUseCompatible(false)
         break
       case 5:
+        versionModules = ['version_1.16.1']
+        setForceUseCompatible(false)
+        break
       case 4:
         versionModules = ['version_1.12.2-1.15.2']
         setForceUseCompatible(false)
