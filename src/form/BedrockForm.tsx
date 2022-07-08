@@ -36,8 +36,7 @@ export default function BedrockForm({
   api: MemeApi
   addLog: (log: BuildLog) => void
 }) {
-  const [enabledCollections, setEnabledCollections] = useState<string[]>([])
-  const [defaultCollections, setDefaultCollections] = useState<string[]>([])
+  const [enabledCollections, setEnabledCollections] = useState<string[]>(['choice_modules_default'])
   const [disabledCollections, setDisabledCollections] = useState<string[]>([])
   const [enabledModules, setEnabledModules] = useState<string[]>([])
   const [defaultModules] = useState<string[]>([])
@@ -49,10 +48,6 @@ export default function BedrockForm({
   const [submitting, setSubmitting] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
   const { t } = useTranslation()
-
-  useEffect(() => {
-    setDefaultCollections(['choice_modules_default'])
-  }, [])
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
@@ -66,6 +61,7 @@ export default function BedrockForm({
 
   const undefinedPredicate = <T,>(i: T | undefined) => i !== undefined
 
+
   useEffect(() => {
     const getModulesInCollection = () => {
       return enabledCollections
@@ -77,7 +73,7 @@ export default function BedrockForm({
     const getIncompatibleModulesInCollection = () => {
       return api.be_modules.resource
         .filter((resourceModules) =>
-          enabledCollections
+        enabledCollections
             .flatMap(
               (enabledCollection) =>
                 api.be_modules.collection.find(
@@ -109,10 +105,6 @@ export default function BedrockForm({
     setDisabledModules([...getIncompatibleModulesInCollection()])
   }, [enabledCollections, sfw, api])
 
-  const calculatedEnabledCollections = useMemo(
-    () => [...enabledCollections, ...defaultCollections],
-    [enabledCollections, defaultCollections]
-  )
 
   const calculatedEnabledModules = useMemo(
     () => [...enabledModules, ...defaultModules, ...fixedModules],
@@ -141,7 +133,7 @@ export default function BedrockForm({
 
         modules: {
           resource: calculatedEnabledModules,
-          collection: calculatedEnabledCollections,
+          collection: enabledCollections,
         },
       }),
       headers: {
@@ -251,7 +243,7 @@ export default function BedrockForm({
           onChange={(v) => {
             setEnabledCollections(v)
           }}
-          defaultOptions={defaultCollections}
+          defaultOptions={enabledCollections}
           disabledOptions={disabledCollections}
           options={api.be_modules.collection}
           label={t('form.collections.label')}

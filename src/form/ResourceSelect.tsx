@@ -91,7 +91,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           renderValue={(selected) =>
             selected.map((option) => (
               <Chip
-                key="selected"
+                key={option}
                 label={option}
                 sx={{ mr: 0.5 }}
                 disabled={(props.disabledOptions ?? []).includes(option)}
@@ -128,7 +128,10 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           </ListSubheader>
           <MenuItem
             disabled={selected.length === 0}
-            onClick={() => setSelected(handleFixedOption([]))}
+            onClick={() => {
+              setSelected(handleFixedOption([]))
+              props.onChange([])
+            }}
           >
             {t('form.clearSelected')}
           </MenuItem>
@@ -183,9 +186,9 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                       {option.description}
                       {option.contains
                         ? ' · ' +
-                          t('form.collections.description_prefix') +
-                          option.contains.length.toString() +
-                          t('form.collections.resource_suffix')
+                        t('form.collections.description_prefix') +
+                        option.contains.length.toString() +
+                        t('form.collections.resource_suffix')
                         : ''}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'info.main' }}>

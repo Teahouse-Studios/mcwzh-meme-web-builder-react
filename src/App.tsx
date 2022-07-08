@@ -1,5 +1,3 @@
-import './App.css'
-
 import { useMemo, lazy, memo } from 'react'
 import {
   CssBaseline,
