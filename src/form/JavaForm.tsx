@@ -218,7 +218,7 @@ export default function JavaForm({
       body: JSON.stringify({
         _be: false,
         type: gameVersion === 3 ? 'legacy' : 'normal',
-        compatible: useCompatible,
+        compatible: useCompatible || forceUseCompatible,
         format: gameVersion,
         mod: enabledMods,
         modules: {
