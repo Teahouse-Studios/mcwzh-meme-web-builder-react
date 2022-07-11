@@ -32,6 +32,7 @@ import { css } from '@emotion/react'
 import ResourceSelect from './ResourceSelect'
 import { MemeApi, BuildLog } from './types'
 import allowTracking from '../tracking'
+import endpoint from '../api'
 
 export default function JavaForm({
   api,
@@ -213,14 +214,17 @@ export default function JavaForm({
       root: string
       filename: string
     }
-    fetch('https://meme.wd-api.com/ajax', {
+    fetch(`${endpoint}/v2/build/java`, {
       method: 'POST',
       body: JSON.stringify({
-        _be: false,
-        type: gameVersion === 3 ? 'legacy' : 'normal',
-        compatible: useCompatible || forceUseCompatible,
+        type:
+          gameVersion === 3
+            ? 'legacy'
+            : useCompatible
+            ? 'compatible'
+            : 'normal',
         format: gameVersion,
-        mod: enabledMods,
+        mods: enabledMods,
         modules: {
           resource: [
             ...calculatedEnabledResourceModules,
