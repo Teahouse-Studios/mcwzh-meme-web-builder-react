@@ -28,6 +28,7 @@ import {
 import ResourceSelect from './ResourceSelect'
 import { MemeApi, BuildLog } from './types'
 import allowTracking from '../tracking'
+import endpoint from '../api'
 
 export default function BedrockForm({
   api,
@@ -36,7 +37,9 @@ export default function BedrockForm({
   api: MemeApi
   addLog: (log: BuildLog) => void
 }) {
-  const [enabledCollections, setEnabledCollections] = useState<string[]>(['choice_modules_default'])
+  const [enabledCollections, setEnabledCollections] = useState<string[]>([
+    'choice_modules_default',
+  ])
   const [disabledCollections, setDisabledCollections] = useState<string[]>([])
   const [enabledModules, setEnabledModules] = useState<string[]>([])
   const [defaultModules] = useState<string[]>([])
@@ -61,7 +64,6 @@ export default function BedrockForm({
 
   const undefinedPredicate = <T,>(i: T | undefined) => i !== undefined
 
-
   useEffect(() => {
     const getModulesInCollection = () => {
       return enabledCollections
@@ -73,7 +75,7 @@ export default function BedrockForm({
     const getIncompatibleModulesInCollection = () => {
       return api.be_modules.resource
         .filter((resourceModules) =>
-        enabledCollections
+          enabledCollections
             .flatMap(
               (enabledCollection) =>
                 api.be_modules.collection.find(
@@ -105,7 +107,6 @@ export default function BedrockForm({
     setDisabledModules([...getIncompatibleModulesInCollection()])
   }, [enabledCollections, sfw, api])
 
-
   const calculatedEnabledModules = useMemo(
     () => [...enabledModules, ...defaultModules, ...fixedModules],
     [enabledModules, defaultModules, fixedModules]
@@ -123,14 +124,11 @@ export default function BedrockForm({
       root: string
       filename: string
     }
-    fetch('https://meme.wd-api.com/ajax', {
+    fetch(`${endpoint}/v2/build/bedrock`, {
       method: 'POST',
       body: JSON.stringify({
-        _be: true,
-        type: beExtType,
-        compatible: useCompatible,
-        mod: [],
-
+        extension: beExtType,
+        type: useCompatible ? 'compatible' : 'normal',
         modules: {
           resource: calculatedEnabledModules,
           collection: enabledCollections,

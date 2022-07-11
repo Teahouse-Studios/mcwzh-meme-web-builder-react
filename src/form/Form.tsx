@@ -46,6 +46,7 @@ import SponsorsList from './SponsorsList'
 import type { MemeApi, BuildLog } from './types'
 import fakeApiData from './fakeApiData'
 import allowTracking from '../tracking'
+import endpoint from '../api'
 import { useLocalStorage } from 'usehooks-ts'
 
 export enum AdType {
@@ -61,7 +62,7 @@ export default function Form() {
   const [logs, setLogs] = useState<BuildLog[]>([])
 
   const load = async () => {
-    const data = await fetch('https://meme.wd-api.com/')
+    const data = await fetch(`${endpoint}/v2/modules`)
     const api = (await data.json()) as MemeApi
     setApi(api)
     setApiError(null)
@@ -298,12 +299,16 @@ function LogAccordion({
                 variant="body1"
                 fontFamily="monospace"
                 key={index}
+                sx={{
+                  whiteSpace: 'pre-wrap',
+                }}
                 color={
                   {
                     warning: 'warning.main',
                     error: 'error.main',
                     success: 'success.main',
                     info: 'info.main',
+                    debug: 'text.secondary',
                     default: 'text.primary',
                   }[
                     line.toLowerCase().match(/(fail|error)/)
@@ -314,6 +319,8 @@ function LogAccordion({
                       ? 'success'
                       : line.toLowerCase().match(/(info)/)
                       ? 'info'
+                      : line.toLowerCase().match(/ {4}/)
+                      ? 'debug'
                       : 'default'
                   ]
                 }
