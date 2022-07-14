@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/non-nullable-type-assertion-style */
 import { Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
