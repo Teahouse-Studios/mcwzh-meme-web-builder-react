@@ -36,6 +36,7 @@ import {
   SyntheticEvent,
   Dispatch,
   SetStateAction,
+  useRef,
 } from 'react'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
@@ -59,6 +60,7 @@ export default function Form() {
   const [api, setApi] = useState<MemeApi | undefined>(undefined)
   const [apiError, setApiError] = useState<Error | null>(null)
   const [logs, setLogs] = useState<BuildLog[]>([])
+  const { enqueueSnackbar } = useSnackbar()
 
   const load = async () => {
     const data = await fetch(`${endpoint}/v2/modules`)
@@ -86,8 +88,25 @@ export default function Form() {
     setTab(newValue)
   }
 
+  const logRootRef = useRef<HTMLDivElement>(null)
+
   const addLog = (log: BuildLog) => {
     setLogs([...logs, log])
+    setTimeout(() => {
+      logRootRef.current?.scrollIntoView({
+        behavior: 'smooth',
+      })
+    })
+    ;({
+      success() {
+        enqueueSnackbar(t('snackbar.buildSuccess'), {
+          variant: 'success',
+        })
+      },
+      error() {
+        enqueueSnackbar(t('snackbar.buildError'), { variant: 'error' })
+      },
+    }[log.status]())
   }
 
   const [adLS, setLS] = useLocalStorage('memeAd', {
@@ -185,7 +204,7 @@ export default function Form() {
           </Container>
         )}
         {logs.length > 0 && (
-          <Container id="build-logs">
+          <Container id="build-logs" ref={logRootRef}>
             <Divider sx={{ mb: 2 }} />
             <Typography variant="h5" component="h2" sx={{ mb: 1 }}>
               {t('log.headline')}

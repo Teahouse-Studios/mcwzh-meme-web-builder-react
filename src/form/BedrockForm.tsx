@@ -49,7 +49,6 @@ export default function BedrockForm({
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
   const [sfw, setSfw] = useState<number>(2)
   const [submitting, setSubmitting] = useState(false)
-  const { enqueueSnackbar } = useSnackbar()
   const { t } = useTranslation()
 
   const handleSelectChange = <T,>(
@@ -151,9 +150,6 @@ export default function BedrockForm({
                 downloadUrl: data.root + data.filename,
                 time: Date.now(),
               })
-              enqueueSnackbar(t('snackbar.buildSuccess'), {
-                variant: 'success',
-              })
             })
             .catch(catchFetch)
         } else {
@@ -167,17 +163,11 @@ export default function BedrockForm({
                 log: data.logs,
                 time: Date.now(),
               })
-              enqueueSnackbar(t('snackbar.buildError'), {
-                variant: 'error',
-              })
             })
             .catch(catchFetch)
         }
       })
       .catch(catchFetch)
-    document.getElementById('build-logs')?.scrollIntoView({
-      behavior: 'smooth',
-    })
 
     function catchFetch(error: Error) {
       setSubmitting(false)
@@ -186,9 +176,6 @@ export default function BedrockForm({
         platform: 'bedrock',
         log: `${error.name}: ${error.message}`,
         time: Date.now(),
-      })
-      enqueueSnackbar(t('snackbar.buildError'), {
-        variant: 'error',
       })
     }
   }

@@ -17,7 +17,6 @@ import {
   SelectChangeEvent,
   ListSubheader,
 } from '@mui/material'
-import { useSnackbar } from 'notistack'
 import { LoadingButton } from '@mui/lab'
 import {
   Archive,
@@ -65,7 +64,6 @@ export default function JavaForm({
   const [forceUseCompatible, setForceUseCompatible] = useState(false)
   const [sfw, setSfw] = useState<number>(2)
   const [submitting, setSubmitting] = useState(false)
-  const { enqueueSnackbar } = useSnackbar()
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -250,9 +248,6 @@ export default function JavaForm({
                 downloadUrl: data.root + data.filename,
                 time: Date.now(),
               })
-              enqueueSnackbar(t('snackbar.buildSuccess'), {
-                variant: 'success',
-              })
             })
             .catch(catchFetch)
         } else {
@@ -266,15 +261,11 @@ export default function JavaForm({
                 log: data.logs,
                 time: Date.now(),
               })
-              enqueueSnackbar(t('snackbar.buildError'), { variant: 'error' })
             })
             .catch(catchFetch)
         }
       })
       .catch(catchFetch)
-    document.getElementById('build-logs')?.scrollIntoView({
-      behavior: 'smooth',
-    })
 
     function catchFetch(error: Error) {
       setSubmitting(false)
@@ -284,7 +275,6 @@ export default function JavaForm({
         log: `${error.name}: ${error.message}`,
         time: Date.now(),
       })
-      enqueueSnackbar(t('snackbar.buildError'), { variant: 'error' })
     }
   }
 
