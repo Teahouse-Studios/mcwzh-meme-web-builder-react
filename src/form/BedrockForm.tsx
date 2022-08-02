@@ -175,7 +175,7 @@ export default function BedrockForm({
         }
       })
       .catch(catchFetch)
-    document.getElementById('build-log')?.scrollIntoView({
+    document.getElementById('build-logs')?.scrollIntoView({
       behavior: 'smooth',
     })
 

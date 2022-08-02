@@ -19,11 +19,11 @@ export default function SkipToForm() {
         selectable.focus()
       }}
       sx={{
-        top: -5,
-        left: 5,
+        top: 10,
+        left: -5,
         position: 'absolute',
-        transform: 'translateY(-100%)',
-        '&:focus': { transform: 'translateY(0%)', top: 10 },
+        transform: 'translateX(-100%)',
+        '&:focus': { transform: 'translateX(0%)', left: 10 },
         zIndex: 1200,
       }}
     >

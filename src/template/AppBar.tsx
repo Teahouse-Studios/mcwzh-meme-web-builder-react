@@ -20,6 +20,7 @@ import {
   Translate,
   ChevronDown,
   DotsVertical,
+  Heart,
 } from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 
@@ -80,6 +81,16 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
 
   return (
     <Box sx={sx}>
+      <Button
+        href="https://afdian.net/@teahouse"
+        className="donate-button"
+        variant="text"
+        color="error"
+        startIcon={<Heart />}
+        sx={{ ml: 1 }}
+      >
+        赞助
+      </Button>
       <CompositeMenu
         icon={<Post />}
         items={[

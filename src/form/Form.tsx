@@ -1,4 +1,3 @@
-import './Form.css'
 import {
   Alert,
   AlertTitle,
@@ -240,6 +239,7 @@ function LogAccordion({
 }) {
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
+  const [expanded, setExpanded] = useState(defaultExpanded)
   const [shareCopiedToClipboard, setShareCopiedToClipboard] = useState(false)
   const shareUrl = async (url: string) => {
     if (allowTracking) window.gtag('event', 'share')
@@ -261,8 +261,11 @@ function LogAccordion({
   }
 
   return (
-    <Accordion key="log.time" defaultExpanded={defaultExpanded}>
-      <AccordionSummary expandIcon={<ChevronDown />}>
+    <Accordion key="log.time" expanded={expanded}>
+      <AccordionSummary
+        expandIcon={<ChevronDown />}
+        onClick={() => setExpanded(!expanded)}
+      >
         <Typography
           sx={{
             width: '33%',
