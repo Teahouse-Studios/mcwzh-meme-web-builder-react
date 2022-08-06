@@ -63,6 +63,7 @@ export default function Form() {
   const [apiError, setApiError] = useState<Error | null>(null)
   const [logs, setLogs] = useState<BuildLog[]>([])
   const { enqueueSnackbar } = useSnackbar()
+  const [beforeUnloadSet, setBeforeUnloadSet] = useState(false)
 
   const load = async () => {
     const data = await fetch(`${endpoint}/v2/modules`)
@@ -141,9 +142,25 @@ export default function Form() {
     return { shouldDisplayAd, adType }
   })
 
+  const setBeforeUnload = () => {
+    setBeforeUnloadSet(true)
+    window.addEventListener('beforeunload', (event) => {
+      event.preventDefault()
+      event.returnValue = 'Are you sure you want to leave?'
+      return 'Are you sure you want to leave?'
+    })
+  }
+
   return (
     <>
-      <Container sx={{ mb: 1 }}>
+      <Container
+        sx={{ mb: 1 }}
+        onClick={() => {
+          if (!beforeUnloadSet) {
+            setBeforeUnload()
+          }
+        }}
+      >
         <Alert severity="warning">
           <AlertTitle>高能警告</AlertTitle>
           您已被挑选进入实验性的新版在线构建。在使用过程中如有任何问题，请到{' '}
