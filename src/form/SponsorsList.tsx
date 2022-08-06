@@ -7,11 +7,22 @@ import {
   Button,
   Divider,
   IconButton,
+  Tooltip,
 } from '@mui/material'
-import { Dice5, FormatQuoteOpen, Heart, MessageText } from 'mdi-material-ui'
+import {
+  Dice1,
+  Dice2,
+  Dice3,
+  Dice4,
+  Dice5,
+  Dice6,
+  FormatQuoteOpen,
+  Heart,
+  MessageText,
+} from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import { useSnackbar } from 'notistack'
-import type { Dispatch, SetStateAction } from 'react'
+import { createElement, Dispatch, SetStateAction } from 'react'
 import { useState, useEffect } from 'react'
 import { css } from '@emotion/react'
 import { AdType } from './Form'
@@ -42,6 +53,8 @@ export default function QuoteAd({
     msg: t('sponsor.quoteAd.none'),
     author: t('sponsor.quoteAd.author'),
   })
+  const [rollDice, setRollDice] = useState('')
+  const [randomDice, setRandomDice] = useState(5)
 
   const roll = (data: { [key: string]: string } = msgs) => {
     const random = Math.floor(Math.random() * Object.entries(data).length)
@@ -50,6 +63,12 @@ export default function QuoteAd({
       msg: entry[1],
       author: entry[0],
     })
+    const randomD = Math.floor(Math.random() * 6)
+    setRollDice('rolling-dice')
+    setTimeout(() => {
+      setRollDice('')
+      setRandomDice(randomD)
+    }, 1000)
   }
 
   useEffect(() => {
@@ -117,9 +136,11 @@ export default function QuoteAd({
               </Box>
             </Box>
             <Box>
-              <IconButton onClick={() => roll(msgs)}>
-                <Dice5 />
-              </IconButton>
+              <Tooltip title={t('sponsor.roll')}>
+                <IconButton onClick={() => roll(msgs)}>
+                  <Dice rollDice={rollDice} randomDice={randomDice as 0} />
+                </IconButton>
+              </Tooltip>
             </Box>
           </Box>
           <Divider sx={{ mt: 2, mb: 1 }} />
@@ -183,4 +204,21 @@ export default function QuoteAd({
       </Card>
     </>
   )
+}
+
+const Dice = ({
+  rollDice,
+  randomDice,
+}: {
+  rollDice: string
+  randomDice: 0 | 1 | 2 | 3 | 4 | 5
+}) => {
+  return createElement([Dice1, Dice2, Dice3, Dice4, Dice5, Dice6][randomDice], {
+    className: rollDice,
+    sx: {
+      '& svg': {
+        transition: 'all 0.2s ease-in-out',
+      },
+    },
+  })
 }

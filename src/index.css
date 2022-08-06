@@ -45,3 +45,29 @@ svg.donate-button {
     transform: scale(1.15);
   }
 }
+
+.rolling-dice {
+  animation: roll 1s infinite;
+}
+
+@-webkit-keyframes roll {
+  0%,
+  to {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes roll {
+  0%,
+  to {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

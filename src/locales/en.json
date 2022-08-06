@@ -73,7 +73,11 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": ["12+", "16+", "18+"],
+      "ticks": [
+        "12+",
+        "16+",
+        "18+"
+      ],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
@@ -111,7 +115,8 @@
       "renew": "Thanks for your previous support! Even if you just clicked the link to have a look, but thank you anyway. It really helps us A LOT! Although this is kinda shameless, but it's been a while since your previous donation. If you want to keep supporting our creation, please click the Donate button. Nope? All right, no problem! Thank you.",
       "donationNotice": "Please do not make a donation unless you are an adult or with parental advisory. We recommend you to only make a donation if you are economic independent. Full refund available in 7 days after donation (transaction fee not included). Partial refund available in 30 days after donation. Supports Alipay and WeChat Pay. Your transaction will be processed by afdian.net and afidian.net terms apply. 6% transaction fee is needed and will be deducted from your donation.",
       "donateSnackbar": "Thanks for your donation!"
-    }
+    },
+    "howToInstall": "How to install?"
   },
   "sponsor": {
     "overline": "Sponsors",
@@ -121,7 +126,8 @@
       "author": "Dianliang233",
       "commercialWarning": "Any message that tries to promote a commercial product or service will be ignored and the donation will not be refundable."
     },
-    "thankYou": "Thank you for your support! Your donation enabled us create better work and really helps us A LOT."
+    "thankYou": "Thank you for your support! Your donation enabled us create better work and really helps us A LOT.",
+    "roll": "Roll it!"
   },
   "snackbar": {
     "close": "Close",

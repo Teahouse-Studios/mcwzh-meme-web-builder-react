@@ -14,6 +14,8 @@ import {
   AccordionSummary,
   Paper,
   useTheme,
+  IconButton,
+  Tooltip,
 } from '@mui/material'
 import {
   Coffee,
@@ -28,6 +30,8 @@ import {
   Heart,
   HeartBroken,
   Refresh,
+  Disc,
+  HelpCircle,
 } from 'mdi-material-ui'
 import {
   useState,
@@ -153,6 +157,7 @@ export default function Form() {
 
   return (
     <>
+      {' '}
       <Container
         sx={{ mb: 1 }}
         onClick={() => {
@@ -172,7 +177,6 @@ export default function Form() {
       </Container>
       <Box
         sx={{
-          minHeight: 'calc(75vh)',
           display: 'flex',
           justifyContent: 'center',
           alignItems: apiError || !api ? 'center' : 'start',
@@ -489,6 +493,20 @@ function LogAccordion({
                 {t('log.download')}
               </Button>
               <Button
+                startIcon={<Disc />}
+                sx={{ mr: 1 }}
+                href={
+                  {
+                    java: 'https://wdf.ink/record-java',
+                    bedrock: 'https://wdf.ink/record-bedrock',
+                  }[log.platform]
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t('appbar.discPack')}
+              </Button>
+              <Button
                 startIcon={
                   shareCopiedToClipboard ? <Check /> : <ShareVariant />
                 }
@@ -503,7 +521,7 @@ function LogAccordion({
               <Button
                 className="donate-button"
                 startIcon={<Heart />}
-                color="warning"
+                color="error"
                 href="https://afdian.net/@teahouse"
                 target="_blank"
                 rel="noreferrer noopener"
@@ -511,6 +529,16 @@ function LogAccordion({
               >
                 {t('footer.donate')}
               </Button>
+              <Tooltip title={t('log.howToInstall')}>
+                <IconButton
+                  href="https://lakeus.xyz/wiki/梗体中文/导入"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  sx={{ float: 'right' }}
+                >
+                  <HelpCircle />
+                </IconButton>
+              </Tooltip>
             </>
           ) : (
             <Button
