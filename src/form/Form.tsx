@@ -13,6 +13,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Paper,
+  useTheme,
 } from '@mui/material'
 import {
   Coffee,
@@ -38,6 +39,7 @@ import {
   SetStateAction,
   useRef,
 } from 'react'
+import { css } from '@emotion/react'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
@@ -257,6 +259,7 @@ function LogAccordion({
   defaultExpanded: boolean
 }) {
   const { t } = useTranslation()
+  const theme = useTheme()
   const { enqueueSnackbar } = useSnackbar()
   const [expanded, setExpanded] = useState(defaultExpanded)
   const [shareCopiedToClipboard, setShareCopiedToClipboard] = useState(false)
@@ -307,12 +310,11 @@ function LogAccordion({
         <Paper
           elevation={0}
           sx={{
-            padding: 2,
+            pt: 2,
+            pb: 2,
             fontFamily: 'monospace',
             filter: 'invert(.05)',
             mb: 2,
-            WebkitLineClamp: 6,
-            lineClamp: 6,
           }}
         >
           {log.log.split('\n').map((line, index) => {
@@ -324,6 +326,20 @@ function LogAccordion({
                 sx={{
                   whiteSpace: 'pre-wrap',
                 }}
+                css={css`
+                  counter-increment: line;
+                  padding-left: 3.5rem;
+                  padding-right: 2rem;
+                  transition: color, background-color 0.075s ease-in-out;
+                  &::before {
+                    content: counter(line);
+                    position: absolute;
+                    left: 1.5rem;
+                  }
+                  &:hover {
+                    background-color: ${theme.palette.action.hover};
+                  }
+                `}
                 color={
                   {
                     warning: 'warning.main',
