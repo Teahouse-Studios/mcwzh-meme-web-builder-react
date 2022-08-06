@@ -312,11 +312,17 @@ function LogAccordion({
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (navigator.share) {
-      await navigator.share({
-        title: '梗体中文构建配置分享',
-        text: '你的好友给你分享了 ta 他的梗体中文！此链接 7 日内有效：',
-        url: url,
-      })
+      try {
+        await navigator.share({
+          title: '梗体中文构建配置分享',
+          text: '你的好友给你分享了 ta 他的梗体中文！此链接 7 日内有效：',
+          url: url,
+        })
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          throw err
+        }
+      }
     } else {
       await navigator.clipboard.writeText(url)
       setShareCopiedToClipboard(true)

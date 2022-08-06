@@ -186,14 +186,21 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                       {option.description}
                       {option.contains
                         ? ' · ' +
-                        t('form.collections.description_prefix') +
-                        option.contains.length.toString() +
-                        t('form.collections.resource_suffix')
+                          t('form.collections.description_prefix') +
+                          option.contains.length.toString() +
+                          t('form.collections.resource_suffix')
                         : ''}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'info.main' }}>
-                      {t('form.author')}
-                      {option.author.join(t('metadata.ideographicComma'))}
+                      {
+                        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                        option.author && (
+                          <>
+                            {t('form.author')}
+                            {option.author.join(t('metadata.ideographicComma'))}
+                          </>
+                        )
+                      }
                       <Box component="span" sx={{ color: 'error.main' }}>
                         {option.incompatible_with && (
                           <>
