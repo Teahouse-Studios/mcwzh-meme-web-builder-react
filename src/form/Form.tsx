@@ -56,7 +56,7 @@ import endpoint from '../api'
 import { useLocalStorage } from 'usehooks-ts'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-import { Swiper as SwiperType } from 'swiper'
+import type { Swiper as SwiperType } from 'swiper'
 
 export enum AdType {
   FirstTime,
@@ -71,7 +71,8 @@ export default function Form() {
   const [logs, setLogs] = useState<BuildLog[]>([])
   const { enqueueSnackbar } = useSnackbar()
   const [beforeUnloadSet, setBeforeUnloadSet] = useState(false)
-  const [swiper, setSwiper] = useState<SwiperType | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const [swiper, setSwiper] = useState<SwiperType>()
 
   const load = async () => {
     const data = await fetch(`${endpoint}/v2/modules`)
@@ -101,6 +102,7 @@ export default function Form() {
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setTab(newValue)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     swiper?.slideTo(newValue)
   }
 
@@ -215,34 +217,35 @@ export default function Form() {
                 }}
               />
             </Tabs>
-            <Swiper
-              spaceBetween={50}
-              slidesPerView={1}
-              onSlideChange={(index) => slideChange(index.activeIndex)}
-              onSwiper={(swiper) => {
-                const swiperInstance = swiper
-                setSwiper(swiperInstance)
-              }}
-            >
+            {!api ? (
               <TabPanel>
-                {!api ? (
-                  <LoadingMask>
-                    <JavaForm api={fakeApiData} addLog={addLog} />
-                  </LoadingMask>
-                ) : (
-                  <JavaForm api={api} addLog={addLog} />
-                )}
+                <LoadingMask>
+                  <JavaForm api={fakeApiData} addLog={addLog} />
+                </LoadingMask>
               </TabPanel>
-              <TabPanel>
-                {!api ? (
-                  <LoadingMask>
-                    <BedrockForm api={fakeApiData} addLog={addLog} />
-                  </LoadingMask>
-                ) : (
-                  <BedrockForm api={api} addLog={addLog} />
-                )}
-              </TabPanel>
-            </Swiper>
+            ) : (
+              <Swiper
+                spaceBetween={50}
+                slidesPerView={1}
+                autoHeight={true}
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+                onSlideChange={(index) => slideChange(index.activeIndex)}
+                onSwiper={(swiper) => {
+                  setSwiper(swiper)
+                }}
+              >
+                <SwiperSlide>
+                  <TabPanel>
+                    <JavaForm api={api} addLog={addLog} />
+                  </TabPanel>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <TabPanel>
+                    <BedrockForm api={api} addLog={addLog} />
+                  </TabPanel>
+                </SwiperSlide>
+              </Swiper>
+            )}
           </Container>
         )}
         {logs.length > 0 && (
@@ -632,21 +635,20 @@ function TabPanel(props: { children?: ReactNode }) {
   const { children, ...other } = props
 
   return (
-    <SwiperSlide>
-      <Box
-        sx={{
-          p: {
-            xs: 2,
-            md: 3,
-          },
-          pt: {
-            xs: 3,
-          },
-        }}
-      >
-        <Typography component="div">{children}</Typography>
-      </Box>
-    </SwiperSlide>
+    <Box
+      sx={{
+        p: {
+          xs: 2,
+          md: 3,
+        },
+        pt: {
+          xs: 3,
+        },
+      }}
+      {...other}
+    >
+      <Typography component="div">{children}</Typography>
+    </Box>
   )
 }
 

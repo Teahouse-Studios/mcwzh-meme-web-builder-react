@@ -91,7 +91,7 @@ export default function WebviewWarning() {
             </Button>
           </Box>
           <Typography variant="caption" sx={{ mb: 1, color: 'text.secondary' }}>
-            Provider: {provider || '[NONE]'} | UA: {navigator.userAgent}
+            Provider: {provider ?? '[NONE]'} | UA: {navigator.userAgent}
           </Typography>
         </Box>
       </Container>
