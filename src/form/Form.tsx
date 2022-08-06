@@ -45,7 +45,7 @@ import {
 } from 'react'
 import { css } from '@emotion/react'
 import { useSnackbar } from 'notistack'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
 import SponsorsList from './SponsorsList'
@@ -507,6 +507,24 @@ function LogAccordion({
         {!adSettings.shouldDisplayAd &&
           (log.status === 'success' ? (
             <>
+              <Alert
+                severity="info"
+                sx={{
+                  mb: 1,
+                }}
+              >
+                <Trans i18nKey="log.followUpdates">
+                  梗体中文每时每刻都在持续迭代更新！我们推荐您在一段时间后更新您的梗体中文资源包。您也可以关注我们的
+                  <a
+                    href="https://space.bilibili.com/406275313"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    B 站动态
+                  </a>
+                  获得一手资讯。
+                </Trans>
+              </Alert>
               <Button
                 variant="contained"
                 startIcon={<Download />}

@@ -65,7 +65,7 @@
       "resource_suffix": " resource modules"
     },
     "incompatible": "(incompatible with {{i}})",
-    "modified": "Last Modified at",
+    "modified": "Last Modified at ",
     "modOption": {
       "all": "All",
       "none": "None",
@@ -73,11 +73,7 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": [
-        "12+",
-        "16+",
-        "18+"
-      ],
+      "ticks": ["12+", "16+", "18+"],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
@@ -89,7 +85,8 @@
       "readme": "README.md",
       "end": " in the GitHub repo."
     },
-    "search": "Type to search"
+    "search": "Type to search",
+    "idk": "If you don't know how to use the advanced build options, feel free to click the submit button and download the pack straight away."
   },
   "helpers": [
     "Don't know how to choose those options? Just click the button below.",
@@ -116,7 +113,8 @@
       "donationNotice": "Please do not make a donation unless you are an adult or with parental advisory. We recommend you to only make a donation if you are economic independent. Full refund available in 7 days after donation (transaction fee not included). Partial refund available in 30 days after donation. Supports Alipay and WeChat Pay. Your transaction will be processed by afdian.net and afidian.net terms apply. 6% transaction fee is needed and will be deducted from your donation.",
       "donateSnackbar": "Thanks for your donation!"
     },
-    "howToInstall": "How to install?"
+    "howToInstall": "How to install?",
+    "followUpdates": "The pack updates quickly! We recommend you to update the pack after some time. You can also follow our <1>Bilibili page</1> for updates."
   },
   "sponsor": {
     "overline": "Sponsors",

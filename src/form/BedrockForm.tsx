@@ -24,6 +24,7 @@ import {
   AccountChildCircle,
   CloudDownload,
   FolderInformation,
+  Information,
 } from 'mdi-material-ui'
 import ResourceSelect from './ResourceSelect'
 import { MemeApi, BuildLog } from './types'
@@ -294,7 +295,16 @@ export default function BedrockForm({
           {t('form.bedrockHint.end')}
         </Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid
+        item
+        xs={12}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '10px',
+        }}
+      >
         <LoadingButton
           color="primary"
           variant="contained"
@@ -308,22 +318,26 @@ export default function BedrockForm({
           variant="body2"
           component="span"
           sx={{
-            ml: {
-              md: 2,
-            },
-            mt: {
-              xs: 1,
-              md: 0,
-            },
-            display: {
-              xs: 'block',
-              md: 'inline',
-            },
+            display: 'inline-block',
             color: 'text.secondary',
+            verticalAlign: 'middle',
           }}
         >
           {t('form.modified')}
-          {new Date(api.be_modified).toLocaleString()}
+          {new Date(api.je_modified).toLocaleString()}
+        </Typography>
+        <Typography
+          variant="body2"
+          component="span"
+          sx={{
+            display: 'flex',
+            color: 'info.main',
+            verticalAlign: 'middle',
+            alignItems: 'center',
+          }}
+        >
+          <Information sx={{ fontSize: '22px', mr: 0.75 }} />
+          {t('form.idk')}
         </Typography>
       </Grid>
     </Grid>
