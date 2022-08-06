@@ -357,8 +357,9 @@ function LogAccordion({
             pt: 2,
             pb: 2,
             fontFamily: 'monospace',
-            filter: 'invert(.05)',
             mb: 2,
+            backgroundImage:
+              'linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04))',
           }}
         >
           {log.log.split('\n').map((line, index) => {
@@ -378,7 +379,7 @@ function LogAccordion({
                   &::before {
                     content: counter(line);
                     position: absolute;
-                    left: 1.5rem;
+                    left: 2.5rem;
                   }
                   &:hover {
                     background-color: ${theme.palette.action.hover};

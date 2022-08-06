@@ -59,32 +59,30 @@ export default function QuoteAd({
   const roll = (data: { [key: string]: string } = msgs) => {
     const random = Math.floor(Math.random() * Object.entries(data).length)
     const entry = Object.entries(data)[random]
-    setMsg({
-      msg: entry[1],
-      author: entry[0],
-    })
     const randomD = Math.floor(Math.random() * 6)
     setRollDice('rolling-dice')
     setTimeout(() => {
       setRollDice('')
+      setMsg({
+        msg: entry[1],
+        author: entry[0],
+      })
       setRandomDice(randomD)
     }, 1000)
   }
-
-  useEffect(() => {
-    roll()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [msgs])
-
   useEffect(() => {
     fetch('https://fe.wd-ljt.com/meme/dynamic/sp_messages.json')
       .then(async (res) => {
         const data = (await res.json()) as { [key: string]: string }
         setMsgs(data)
+        setTimeout(() => {
+          roll()
+        })
       })
       .catch((e) => {
         console.error(e)
       })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -137,7 +135,10 @@ export default function QuoteAd({
             </Box>
             <Box>
               <Tooltip title={t('sponsor.roll')}>
-                <IconButton onClick={() => roll(msgs)}>
+                <IconButton
+                  disabled={rollDice !== ''}
+                  onClick={() => roll(msgs)}
+                >
                   <Dice rollDice={rollDice} randomDice={randomDice as 0} />
                 </IconButton>
               </Tooltip>
