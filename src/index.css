@@ -71,3 +71,8 @@ svg.donate-button {
     transform: rotate(360deg);
   }
 }
+
+.MuiSlider-thumb,
+.MuiSlider-track {
+  transition: all 0.175s ease-in-out !important;
+}
