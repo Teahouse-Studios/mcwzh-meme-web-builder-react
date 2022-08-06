@@ -631,7 +631,7 @@ function TabPanel(props: TabPanelProps) {
           },
         }}
       >
-        <Typography>{children}</Typography>
+        <Typography component="div">{children}</Typography>
       </Box>
     </div>
   )
