@@ -208,7 +208,7 @@ export default function Form() {
         {logs.length > 0 && (
           <Container id="build-logs" ref={logRootRef}>
             <Divider sx={{ mb: 2 }} />
-            <Typography variant="h5" component="h2" sx={{ mb: 1 }}>
+            <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
               {t('log.headline')}
             </Typography>
             <Box>
