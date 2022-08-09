@@ -50,4 +50,4 @@ jobs:
           KEY_SECRET: ${{ secrets.KEY_SECRET }}
           BUCKET: frontend-wdljt
           LOCAL_PATH: ./dist/
-          REMOTE_PREFIX: meme/next/
+          REMOTE_PREFIX: meme/
