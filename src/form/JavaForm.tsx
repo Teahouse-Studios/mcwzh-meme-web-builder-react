@@ -556,7 +556,6 @@ export default function JavaForm({
           display: 'flex',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '10px',
         }}
       >
         <LoadingButton
@@ -565,6 +564,7 @@ export default function JavaForm({
           startIcon={<CloudDownload />}
           loading={submitting}
           onClick={() => handleSubmit()}
+          sx={{ mr: '10px', mb: '10px' }}
         >
           {t('form.submit')}
         </LoadingButton>
@@ -575,6 +575,8 @@ export default function JavaForm({
             display: 'inline-block',
             color: 'text.secondary',
             verticalAlign: 'middle',
+            mr: '10px',
+            mb: '10px',
           }}
         >
           {t('form.modified')}
@@ -588,6 +590,8 @@ export default function JavaForm({
             color: 'info.main',
             verticalAlign: 'middle',
             alignItems: 'center',
+            mr: '10px',
+            mb: '10px',
           }}
         >
           <Information sx={{ fontSize: '22px', mr: 0.75 }} />
