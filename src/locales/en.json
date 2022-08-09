@@ -119,7 +119,8 @@
       "donateSnackbar": "Thanks for your donation!"
     },
     "howToInstall": "How to install?",
-    "followUpdates": "The pack updates quickly! We recommend you to update the pack after some time. You can also follow our <1>Bilibili page</1> for updates."
+    "followUpdates": "The pack updates quickly! We recommend you to update the pack after some time. You can also follow our <1>Bilibili page</1> for updates.",
+    "logCopy": "Copy log"
   },
   "sponsor": {
     "overline": "Sponsors",

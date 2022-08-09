@@ -33,6 +33,7 @@ import {
   Refresh,
   Disc,
   HelpCircle,
+  ContentCopy,
 } from 'mdi-material-ui'
 import {
   useState,
@@ -355,6 +356,16 @@ function LogAccordion({
               'linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04))',
           }}
         >
+          <Tooltip title={t('log.logCopy')}>
+            <IconButton
+              onClick={() => {
+                void navigator.clipboard.writeText(log.log)
+              }}
+              sx={{ position: 'relative', float: 'right', right: '12px' }}
+            >
+              <ContentCopy />
+            </IconButton>
+          </Tooltip>
           {log.log.split('\n').map((line, index) => {
             return (
               <Typography
