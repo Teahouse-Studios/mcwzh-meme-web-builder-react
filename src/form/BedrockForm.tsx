@@ -15,6 +15,7 @@ import {
   Box,
   Typography,
   SelectChangeEvent,
+  Link,
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import { css } from '@emotion/react'
@@ -304,13 +305,13 @@ export default function BedrockForm({
       <Grid item xs={12}>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {t('form.bedrockHint.text')}
-          <a
+          <Link
             href="https://github.com/Teahouse-Studios/mcwzh-meme-resourcepack-bedrock"
             rel="noopener noreferrer"
             target="_blank"
           >
             {t('form.bedrockHint.readme')}
-          </a>
+          </Link>
           {t('form.bedrockHint.end')}
         </Typography>
       </Grid>

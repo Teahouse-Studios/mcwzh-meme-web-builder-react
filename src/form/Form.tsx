@@ -16,6 +16,7 @@ import {
   useTheme,
   IconButton,
   Tooltip,
+  Link,
 } from '@mui/material'
 import {
   Coffee,
@@ -501,13 +502,13 @@ function LogAccordion({
               >
                 <Trans i18nKey="log.followUpdates">
                   梗体中文每时每刻都在持续迭代更新！我们推荐您在一段时间后更新您的梗体中文资源包。您也可以关注我们的
-                  <a
+                  <Link
                     href="https://space.bilibili.com/406275313"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     B 站动态
-                  </a>
+                  </Link>
                   获得一手资讯。
                 </Trans>
               </Alert>
