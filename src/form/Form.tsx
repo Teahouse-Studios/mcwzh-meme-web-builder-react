@@ -42,13 +42,15 @@ import {
   Dispatch,
   SetStateAction,
   useRef,
+  lazy,
+  Suspense,
 } from 'react'
 import { css } from '@emotion/react'
 import { useSnackbar } from 'notistack'
 import { Trans, useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
-import SponsorsList from './SponsorsList'
+const SponsorsList = lazy(() => import('./SponsorsList'))
 import type { MemeApi, BuildLog } from './types'
 import fakeApiData from './fakeApiData'
 import allowTracking from '../tracking'
@@ -258,12 +260,14 @@ export default function Form() {
       </Box>
       <Container sx={{ mb: 2 }}>
         <Divider sx={{ mb: 2 }} />
-        <SponsorsList
-          adLS={adLS}
-          setLS={setLS}
-          adSettings={adSettings}
-          setAdSettings={setAdSettings}
-        />
+        <Suspense fallback={<CircularProgress />}>
+          <SponsorsList
+            adLS={adLS}
+            setLS={setLS}
+            adSettings={adSettings}
+            setAdSettings={setAdSettings}
+          />
+        </Suspense>
       </Container>
     </>
   )

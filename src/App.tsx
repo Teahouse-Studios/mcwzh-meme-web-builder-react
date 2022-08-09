@@ -9,6 +9,7 @@ import {
 import { SnackbarProvider } from 'notistack'
 
 import { css } from '@emotion/react'
+import 'react-aspect-ratio/aspect-ratio.css'
 
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'

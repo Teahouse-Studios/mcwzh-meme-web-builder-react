@@ -146,6 +146,7 @@ export default function TeahouseFooter() {
                   height="50"
                   css={css`
                     filter: invert(1);
+                    display: inline-block;
                   `}
                   alt="Teahouse Studios"
                   loading="lazy"

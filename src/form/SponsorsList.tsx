@@ -164,6 +164,7 @@ export default function QuoteAd({
                   width: 100%;
                   height: auto;
                   margin: 0;
+                  display: inline-block;
                 `}
                 loading="lazy"
               />

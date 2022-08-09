@@ -5,10 +5,18 @@ import {
   DialogTitle,
   Button,
   Box,
+  Card,
+  Container,
+  Typography,
+  ButtonBase,
+  ThemeProvider,
+  createTheme,
+  CircularProgress,
 } from '@mui/material'
+import { AspectRatio } from 'react-aspect-ratio'
 import { css } from '@emotion/react'
 import { useState, useEffect } from 'react'
-import { Close, ArrowRight } from 'mdi-material-ui'
+import { Close, ArrowRight, Play } from 'mdi-material-ui'
 import { useLocalStorage } from 'usehooks-ts'
 import MuiMarkdown from 'mui-markdown'
 
@@ -23,6 +31,8 @@ interface News {
 
 export default function DynamicNews() {
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [showVideo, setShowVideo] = useState(false)
+  const [hideIFrame, setHideIFrame] = useState(true)
   const [newsIgnored, setNewsIgnored] = useLocalStorage('memeNewsIgnored', 0)
   const [news, setNews] = useState({} as News)
 
@@ -44,7 +54,7 @@ export default function DynamicNews() {
   }, [])
 
   useEffect(() => {
-    if (!dialogOpen) {
+    if (!dialogOpen && news.id) {
       setNewsIgnored(news.id)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,7 +64,7 @@ export default function DynamicNews() {
     <Dialog
       open={dialogOpen}
       onClose={() => setDialogOpen(false)}
-      maxWidth="sm"
+      maxWidth="md"
     >
       <DialogTitle
         sx={{
@@ -82,20 +92,80 @@ export default function DynamicNews() {
             src={news.image}
             css={css`
               width: 100%;
+              display: inline-block;
             `}
           />
         )}
         {news.video && (
-          <iframe
-            src={news.video}
-            css={css`
-              width: 100%;
-              border: 0;
-            `}
-            scrolling="no"
-            frameBorder="0"
-            allow="autoplay; encrypted-media; fullscreen"
-          />
+          <ThemeProvider
+            theme={createTheme({
+              palette: {
+                mode: 'dark',
+              },
+            })}
+          >
+            <Card elevation={3} sx={{}}>
+              {showVideo && (
+                <AspectRatio
+                  ratio="16 / 9"
+                  style={{
+                    display: hideIFrame ? 'none' : 'block',
+                  }}
+                >
+                  <iframe
+                    src={news.video}
+                    sandbox="allow-scripts allow-same-origin"
+                    scrolling="no"
+                    css={css`
+                      border: 0;
+                    `}
+                    allow="autoplay; encrypted-media; fullscreen"
+                    onLoad={() => setHideIFrame(false)}
+                  />
+                </AspectRatio>
+              )}
+              {hideIFrame && (
+                <AspectRatio ratio="16 / 9">
+                  <ButtonBase
+                    onClick={() => {
+                      setShowVideo(true)
+                    }}
+                  >
+                    <Container>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          height: '100%',
+                          color: '#fff',
+                        }}
+                      >
+                        {showVideo ? (
+                          <CircularProgress />
+                        ) : (
+                          <>
+                            <Play
+                              sx={{
+                                fontSize: '36px',
+                                verticalAlign: 'middle',
+                              }}
+                            />
+                            <Typography
+                              variant="body1"
+                              sx={{ ml: 1, verticalAlign: 'middle' }}
+                            >
+                              播放视频
+                            </Typography>
+                          </>
+                        )}
+                      </Box>
+                    </Container>
+                  </ButtonBase>
+                </AspectRatio>
+              )}
+            </Card>
+          </ThemeProvider>
         )}
         <Box
           css={css`

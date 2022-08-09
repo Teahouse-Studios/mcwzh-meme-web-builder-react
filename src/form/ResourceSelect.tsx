@@ -23,7 +23,9 @@ import {
   useState,
   MouseEvent,
   useEffect,
+  useDeferredValue,
 } from 'react'
+import Highlighter from 'react-highlight-words'
 
 interface ResourceSelectProps {
   onChange: (value: string[]) => void
@@ -46,7 +48,8 @@ export default function ResourceSelect(props: ResourceSelectProps) {
   }
 
   const { t } = useTranslation()
-  const [searchText, setSearchText] = useState('')
+  const [searchTextRaw, setSearchText] = useState('')
+  const searchText = useDeferredValue(searchTextRaw)
   const [selected, setSelected] = useState<string[]>([])
   const [fixedSelected, setFixedSelected] = useState<string[]>([])
 
@@ -178,7 +181,13 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                     sx={{ mr: 1 }}
                   />
                   <div>
-                    <Typography variant="body1">{option.name}</Typography>
+                    <Typography variant="body1">
+                      <Highlighter
+                        searchWords={[searchText]}
+                        autoEscape={true}
+                        textToHighlight={option.name}
+                      />
+                    </Typography>
                     <Typography
                       variant="body2"
                       sx={{ color: 'text.secondary' }}
