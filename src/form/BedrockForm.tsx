@@ -17,7 +17,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
-import { useSnackbar } from 'notistack'
+import { css } from '@emotion/react'
 import {
   Archive,
   Group,
@@ -25,6 +25,8 @@ import {
   CloudDownload,
   FolderInformation,
   Information,
+  PackageVariant,
+  FolderZip,
 } from 'mdi-material-ui'
 import ResourceSelect from './ResourceSelect'
 import { MemeApi, BuildLog } from './types'
@@ -202,9 +204,26 @@ export default function BedrockForm({
               onChange={(e) => {
                 handleSelectChange(e, setBeExtType)
               }}
+              css={css`
+                .version-caption {
+                  display: none;
+                }
+              `}
             >
-              <MenuItem value="mcpack">.mcpack</MenuItem>
-              <MenuItem value="zip">.zip</MenuItem>
+              <MenuItem value="mcpack">
+                <PackageVariant
+                  className="version-caption"
+                  sx={{ mr: 1, color: 'text.secondary', textSize: '18px' }}
+                />
+                .mcpack
+              </MenuItem>
+              <MenuItem value="zip">
+                <FolderZip
+                  className="version-caption"
+                  sx={{ mr: 1, color: 'text.secondary', textSize: '18px' }}
+                />
+                .zip
+              </MenuItem>
             </Select>
             <FormHelperText>{t('form.beExtType.helper')}</FormHelperText>
           </FormControl>

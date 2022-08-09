@@ -168,24 +168,6 @@ export default function Form() {
 
   return (
     <>
-      {' '}
-      <Container
-        sx={{ mb: 1 }}
-        onClick={() => {
-          if (!beforeUnloadSet) {
-            setBeforeUnload()
-          }
-        }}
-      >
-        <Alert severity="warning">
-          <AlertTitle>高能警告</AlertTitle>
-          您已被挑选进入实验性的新版在线构建。在使用过程中如有任何问题，请到{' '}
-          <a href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder-react/issues">
-            GitHub Issues
-          </a>{' '}
-          报告。
-        </Alert>
-      </Container>
       <Box
         sx={{
           display: 'flex',
@@ -363,7 +345,7 @@ function LogAccordion({
             pt: 2,
             pb: 2,
             fontFamily: 'monospace',
-            mb: 2,
+            mb: 1,
             backgroundImage:
               'linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04))',
           }}

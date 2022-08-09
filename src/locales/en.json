@@ -27,7 +27,8 @@
       "captions": {
         "release": "Latest Release",
         "snapshot": "Latest Snapshot",
-        "compatible": "With Compatible Option"
+        "compatible": "With Compatible Option",
+        "legacy": "Versions below 1.11 not supported"
       }
     },
     "resource": {
@@ -73,7 +74,11 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": ["12+", "16+", "18+"],
+      "ticks": [
+        "12+",
+        "16+",
+        "18+"
+      ],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",

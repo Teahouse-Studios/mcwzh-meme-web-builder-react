@@ -75,15 +75,17 @@ export default function QuoteAd({
       .then(async (res) => {
         const data = (await res.json()) as { [key: string]: string }
         setMsgs(data)
-        setTimeout(() => {
-          roll()
-        })
       })
       .catch((e) => {
         console.error(e)
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    roll()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [msgs])
 
   return (
     <>

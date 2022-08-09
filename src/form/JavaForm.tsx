@@ -1,4 +1,11 @@
-import { useState, useEffect, Dispatch, SetStateAction, useMemo } from 'react'
+import {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  useMemo,
+  createElement,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Grid,
@@ -16,6 +23,7 @@ import {
   Typography,
   SelectChangeEvent,
   ListSubheader,
+  Chip,
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import {
@@ -27,6 +35,15 @@ import {
   AccountChildCircle,
   CloudDownload,
   Information,
+  ImageFilterHdr,
+  Wifi,
+  Candle,
+  Pig,
+  HexagonMultiple,
+  Fish,
+  Panda,
+  Looks,
+  HomeModern,
 } from 'mdi-material-ui'
 import { css } from '@emotion/react'
 import ResourceSelect from './ResourceSelect'
@@ -316,19 +333,41 @@ export default function JavaForm({
                   caption: `${t('form.version.captions.release')}${t(
                     'metadata.ideographicComma'
                   )}${t('form.version.captions.snapshot')}`,
+                  icon: Wifi,
                 },
-                { version: '1.18 - 1.18.2', format: 8 },
-                { version: '1.17 - 1.17.1', format: 7 },
-                { version: '1.16.2 - 1.16.5', format: 6 },
-                { version: '1.15 - 1.16.1', format: 5 },
-                { version: '1.13 - 1.14.4', format: 4 },
+                {
+                  version: '1.18 - 1.18.2',
+                  format: 8,
+                  icon: ImageFilterHdr,
+                },
+                { version: '1.17 - 1.17.1', format: 7, icon: Candle },
+                { version: '1.16.2 - 1.16.5', format: 6, icon: Pig },
+                { version: '1.15 - 1.16.1', format: 5, icon: HexagonMultiple },
+                {
+                  version: '1.13 - 1.14.4',
+                  format: 4,
+                  icon: Fish,
+                  icon2: Panda,
+                },
                 {
                   version: '1.11 - 1.12.2',
                   format: 3,
                   caption: t('form.version.captions.compatible'),
+                  icon: HomeModern,
+                  icon2: Looks,
                 },
               ].map((i) => (
                 <MenuItem key={i.version} value={i.format}>
+                  {i.icon &&
+                    createElement(i.icon, {
+                      className: 'version-caption',
+                      sx: { mr: 1, color: 'text.secondary', textSize: '18px' },
+                    })}
+                  {i.icon2 &&
+                    createElement(i.icon2, {
+                      className: 'version-caption',
+                      sx: { mr: 1, color: 'text.secondary', textSize: '18px' },
+                    })}
                   {i.version}
                   <Typography
                     component="span"
@@ -341,6 +380,9 @@ export default function JavaForm({
                   </Typography>
                 </MenuItem>
               ))}
+              <MenuItem disabled={true}>
+                {t('form.version.captions.legacy')}
+              </MenuItem>
             </Select>
             <FormHelperText>{t('form.version.helper')}</FormHelperText>
           </FormControl>
@@ -360,6 +402,15 @@ export default function JavaForm({
               onChange={(e) => {
                 handleSelectChange(e, setEnabledMods)
               }}
+              renderValue={(selected) =>
+                selected.map((option) => (
+                  <Chip
+                    key={option}
+                    label={option.replace(/mods\/(.*)\.json/g, '$1')}
+                    sx={{ mr: 0.5 }}
+                  />
+                ))
+              }
             >
               <MenuItem
                 disabled={enabledMods.length === 0}
@@ -374,7 +425,7 @@ export default function JavaForm({
               </ListSubheader>
               {api.mods.map((m) => (
                 <MenuItem value={m} key={m}>
-                  {m}
+                  {m.replace(/mods\/(.*)\.json/g, '$1')}
                 </MenuItem>
               ))}
               <ListSubheader>
@@ -384,7 +435,7 @@ export default function JavaForm({
               </ListSubheader>
               {api.enmods.map((m) => (
                 <MenuItem value={m} key={m}>
-                  {m}
+                  {m.replace(/mods\/(.*)\.json/g, '$1')}
                 </MenuItem>
               ))}
             </Select>
