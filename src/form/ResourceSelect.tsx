@@ -33,7 +33,7 @@ interface ResourceSelectProps {
   label: string
   prependIcon: ReactElement<SvgIconProps>
   helper?: string
-  defaultOptions?: string[]
+  selected?: string[]
   disabledOptions?: string[]
   fixedOptions?: string[]
   unselectAll?: () => never | void
@@ -50,12 +50,8 @@ export default function ResourceSelect(props: ResourceSelectProps) {
   const { t } = useTranslation()
   const [searchTextRaw, setSearchText] = useState('')
   const searchText = useDeferredValue(searchTextRaw)
-  const [selected, setSelected] = useState<string[]>([])
+  const [selected, setSelected] = useState<string[]>(props.selected ?? [])
   const [fixedSelected, setFixedSelected] = useState<string[]>([])
-
-  useEffect(() => {
-    setSelected((o) => [...new Set([...o, ...(props.defaultOptions ?? [])])])
-  }, [props.defaultOptions])
 
   const handleFixedOption = (selected: string[]) => {
     const old = fixedSelected.filter(
@@ -71,6 +67,11 @@ export default function ResourceSelect(props: ResourceSelectProps) {
     setFixedSelected(props.fixedOptions ?? [])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.fixedOptions])
+
+  useEffect(() => {
+    setSelected(props.selected ?? [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.selected])
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -138,7 +139,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           >
             {t('form.clearSelected')}
           </MenuItem>
-          {/* {props.unselectAll && (
+          {props.unselectAll && (
             <MenuItem
               onClick={() => {
                 props.unselectAll?.()
@@ -146,7 +147,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
             >
               {t('form.clearAll')}
             </MenuItem>
-          )} */}
+          )}
           {props.options
             .filter((i) => i.name.includes(searchText))
             .map((option, i) => (

@@ -173,6 +173,11 @@ export default function Form() {
   return (
     <>
       <Box
+        onClick={() => {
+          if (!beforeUnloadSet) {
+            setBeforeUnload()
+          }
+        }}
         sx={{
           display: 'flex',
           justifyContent: 'center',

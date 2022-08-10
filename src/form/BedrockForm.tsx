@@ -46,7 +46,6 @@ export default function BedrockForm({
   ])
   const [disabledCollections, setDisabledCollections] = useState<string[]>([])
   const [enabledModules, setEnabledModules] = useState<string[]>([])
-  const [defaultModules] = useState<string[]>([])
   const [disabledModules, setDisabledModules] = useState<string[]>([])
   const [fixedModules, setFixedModules] = useState<string[]>([])
   const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>('mcpack')
@@ -111,8 +110,8 @@ export default function BedrockForm({
   }, [enabledCollections, sfw, api])
 
   const calculatedEnabledModules = useMemo(
-    () => [...enabledModules, ...defaultModules, ...fixedModules],
-    [enabledModules, defaultModules, fixedModules]
+    () => [...enabledModules, ...fixedModules],
+    [enabledModules, fixedModules]
   )
 
   const handleSubmit = () => {
@@ -235,8 +234,12 @@ export default function BedrockForm({
           onChange={(v) => {
             setEnabledModules(v)
           }}
+          unselectAll={() => {
+            setEnabledModules([])
+            setEnabledCollections([])
+          }}
           options={api.be_modules.resource}
-          defaultOptions={defaultModules}
+          selected={enabledModules}
           disabledOptions={disabledModules}
           fixedOptions={fixedModules}
           label={t('form.resource.label')}
@@ -249,7 +252,7 @@ export default function BedrockForm({
           onChange={(v) => {
             setEnabledCollections(v)
           }}
-          defaultOptions={enabledCollections}
+          selected={enabledCollections}
           disabledOptions={disabledCollections}
           options={api.be_modules.collection}
           label={t('form.collections.label')}

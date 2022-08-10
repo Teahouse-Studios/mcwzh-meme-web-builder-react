@@ -58,7 +58,9 @@ export default function JavaForm({
   api: MemeApi
   addLog: (log: BuildLog) => void
 }) {
-  const [enabledCollections, setEnabledCollections] = useState<string[]>([])
+  const [enabledCollections, setEnabledCollections] = useState<string[]>([
+    'choice_modules_default',
+  ])
   const [fixedCollections, setFixedCollections] = useState<string[]>([])
   const [enabledResourceModules, setEnabledResourceModules] = useState<
     string[]
@@ -66,8 +68,6 @@ export default function JavaForm({
   const [enabledLanguageModules, setEnabledLanguageModule] = useState<string[]>(
     []
   )
-  const [defaultResourceModules] = useState<string[]>([])
-  const [defaultLanguageModules] = useState<string[]>([])
   const [disabledResourceModules, setDisabledResourceModules] = useState<
     string[]
   >([])
@@ -77,17 +77,12 @@ export default function JavaForm({
   const [fixedResourceModules, setFixedResourceModules] = useState<string[]>([])
   const [fixedLanguageModules, setFixedLanguageModules] = useState<string[]>([])
   const [gameVersion, setGameVersion] = useState<number>(9)
-  const [enabledMods, setEnabledMods] = useState<string[]>([])
+  const [enabledMods, setEnabledMods] = useState<string[]>(api.mods)
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
   const [forceUseCompatible, setForceUseCompatible] = useState(false)
   const [sfw, setSfw] = useState<number>(2)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
-
-  useEffect(() => {
-    setEnabledMods(api.mods)
-    setEnabledCollections(['choice_modules_default'])
-  }, [api])
 
   const resourcePredicate = (i: string) => !i.startsWith('lang_')
   const langPredicate = (i: string) => i.startsWith('lang_')
@@ -101,7 +96,7 @@ export default function JavaForm({
     ) => boolean
 
     const getModulesInCollection = (predicate: ArrayFilterPredicate) => {
-      return enabledCollections
+      return [...enabledCollections, ...fixedCollections]
         .flatMap((m) =>
           api.je_modules.collection
             .find((c) => c.name === m)
@@ -114,7 +109,7 @@ export default function JavaForm({
     ) => {
       return api.je_modules.resource
         .filter((resourceModules) =>
-          enabledCollections
+          [...enabledCollections, ...fixedCollections]
             .flatMap((enabledCollection) =>
               api.je_modules.collection
                 .find((collection) => collection.name === enabledCollection)
@@ -201,21 +196,13 @@ export default function JavaForm({
   )
 
   const calculatedEnabledResourceModules = useMemo(
-    () => [
-      ...enabledResourceModules,
-      ...defaultResourceModules,
-      ...fixedResourceModules,
-    ],
-    [enabledResourceModules, defaultResourceModules, fixedResourceModules]
+    () => [...enabledResourceModules, ...fixedResourceModules],
+    [enabledResourceModules, fixedResourceModules]
   )
 
   const calculatedEnabledLanguageModules = useMemo(
-    () => [
-      ...enabledLanguageModules,
-      ...defaultLanguageModules,
-      ...fixedLanguageModules,
-    ],
-    [enabledLanguageModules, defaultLanguageModules, fixedLanguageModules]
+    () => [...enabledLanguageModules, ...fixedLanguageModules],
+    [enabledLanguageModules, fixedLanguageModules]
   )
 
   const handleSubmit = () => {
@@ -456,12 +443,13 @@ export default function JavaForm({
             setEnabledResourceModules(v)
           }}
           unselectAll={() => {
+            setEnabledResourceModules([])
             setEnabledCollections([])
           }}
           options={api.je_modules.resource.filter(
             (i) => !i.name.startsWith('lang_') // separate lang modules
           )}
-          defaultOptions={defaultResourceModules}
+          selected={enabledResourceModules}
           disabledOptions={disabledResourceModules}
           fixedOptions={fixedResourceModules}
           label={t('form.resource.label')}
@@ -475,12 +463,13 @@ export default function JavaForm({
             setEnabledLanguageModule(v)
           }}
           unselectAll={() => {
+            setEnabledLanguageModule([])
             setEnabledCollections([])
           }}
           options={api.je_modules.resource.filter(
             (i) => i.name.startsWith('lang_') // separate lang modules
           )}
-          defaultOptions={defaultLanguageModules}
+          selected={enabledLanguageModules}
           disabledOptions={disabledLanguageModules}
           fixedOptions={fixedLanguageModules}
           label={t('form.language.label')}
@@ -493,8 +482,8 @@ export default function JavaForm({
           onChange={(v) => {
             setEnabledCollections(v)
           }}
-          defaultOptions={[...fixedCollections, ...enabledCollections]}
-          disabledOptions={fixedCollections}
+          selected={enabledCollections}
+          fixedOptions={fixedCollections}
           options={api.je_modules.collection}
           label={t('form.collections.label')}
           helper={t('form.collections.helper')}
