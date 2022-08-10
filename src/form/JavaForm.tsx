@@ -358,11 +358,18 @@ export default function JavaForm({
                 },
               ].map((i) => (
                 <MenuItem key={i.version} value={i.format}>
-                  {i.icon &&
-                    createElement(i.icon, {
-                      className: 'version-caption',
-                      sx: { mr: 1, color: 'text.secondary', textSize: '18px' },
-                    })}
+                  {
+                    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                    i.icon &&
+                      createElement(i.icon, {
+                        className: 'version-caption',
+                        sx: {
+                          mr: 1,
+                          color: 'text.secondary',
+                          textSize: '18px',
+                        },
+                      })
+                  }
                   {i.icon2 &&
                     createElement(i.icon2, {
                       className: 'version-caption',
