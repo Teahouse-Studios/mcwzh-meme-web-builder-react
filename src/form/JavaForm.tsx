@@ -50,6 +50,7 @@ import ResourceSelect from './ResourceSelect'
 import { MemeApi, BuildLog } from './types'
 import allowTracking from '../tracking'
 import endpoint from '../api'
+import { useUrlHashParam } from './useUrlHashParam'
 
 export default function JavaForm({
   api,
@@ -58,15 +59,16 @@ export default function JavaForm({
   api: MemeApi
   addLog: (log: BuildLog) => void
 }) {
-  const [enabledCollections, setEnabledCollections] = useState<string[]>([
-    'choice_modules_default',
-  ])
+  const hash = useUrlHashParam()
+  const [enabledCollections, setEnabledCollections] = useState<string[]>(
+    hash.collections ?? ['choice_modules_default']
+  )
   const [fixedCollections, setFixedCollections] = useState<string[]>([])
   const [enabledResourceModules, setEnabledResourceModules] = useState<
     string[]
-  >([])
+  >(hash.resourceModules ?? [])
   const [enabledLanguageModules, setEnabledLanguageModule] = useState<string[]>(
-    []
+    hash.languageModules ?? []
   )
   const [disabledResourceModules, setDisabledResourceModules] = useState<
     string[]
@@ -76,11 +78,15 @@ export default function JavaForm({
   >([])
   const [fixedResourceModules, setFixedResourceModules] = useState<string[]>([])
   const [fixedLanguageModules, setFixedLanguageModules] = useState<string[]>([])
-  const [gameVersion, setGameVersion] = useState<number>(9)
-  const [enabledMods, setEnabledMods] = useState<string[]>(api.mods)
-  const [useCompatible, setUseCompatible] = useState<boolean>(false)
+  const [gameVersion, setGameVersion] = useState<number>(hash.gameVersion ?? 9)
+  const [enabledMods, setEnabledMods] = useState<string[]>(
+    hash.mods ?? api.mods
+  )
+  const [useCompatible, setUseCompatible] = useState<boolean>(
+    hash.compatible ?? false
+  )
   const [forceUseCompatible, setForceUseCompatible] = useState(false)
-  const [sfw, setSfw] = useState<number>(2)
+  const [sfw, setSfw] = useState<number>(hash.sfw ?? 2)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 

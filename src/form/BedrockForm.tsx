@@ -33,6 +33,7 @@ import ResourceSelect from './ResourceSelect'
 import { MemeApi, BuildLog } from './types'
 import allowTracking from '../tracking'
 import endpoint from '../api'
+import { useUrlHashParam } from './useUrlHashParam'
 
 export default function BedrockForm({
   api,
@@ -41,16 +42,23 @@ export default function BedrockForm({
   api: MemeApi
   addLog: (log: BuildLog) => void
 }) {
-  const [enabledCollections, setEnabledCollections] = useState<string[]>([
-    'choice_modules_default',
-  ])
+  const hash = useUrlHashParam()
+  const [enabledCollections, setEnabledCollections] = useState<string[]>(
+    hash.collections ?? ['choice_modules_default']
+  )
   const [disabledCollections, setDisabledCollections] = useState<string[]>([])
-  const [enabledModules, setEnabledModules] = useState<string[]>([])
+  const [enabledModules, setEnabledModules] = useState<string[]>(
+    hash.modules ?? []
+  )
   const [disabledModules, setDisabledModules] = useState<string[]>([])
   const [fixedModules, setFixedModules] = useState<string[]>([])
-  const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>('mcpack')
-  const [useCompatible, setUseCompatible] = useState<boolean>(false)
-  const [sfw, setSfw] = useState<number>(2)
+  const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>(
+    hash.extType ?? 'mcpack'
+  )
+  const [useCompatible, setUseCompatible] = useState<boolean>(
+    hash.compatible ?? false
+  )
+  const [sfw, setSfw] = useState<number>(hash.sfw ?? 2)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 
