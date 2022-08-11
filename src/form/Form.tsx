@@ -57,7 +57,7 @@ import type { MemeApi, BuildLog } from './types'
 import fakeApiData from './fakeApiData'
 import allowTracking from '../tracking'
 import endpoint from '../api'
-import { useLocalStorage } from 'usehooks-ts'
+import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import type { Swiper as SwiperType } from 'swiper'
@@ -72,7 +72,18 @@ export default function Form() {
   const { t } = useTranslation()
   const [api, setApi] = useState<MemeApi | undefined>(undefined)
   const [apiError, setApiError] = useState<Error | null>(null)
-  const [logs, setLogs] = useState<BuildLog[]>([])
+  const [logs, setLogs] = useLocalStorage<BuildLog[]>('memeBuildLogs', [])
+  const [logsExpired, setLogsExpired] = useState(false)
+  useEffectOnce(() => {
+    const original = logs.length
+    const newLogs = logs.filter(
+      (log) => Date.now().valueOf() - log.time < 1000 * 60 * 60 * 24 * 7
+    )
+    if (original !== newLogs.length) {
+      setLogsExpired(true)
+      setLogs(newLogs)
+    }
+  })
   const { enqueueSnackbar } = useSnackbar()
   const [beforeUnloadSet, setBeforeUnloadSet] = useState(false)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -262,6 +273,11 @@ export default function Form() {
                   />
                 ))}
             </Box>
+            {logsExpired && (
+              <Alert severity="info" sx={{ my: 1 }}>
+                {t('log.expired')}
+              </Alert>
+            )}
           </Container>
         )}
       </Box>

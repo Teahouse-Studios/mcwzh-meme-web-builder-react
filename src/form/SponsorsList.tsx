@@ -26,6 +26,7 @@ import { createElement, Dispatch, SetStateAction } from 'react'
 import { useState, useEffect } from 'react'
 import { css } from '@emotion/react'
 import { AdType } from './Form'
+import { useEffectOnce } from 'usehooks-ts'
 
 export default function QuoteAd({
   adLS,
@@ -70,7 +71,7 @@ export default function QuoteAd({
       setRandomDice(randomD)
     }, 1000)
   }
-  useEffect(() => {
+  useEffectOnce(() => {
     fetch('https://fe.wd-ljt.com/meme/dynamic/sp_messages.json')
       .then(async (res) => {
         const data = (await res.json()) as { [key: string]: string }
@@ -80,7 +81,7 @@ export default function QuoteAd({
         console.error(e)
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   useEffect(() => {
     roll()
