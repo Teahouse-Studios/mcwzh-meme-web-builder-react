@@ -118,7 +118,7 @@ export default function QuoteAd({
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
+                flexDirection: 'row',
               }}
             >
               <Box sx={{ mb: 1, display: 'flex', opacity: 0.8, mr: 2 }}>

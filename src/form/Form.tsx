@@ -375,6 +375,7 @@ function LogAccordion({
             mb: 1,
             backgroundImage:
               'linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04))',
+            overflowX: 'auto',
           }}
         >
           <Tooltip title={t('log.logCopy')}>
