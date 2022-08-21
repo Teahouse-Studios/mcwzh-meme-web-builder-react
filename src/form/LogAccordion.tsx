@@ -249,7 +249,7 @@ export default function LogAccordion({
                     color="error"
                     href="https://afdian.net/@teahouse"
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                     onClick={() => {
                       setAdSettings((adSettings) => {
                         return { ...adSettings, shouldDisplayAd: false }
@@ -309,7 +309,7 @@ export default function LogAccordion({
                   <Link
                     href="https://space.bilibili.com/406275313"
                     target="_blank"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                   >
                     B 站动态
                   </Link>
@@ -328,7 +328,7 @@ export default function LogAccordion({
                 }
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 href={log.downloadUrl!}
-                rel="noopener"
+                rel="noopener noreferrer"
                 target="_blank"
                 sx={{ mr: 1 }}
               >
@@ -344,7 +344,7 @@ export default function LogAccordion({
                   }[log.platform]
                 }
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 {t('appbar.discPack')}
               </Button>
@@ -366,7 +366,7 @@ export default function LogAccordion({
                 color="error"
                 href="https://afdian.net/@teahouse"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 sx={{ mr: 1 }}
               >
                 {t('footer.donate')}
@@ -375,7 +375,7 @@ export default function LogAccordion({
                 <IconButton
                   href="https://lakeus.xyz/wiki/梗体中文/导入"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   sx={{ float: 'right' }}
                 >
                   <HelpCircle />
@@ -388,7 +388,7 @@ export default function LogAccordion({
               startIcon={<Bug />}
               color="error"
               href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
-              rel="noopener"
+              rel="noopener noreferrer"
               sx={{ mr: 1 }}
             >
               {t('log.feedback')}

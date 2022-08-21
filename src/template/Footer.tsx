@@ -140,7 +140,11 @@ export default function TeahouseFooter() {
                 textAlign: smAndDown ? 'right' : 'center',
               }}
             >
-              <a href="https://teahouse.team/" target="_blank" rel="noreferrer">
+              <a
+                href="https://teahouse.team/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img
                   src={new URL('../assets/logo.svg', import.meta.url).href}
                   height="50"
@@ -219,7 +223,7 @@ function LinkIconButton({
       <IconButton
         href={href}
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
         title={title}
         size="small"
       >
@@ -251,7 +255,7 @@ function LinkButton({
         startIcon={icon}
         href={href}
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
         sx={{
           color: 'white',
         }}

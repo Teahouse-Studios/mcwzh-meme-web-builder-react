@@ -83,7 +83,7 @@ export default function WebviewWarning() {
               color="error"
               href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               startIcon={<Bug />}
               sx={{ mr: 1 }}
             >
