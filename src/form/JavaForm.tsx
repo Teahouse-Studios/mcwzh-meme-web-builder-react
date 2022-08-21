@@ -252,6 +252,7 @@ export default function JavaForm({
                 log: data.logs,
                 downloadUrl: data.root + data.filename,
                 time: Date.now(),
+                expanded: true,
               })
             })
             .catch(catchFetch)
@@ -265,6 +266,7 @@ export default function JavaForm({
                 platform: 'java',
                 log: data.logs,
                 time: Date.now(),
+                expanded: true,
               })
             })
             .catch(catchFetch)
@@ -279,6 +281,7 @@ export default function JavaForm({
         platform: 'java',
         log: `${error.name}: ${error.message}`,
         time: Date.now(),
+        expanded: true,
       })
     }
   }

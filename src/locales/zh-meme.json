@@ -121,7 +121,9 @@
     "howToInstall": "我不会安装！！！",
     "followUpdates": "梗体中文每时每刻都在持续迭代更新！我们推荐您在一段时间后更新您的梗体中文资源包。您也可以关注我们的 <1>B 站动态</1>获得一手资讯。",
     "logCopy": "复制漏洞",
-    "expired": "7 天之前的构建日志已被删除。"
+    "expired": "7 天之前的构建日志已被删除。",
+    "collapseAll": "折叠所有",
+    "expandAll": "展开所有"
   },
   "sponsor": {
     "overline": "金主爸爸",

@@ -43,7 +43,7 @@ export default function LogAccordion({
   deleteSelf,
   adSettings,
   setAdSettings,
-  defaultExpanded,
+  setManualExpanded,
 }: {
   log: BuildLog
   adLS: { shown: boolean; lastShown: number; clicked: boolean }
@@ -51,12 +51,11 @@ export default function LogAccordion({
   deleteSelf: () => void
   adSettings: { shouldDisplayAd: boolean; adType: AdType }
   setAdSettings: Dispatch<SetStateAction<typeof adSettings>>
-  defaultExpanded: boolean
+  setManualExpanded: (expanded: boolean) => void
 }) {
   const { t } = useTranslation()
   const theme = useTheme()
   const { enqueueSnackbar } = useSnackbar()
-  const [expanded, setExpanded] = useState(defaultExpanded)
   const [shareCopiedToClipboard, setShareCopiedToClipboard] = useState(false)
   const shareUrl = async (url: string) => {
     if (allowTracking) window.gtag('event', 'share')
@@ -84,10 +83,10 @@ export default function LogAccordion({
   }
 
   return (
-    <Accordion key="log.time" expanded={expanded}>
+    <Accordion key={log.time} expanded={log.expanded}>
       <AccordionSummary
         expandIcon={<ChevronDown />}
-        onClick={() => setExpanded(!expanded)}
+        onClick={() => setManualExpanded(!log.expanded)}
       >
         <Box
           sx={{
@@ -124,12 +123,13 @@ export default function LogAccordion({
               {new Date(log.time).toLocaleString()}
             </Typography>
           </Box>
-          <AccordionActions sx={{ padding: '0' }}>
+          <AccordionActions sx={{ padding: '0', pr: 1 }}>
             <IconButton
               size="small"
               color="error"
               sx={{ padding: '0' }}
-              onClick={() => {
+              onClick={(event) => {
+                event.stopPropagation()
                 deleteSelf()
               }}
             >

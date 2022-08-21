@@ -121,7 +121,9 @@
     "howToInstall": "How to install?",
     "followUpdates": "The pack updates quickly! We recommend you to update the pack after some time. You can also follow our <1>Bilibili page</1> for updates.",
     "logCopy": "Copy log",
-    "expired": "Build logs older than 7 days have been removed."
+    "expired": "Build logs older than 7 days have been removed.",
+    "collapseAll": "Collapse all",
+    "expandAll": "Expand all"
   },
   "sponsor": {
     "overline": "Sponsors",

@@ -29,4 +29,5 @@ export interface BuildLog {
   platform: 'java' | 'bedrock'
   downloadUrl?: string
   time: number
+  expanded: boolean
 }

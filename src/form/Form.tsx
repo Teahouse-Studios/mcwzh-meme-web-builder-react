@@ -19,6 +19,8 @@ import {
   Bug,
   Refresh,
   CloseCircleMultipleOutline,
+  CollapseAll,
+  ExpandAll,
 } from 'mdi-material-ui'
 import {
   useState,
@@ -247,16 +249,40 @@ export default function Form() {
               <Typography variant="h5" component="h2">
                 {t('log.headline')}
               </Typography>
-              <Tooltip title={t('form.clearAll')}>
-                <IconButton
-                  color="error"
-                  onClick={() => {
-                    setLogs([])
-                  }}
-                >
-                  <CloseCircleMultipleOutline />
-                </IconButton>
-              </Tooltip>
+              <Box>
+                <Tooltip title={t('form.clearAll')}>
+                  <IconButton
+                    color="error"
+                    onClick={() => {
+                      setLogs([])
+                    }}
+                  >
+                    <CloseCircleMultipleOutline />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={t('log.collapseAll')}>
+                  <IconButton
+                    onClick={() => {
+                      setLogs((logs) =>
+                        logs.map((log) => ({ ...log, expanded: false }))
+                      )
+                    }}
+                  >
+                    <CollapseAll />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={t('log.expandAll')}>
+                  <IconButton
+                    onClick={() => {
+                      setLogs((logs) =>
+                        logs.map((log) => ({ ...log, expanded: true }))
+                      )
+                    }}
+                  >
+                    <ExpandAll />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             </Box>
             <Box>
               {logs
@@ -273,7 +299,13 @@ export default function Form() {
                     setLS={setLS}
                     adSettings={adSettings}
                     setAdSettings={setAdSettings}
-                    defaultExpanded={index === 0}
+                    setManualExpanded={(exp) => {
+                      setLogs(
+                        logs.map((l) =>
+                          l.time === log.time ? { ...l, expanded: exp } : l
+                        )
+                      )
+                    }}
                   />
                 ))}
             </Box>

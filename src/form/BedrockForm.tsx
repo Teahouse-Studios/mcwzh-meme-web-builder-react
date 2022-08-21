@@ -152,6 +152,7 @@ export default function BedrockForm({
                 log: data.logs,
                 downloadUrl: data.root + data.filename,
                 time: Date.now(),
+                expanded: true,
               })
             })
             .catch(catchFetch)
@@ -165,6 +166,7 @@ export default function BedrockForm({
                 platform: 'bedrock',
                 log: data.logs,
                 time: Date.now(),
+                expanded: true,
               })
             })
             .catch(catchFetch)
@@ -179,6 +181,7 @@ export default function BedrockForm({
         platform: 'bedrock',
         log: `${error.name}: ${error.message}`,
         time: Date.now(),
+        expanded: true,
       })
     }
   }
