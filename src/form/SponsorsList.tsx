@@ -155,7 +155,7 @@ export default function QuoteAd({
             <Typography variant="body1">{t('sponsor.thankYou')}</Typography>
             <a
               href="https://afdian.net/@teahouse"
-              rel="noopener noreferrer"
+              rel="noopener"
               target="_blank"
             >
               <img
@@ -186,7 +186,7 @@ export default function QuoteAd({
             color="error"
             href="https://afdian.net/@teahouse"
             target="_blank"
-            rel="noreferrer noopener"
+            rel="noopener"
             onClick={() => {
               setAdSettings((adSettings) => {
                 return { ...adSettings, shouldDisplayAd: false }

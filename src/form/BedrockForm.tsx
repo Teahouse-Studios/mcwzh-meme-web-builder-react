@@ -310,7 +310,7 @@ export default function BedrockForm({
           {t('form.bedrockHint.text')}
           <Link
             href="https://github.com/Teahouse-Studios/mcwzh-meme-resourcepack-bedrock"
-            rel="noopener noreferrer"
+            rel="noopener"
             target="_blank"
           >
             {t('form.bedrockHint.readme')}

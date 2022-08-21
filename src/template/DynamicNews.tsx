@@ -182,7 +182,7 @@ export default function DynamicNews() {
             sx={{ mt: 1 }}
             href={news.detail}
             target="_blank"
-            rel="noreferrer noopener"
+            rel="noopener"
             startIcon={<ArrowRight />}
           >
             阅读更多

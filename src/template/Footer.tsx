@@ -219,7 +219,7 @@ function LinkIconButton({
       <IconButton
         href={href}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener"
         title={title}
         size="small"
       >
@@ -251,7 +251,7 @@ function LinkButton({
         startIcon={icon}
         href={href}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener"
         sx={{
           color: 'white',
         }}

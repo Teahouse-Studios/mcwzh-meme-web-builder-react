@@ -394,10 +394,8 @@ function LogAccordion({
                 variant="body1"
                 fontFamily="monospace"
                 key={index}
-                sx={{
-                  whiteSpace: 'pre-wrap',
-                }}
                 css={css`
+                  white-space: pre-wrap;
                   counter-increment: line;
                   padding-left: 3.5rem;
                   padding-right: 2rem;
@@ -478,7 +476,7 @@ function LogAccordion({
                     color="error"
                     href="https://afdian.net/@teahouse"
                     target="_blank"
-                    rel="noreferrer noopener"
+                    rel="noopener"
                     onClick={() => {
                       setAdSettings((adSettings) => {
                         return { ...adSettings, shouldDisplayAd: false }
@@ -538,7 +536,7 @@ function LogAccordion({
                   <Link
                     href="https://space.bilibili.com/406275313"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener"
                   >
                     B 站动态
                   </Link>
@@ -555,7 +553,10 @@ function LogAccordion({
                     eventLabel: new URL(log.downloadUrl!).pathname,
                   })
                 }
-                href={log.downloadUrl}
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                href={log.downloadUrl!}
+                rel="noopener"
+                target="_blank"
                 sx={{ mr: 1 }}
               >
                 {t('log.download')}
@@ -570,7 +571,7 @@ function LogAccordion({
                   }[log.platform]
                 }
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
               >
                 {t('appbar.discPack')}
               </Button>
@@ -592,7 +593,7 @@ function LogAccordion({
                 color="error"
                 href="https://afdian.net/@teahouse"
                 target="_blank"
-                rel="noreferrer noopener"
+                rel="noopener"
                 sx={{ mr: 1 }}
               >
                 {t('footer.donate')}
@@ -601,7 +602,7 @@ function LogAccordion({
                 <IconButton
                   href="https://lakeus.xyz/wiki/梗体中文/导入"
                   target="_blank"
-                  rel="noreferrer noopener"
+                  rel="noopener"
                   sx={{ float: 'right' }}
                 >
                   <HelpCircle />
@@ -614,7 +615,7 @@ function LogAccordion({
               startIcon={<Bug />}
               color="error"
               href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
-              rel="noreferrer noopener"
+              rel="noopener"
               sx={{ mr: 1 }}
             >
               {t('log.feedback')}

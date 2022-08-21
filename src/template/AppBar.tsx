@@ -191,7 +191,7 @@ function CompositeMenu(props: CompositeMenuProps) {
             key={item.name}
             component="a"
             href={item.href}
-            rel="noopener noreferrer"
+            rel="noopener"
             target="_blank"
           >
             {item.name}
