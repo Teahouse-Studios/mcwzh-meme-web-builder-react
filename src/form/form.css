@@ -1,0 +1,44 @@
+.delayed-collapse-enter,
+.delayed-collapse-enter-active {
+  opacity: 0;
+}
+
+.collapse-enter,
+.delayed-collapse-enter {
+  height: 0;
+  overflow: hidden;
+}
+
+.collapse-enter-active,
+.delayed-collapse-enter-active {
+  height: var(--transition-height);
+  transition: all 300ms ease-in-out;
+}
+
+.delayed-collapse-enter-done {
+  opacity: 1;
+  transition: all 300ms ease-in-out !important;
+}
+
+.collapse-exit,
+.delayed-collapse-exit {
+  height: var(--transition-height);
+}
+
+.collapse-exit-active,
+.delayed-collapse-exit-active {
+  height: 0;
+  overflow: hidden;
+  transition: all 300ms ease-in-out !important;
+}
+
+.blur-enter {
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+.blur-enter-active {
+  pointer-events: all;
+  filter: blur(0px);
+  transition: all 1000ms ease-in-out !important;
+}

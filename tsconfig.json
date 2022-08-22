@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react"
   },
-  "include": ["src"],
+  "include": ["src", "vite.config.ts", ".eslintrc.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

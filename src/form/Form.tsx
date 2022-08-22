@@ -31,6 +31,9 @@ import {
   useRef,
   lazy,
   Suspense,
+  Key,
+  createRef,
+  RefObject,
 } from 'react'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
@@ -44,7 +47,9 @@ import endpoint from '../api'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
+import './form.css'
 import type { Swiper as SwiperType } from 'swiper'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 export enum AdType {
   FirstTime,
@@ -165,6 +170,8 @@ export default function Form() {
     })
   }
 
+  const formRef = useRef<HTMLDivElement>(null)
+
   return (
     <>
       <Box
@@ -201,41 +208,59 @@ export default function Form() {
                 sx={{
                   minHeight: 'unset',
                 }}
+                disabled={!api}
               />
             </Tabs>
-            {!api ? (
+            {!api && (
               <TabPanel>
                 <LoadingMask>
                   <JavaForm api={fakeApiData} addLog={addLog} />
                 </LoadingMask>
               </TabPanel>
-            ) : (
-              <Swiper
-                spaceBetween={50}
-                slidesPerView={1}
-                autoHeight={true}
-                simulateTouch={false}
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-                onSlideChange={(index) => slideChange(index.activeIndex)}
-                onSwiper={(swiper) => {
-                  setSwiper(swiper)
-                }}
-              >
-                <SwiperSlide>
-                  <TabPanel>
-                    <JavaForm api={api} addLog={addLog} />
-                  </TabPanel>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <TabPanel>
-                    <BedrockForm api={api} addLog={addLog} />
-                  </TabPanel>
-                </SwiperSlide>
-              </Swiper>
             )}
+            <CSSTransition
+              in={!!api}
+              classNames="blur"
+              timeout={1000}
+              mountOnEnter
+              nodeRef={formRef}
+            >
+              <Box ref={formRef}>
+                <Swiper
+                  spaceBetween={50}
+                  slidesPerView={1}
+                  autoHeight={true}
+                  simulateTouch={false}
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+                  onSlideChange={(index) => slideChange(index.activeIndex)}
+                  onSwiper={(swiper) => {
+                    setSwiper(swiper)
+                  }}
+                >
+                  <SwiperSlide>
+                    <TabPanel>
+                      <JavaForm
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        api={api!}
+                        addLog={addLog}
+                      />
+                    </TabPanel>
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <TabPanel>
+                      <BedrockForm
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        api={api!}
+                        addLog={addLog}
+                      />
+                    </TabPanel>
+                  </SwiperSlide>
+                </Swiper>
+              </Box>
+            </CSSTransition>
           </Container>
         )}
-        {logs.length > 0 && (
+        <CollapseTransition in={logs.length > 0} nodeRef={logRootRef}>
           <Container id="build-logs" ref={logRootRef}>
             <Divider sx={{ mb: 2 }} />
             <Box
@@ -285,29 +310,42 @@ export default function Form() {
               </Box>
             </Box>
             <Box>
-              {logs
-                .slice()
-                .reverse()
-                .map((log, index) => (
-                  <LogAccordion
-                    key={log.time}
-                    log={log}
-                    deleteSelf={() => {
-                      setLogs(logs.filter((l, i) => i !== index))
-                    }}
-                    adLS={adLS}
-                    setLS={setLS}
-                    adSettings={adSettings}
-                    setAdSettings={setAdSettings}
-                    setManualExpanded={(exp) => {
-                      setLogs(
-                        logs.map((l) =>
-                          l.time === log.time ? { ...l, expanded: exp } : l
-                        )
-                      )
-                    }}
-                  />
-                ))}
+              <TransitionGroup>
+                {logs
+                  .slice()
+                  .reverse()
+                  .map((log) => {
+                    const itemRef = createRef<HTMLDivElement>()
+                    return (
+                      <CollapseTransition
+                        classNames="delayed-collapse"
+                        key={log.time}
+                        nodeRef={itemRef}
+                      >
+                        <LogAccordion
+                          ref={itemRef}
+                          log={log}
+                          deleteSelf={() => {
+                            setLogs(logs.filter((l) => l.time !== log.time))
+                          }}
+                          adLS={adLS}
+                          setLS={setLS}
+                          adSettings={adSettings}
+                          setAdSettings={setAdSettings}
+                          setManualExpanded={(exp) => {
+                            setLogs(
+                              logs.map((l) =>
+                                l.time === log.time
+                                  ? { ...l, expanded: exp }
+                                  : l
+                              )
+                            )
+                          }}
+                        />
+                      </CollapseTransition>
+                    )
+                  })}
+              </TransitionGroup>
             </Box>
             {logsExpired && (
               <Alert severity="info" sx={{ my: 1 }}>
@@ -315,7 +353,7 @@ export default function Form() {
               </Alert>
             )}
           </Container>
-        )}
+        </CollapseTransition>
       </Box>
       <Container sx={{ mb: 2 }}>
         <Divider sx={{ mb: 2 }} />
@@ -431,5 +469,39 @@ function LoadingMask({ children }: { children: ReactNode }) {
         {children}
       </Box>
     </Box>
+  )
+}
+
+function CollapseTransition(props: {
+  children?: ReactNode
+  in?: boolean
+  key?: Key
+  classNames?: string
+  timeout?: number
+  nodeRef: RefObject<HTMLElement>
+}) {
+  return (
+    <CSSTransition
+      in={props.in}
+      key={props.key}
+      timeout={props.timeout ?? 300}
+      classNames={props.classNames ?? 'collapse'}
+      unmountOnExit={!props.key}
+      onEnter={() => {
+        props.nodeRef.current?.style.setProperty(
+          '--transition-height',
+          `${props.nodeRef.current.scrollHeight}px`
+        )
+      }}
+      onExit={() => {
+        props.nodeRef.current?.style.setProperty(
+          '--transition-height',
+          `${props.nodeRef.current.scrollHeight}px`
+        )
+      }}
+      nodeRef={props.nodeRef}
+    >
+      {props.children}
+    </CSSTransition>
   )
 }

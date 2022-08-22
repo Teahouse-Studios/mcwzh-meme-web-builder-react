@@ -178,7 +178,7 @@ export default function JavaForm({
       ...getIncompatibleModulesInCollection(langPredicate),
     ])
     setFixedCollections([...versionModules])
-  }, [enabledCollections, sfw, gameVersion, api])
+  }, [enabledCollections, sfw, gameVersion, api, fixedCollections])
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
