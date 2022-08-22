@@ -27,6 +27,7 @@ import {
   HelpCircle,
   ContentCopy,
   Close,
+  Copyright,
 } from 'mdi-material-ui'
 import {
   useState,
@@ -35,6 +36,7 @@ import {
   forwardRef,
   ForwardedRef,
   useRef,
+  lazy,
 } from 'react'
 import { css } from '@emotion/react'
 import { useSnackbar } from 'notistack'
@@ -42,6 +44,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { AdType, CollapseTransition } from './Form'
 import type { BuildLog } from './types'
 import allowTracking from '../tracking'
+import LicenseDialog from './LicenseDialog'
 
 const LogAccordion = forwardRef(
   (
@@ -68,6 +71,7 @@ const LogAccordion = forwardRef(
     const theme = useTheme()
     const { enqueueSnackbar } = useSnackbar()
     const [shareCopiedToClipboard, setShareCopiedToClipboard] = useState(false)
+    const [openLicenseDialog, setOpenLicenseDialog] = useState(false)
     const shareUrl = async (url: string) => {
       if (allowTracking) window.gtag('event', 'share')
 
@@ -350,6 +354,38 @@ const LogAccordion = forwardRef(
                     获得一手资讯。
                   </Trans>
                 </Alert>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItem: 'center',
+                    mb: 2,
+                  }}
+                >
+                  <Copyright sx={{ mr: 1 }} />
+                  <Typography variant="subtitle2" color="text.secondary">
+                    <Trans i18nKey="log.copyright">
+                      梗体中文以
+                      <Link
+                        href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        知识共享 署名-相同方式共享 4.0 国际（CC BY-SA 4.0）
+                      </Link>
+                      许可协议发布。若您想要重新发布本资源包或在本资源包的基础上二次创作，烦请阅读此
+                      <Link onClick={() => setOpenLicenseDialog(true)}>
+                        版权指南
+                      </Link>
+                      。
+                    </Trans>
+                  </Typography>
+                </Box>
+                <LicenseDialog
+                  open={openLicenseDialog}
+                  close={() => {
+                    setOpenLicenseDialog(false)
+                  }}
+                />
                 <Button
                   variant="contained"
                   startIcon={<Download />}

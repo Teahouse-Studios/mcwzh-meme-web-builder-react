@@ -74,11 +74,7 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": [
-        "12+",
-        "16+",
-        "18+"
-      ],
+      "ticks": ["12+", "16+", "18+"],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
@@ -123,7 +119,8 @@
     "logCopy": "Copy log",
     "expired": "Build logs older than 7 days have been removed.",
     "collapseAll": "Collapse all",
-    "expandAll": "Expand all"
+    "expandAll": "Expand all",
+    "copyright": "Memified Chinese is licensed under <1>Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</1>. If you intend to reproduce this pack or material derived from this pack, we recommend you to read this <3>Copyright Guide</3>."
   },
   "sponsor": {
     "overline": "Sponsors",
@@ -193,5 +190,29 @@
     "privacy": "Privacy",
     "donate": "Donate"
   },
-  "skipToForm": "Skip to form"
+  "skipToForm": "Skip to form",
+  "license": {
+    "title": "Copyright Guide",
+    "share": "Share",
+    "shareDetail": "You MAY copy or distribute this pack in all ways.",
+    "remix": "Adapt",
+    "remixDetail": "You MAY modify or remake this pack or create anything based on the content of this pack.",
+    "revoke": "Besides. as long as you DO NOT violate this license agreement, we cannot revoke any rights previously licensed to you.",
+    "caveat": "However, there are some caveats you need to keep an eye on:",
+    "attribution": "Attribution",
+    "attributionDetail": "You MUST provide the following information in any way you like: Original work name (Memifed Chinese), URL (https://meme.teahouse.team), original author (Teahouse Studios), link to the license (https://creativecommons.org/licenses/by-sa/4.0/legalcode), as well as whether you have modifed the origial work. You also MUST NOT, in any way, suggest the licensor endorses you or your use.",
+    "shareAlike": "ShareAlike",
+    "shareAlikeDetail": "If you adapted this pack, you MUST share your work under the same license.",
+    "noRestrictions": "No additional restrictions",
+    "noRestrictionsDetail": "You MUST NOT append additional terms or apply technical restrictions to stop others from doing what the license allows.",
+    "disclaimer": "In addition, we need to disclaim that:",
+    "exceptions": "Legal exceptions",
+    "exceptionsDetail": "You MAY NOT comply with the license for materials in the public domain or where your use is permitted by fair use.",
+    "warranty": "Warranty",
+    "warrantyDetail": "This pack is provided AS IS without any kinds of warranty. We DO NOT take resposiblity for any damage when using this pack.",
+    "otherRightsDetail": "This license only grants you copyright privileges. Other rights such as publicity, privacy, trademark, or moral rights may limit how you use this pack.",
+    "otherRights": "Other rights",
+    "notSubsitute": "This is not legal advice",
+    "notSubsituteDetail": "This is not legal advice. This is a human-readable summary of (and not a substitute for) the license."
+  }
 }
