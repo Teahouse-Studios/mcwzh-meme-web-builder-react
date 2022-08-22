@@ -34,11 +34,12 @@ import {
   SetStateAction,
   forwardRef,
   ForwardedRef,
+  useRef,
 } from 'react'
 import { css } from '@emotion/react'
 import { useSnackbar } from 'notistack'
 import { Trans, useTranslation } from 'react-i18next'
-import { AdType } from './Form'
+import { AdType, CollapseTransition } from './Form'
 import type { BuildLog } from './types'
 import allowTracking from '../tracking'
 
@@ -91,9 +92,17 @@ const LogAccordion = forwardRef(
         }, 3000)
       }
     }
+    const adRef = useRef<HTMLDivElement>(null)
+    const actionErrorRef = useRef<HTMLElement>(null)
+    const actionSuccessRef = useRef<HTMLElement>(null)
 
     return (
-      <Accordion key={log.time} expanded={log.expanded} ref={ref}>
+      <Accordion
+        key={log.time}
+        expanded={log.expanded}
+        ref={ref}
+        TransitionProps={{ unmountOnExit: true }}
+      >
         <AccordionSummary
           expandIcon={<ChevronDown />}
           onClick={() => setManualExpanded(!log.expanded)}
@@ -223,94 +232,105 @@ const LogAccordion = forwardRef(
               )
             })}
           </Paper>
-          {adSettings.shouldDisplayAd && (
-            <>
-              <Alert
-                severity="error"
-                icon={false}
-                sx={{
-                  '& > div': {
-                    display: 'flex',
-                    flexDirection: { xs: 'column', md: 'row' },
-                  },
-                }}
-              >
-                <Box sx={{ mb: 1, display: 'flex', opacity: 0.8, mr: 2 }}>
-                  <Heart color="error" className="donate-button" />
-                </Box>
-                <Box>
-                  <AlertTitle>{t('log.ad.title')}</AlertTitle>
+          <CollapseTransition
+            in={adSettings.shouldDisplayAd}
+            classNames="collapse-out"
+            timeout={300}
+            nodeRef={adRef}
+          >
+            <Alert
+              ref={adRef}
+              severity="error"
+              icon={false}
+              sx={{
+                '& > div': {
+                  display: 'flex',
+                  flexDirection: { xs: 'column', md: 'row' },
+                },
+              }}
+            >
+              <Box sx={{ mb: 1, display: 'flex', opacity: 0.8, mr: 2 }}>
+                <Heart color="error" className="donate-button" />
+              </Box>
+              <Box>
+                <AlertTitle>{t('log.ad.title')}</AlertTitle>
+                {
                   {
-                    {
-                      [AdType.FirstTime]: t('log.ad.firstTime'),
-                      [AdType.Reconsider]: t('log.ad.reconsider'),
-                      [AdType.Renew]: t('log.ad.renew'),
-                    }[adSettings.adType]
-                  }
-                  <Typography
-                    variant="caption"
-                    component="p"
-                    sx={{ mt: 1, color: 'text.secondary' }}
+                    [AdType.FirstTime]: t('log.ad.firstTime'),
+                    [AdType.Reconsider]: t('log.ad.reconsider'),
+                    [AdType.Renew]: t('log.ad.renew'),
+                  }[adSettings.adType]
+                }
+                <Typography
+                  variant="caption"
+                  component="p"
+                  sx={{ mt: 1, color: 'text.secondary' }}
+                >
+                  {t('log.ad.donationNotice')}
+                </Typography>
+                <Box sx={{ mt: 1 }}>
+                  <Button
+                    className="donate-button"
+                    startIcon={<Heart />}
+                    variant="contained"
+                    color="error"
+                    href="https://afdian.net/@teahouse"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      setAdSettings((adSettings) => {
+                        return { ...adSettings, shouldDisplayAd: false }
+                      })
+                      setLS({
+                        shown: true,
+                        lastShown: Date.now(),
+                        clicked: true,
+                      })
+                      enqueueSnackbar(t('log.ad.donateSnackbar'), {
+                        autoHideDuration: 10000,
+                        variant: 'success',
+                      })
+                    }}
+                    sx={{ mr: 1, md: 1 }}
                   >
-                    {t('log.ad.donationNotice')}
-                  </Typography>
-                  <Box sx={{ mt: 1 }}>
-                    <Button
-                      className="donate-button"
-                      startIcon={<Heart />}
-                      variant="contained"
-                      color="error"
-                      href="https://afdian.net/@teahouse"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => {
-                        setAdSettings((adSettings) => {
-                          return { ...adSettings, shouldDisplayAd: false }
-                        })
-                        setLS({
-                          shown: true,
-                          lastShown: Date.now(),
-                          clicked: true,
-                        })
-                        enqueueSnackbar(t('log.ad.donateSnackbar'), {
-                          autoHideDuration: 10000,
-                          variant: 'success',
-                        })
-                      }}
-                      sx={{ mr: 1, md: 1 }}
-                    >
-                      {t('footer.donate')}
-                    </Button>
-                    <Button
-                      startIcon={<HeartBroken />}
-                      color="inherit"
-                      onClick={() => {
-                        setAdSettings((adSettings) => {
-                          return { ...adSettings, shouldDisplayAd: false }
-                        })
-                        setLS({
-                          shown: true,
-                          lastShown: Date.now(),
-                          clicked: false,
-                        })
-                        enqueueSnackbar(t('log.ad.dismissSnackbar'), {
-                          autoHideDuration: 10000,
-                          variant: 'info',
-                        })
-                      }}
-                      size="small"
-                      sx={{ mr: 1 }}
-                    >
-                      {t('log.ad.dismiss')}
-                    </Button>
-                  </Box>
+                    {t('footer.donate')}
+                  </Button>
+                  <Button
+                    startIcon={<HeartBroken />}
+                    color="inherit"
+                    onClick={() => {
+                      setAdSettings((adSettings) => {
+                        return { ...adSettings, shouldDisplayAd: false }
+                      })
+                      setLS({
+                        shown: true,
+                        lastShown: Date.now(),
+                        clicked: false,
+                      })
+                      enqueueSnackbar(t('log.ad.dismissSnackbar'), {
+                        autoHideDuration: 10000,
+                        variant: 'info',
+                      })
+                    }}
+                    size="small"
+                    sx={{ mr: 1 }}
+                  >
+                    {t('log.ad.dismiss')}
+                  </Button>
                 </Box>
-              </Alert>
-            </>
-          )}
-          {!adSettings.shouldDisplayAd &&
-            (log.status === 'success' ? (
-              <>
+              </Box>
+            </Alert>
+          </CollapseTransition>
+          <CollapseTransition
+            in={!adSettings.shouldDisplayAd}
+            classNames="collapse-in"
+            timeout={600}
+            nodeRef={
+              log.status === 'success' ? actionSuccessRef : actionErrorRef
+            }
+          >
+            {log.status === 'success' ? (
+              <Box ref={actionSuccessRef}>
                 <Alert
                   severity="info"
                   sx={{
@@ -394,19 +414,22 @@ const LogAccordion = forwardRef(
                     <HelpCircle />
                   </IconButton>
                 </Tooltip>
-              </>
+              </Box>
             ) : (
-              <Button
-                variant="contained"
-                startIcon={<Bug />}
-                color="error"
-                href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
-                rel="noopener noreferrer"
-                sx={{ mr: 1 }}
-              >
-                {t('log.feedback')}
-              </Button>
-            ))}
+              <Box ref={actionErrorRef}>
+                <Button
+                  variant="contained"
+                  startIcon={<Bug />}
+                  color="error"
+                  href="https://github.com/Teahouse-Studios/mcwzh-meme-web-builder/issues/new/choose"
+                  rel="noopener noreferrer"
+                  sx={{ mr: 1 }}
+                >
+                  {t('log.feedback')}
+                </Button>
+              </Box>
+            )}
+          </CollapseTransition>
         </AccordionDetails>
       </Accordion>
     )

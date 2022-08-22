@@ -472,7 +472,7 @@ function LoadingMask({ children }: { children: ReactNode }) {
   )
 }
 
-function CollapseTransition(props: {
+export function CollapseTransition(props: {
   children?: ReactNode
   in?: boolean
   key?: Key

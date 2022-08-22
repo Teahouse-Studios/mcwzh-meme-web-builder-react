@@ -4,15 +4,21 @@
 }
 
 .collapse-enter,
-.delayed-collapse-enter {
+.delayed-collapse-enter,
+.collapse-in-enter {
   height: 0;
   overflow: hidden;
 }
 
 .collapse-enter-active,
-.delayed-collapse-enter-active {
+.delayed-collapse-enter-active,
+.collapse-in-enter-active {
   height: var(--transition-height);
   transition: all 300ms ease-in-out;
+}
+
+.collapse-in-enter-active {
+  transition-delay: 300ms;
 }
 
 .delayed-collapse-enter-done {
@@ -21,12 +27,14 @@
 }
 
 .collapse-exit,
-.delayed-collapse-exit {
+.delayed-collapse-exit,
+.collapse-out-exit {
   height: var(--transition-height);
 }
 
 .collapse-exit-active,
-.delayed-collapse-exit-active {
+.delayed-collapse-exit-active,
+.collapse-out-exit-active {
   height: 0;
   overflow: hidden;
   transition: all 300ms ease-in-out !important;
