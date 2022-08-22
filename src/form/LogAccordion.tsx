@@ -190,6 +190,7 @@ const LogAccordion = forwardRef(
                   fontFamily="source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace"
                   key={index}
                   css={css`
+                    position: relative;
                     white-space: pre-wrap;
                     counter-increment: line;
                     padding-left: 3.5rem;
@@ -198,7 +199,7 @@ const LogAccordion = forwardRef(
                     &::before {
                       content: counter(line);
                       position: absolute;
-                      left: 2.5rem;
+                      left: 1.5rem;
                     }
                     &:hover {
                       background-color: ${theme.palette.action.hover};
