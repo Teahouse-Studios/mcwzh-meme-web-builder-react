@@ -234,7 +234,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                     </Box>
                   </Box>
                   {props.helpDoc && (
-                    <Box>
+                    <Box sx={{ pointerEvents: 'all' }}>
                       <IconButton
                         onClick={(e) => {
                           e.stopPropagation()
