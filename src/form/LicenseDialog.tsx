@@ -122,8 +122,8 @@ export default function LicenseDialog(props: {
           />
           <IconItem
             icon={TextShort}
-            title={t('license.notSubsitute')}
-            text={t('license.notSubsituteDetail')}
+            title={t('license.notSubstitute')}
+            text={t('license.notSubstituteDetail')}
           />
         </Container>
       </DialogContent>
