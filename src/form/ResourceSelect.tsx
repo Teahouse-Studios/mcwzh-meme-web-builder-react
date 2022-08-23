@@ -171,6 +171,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
+                    alignItems: 'center',
                     width: '100%',
                   }}
                   css={css`
@@ -233,16 +234,18 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                     </Box>
                   </Box>
                   {props.helpDoc && (
-                    <IconButton
-                      onClick={(e) => {
-                        e.stopPropagation()
-                      }}
-                      href={`${props.helpDoc}#${option.name}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <HelpCircle />
-                    </IconButton>
+                    <Box>
+                      <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation()
+                        }}
+                        href={`${props.helpDoc}#${option.name}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <HelpCircle />
+                      </IconButton>
+                    </Box>
                   )}
                 </Box>
               </MenuItem>
