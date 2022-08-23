@@ -12,8 +12,9 @@ import {
   ListSubheader,
   MenuItem,
   FormHelperText,
+  IconButton,
 } from '@mui/material'
-import { Magnify } from 'mdi-material-ui'
+import { HelpCircle, Magnify } from 'mdi-material-ui'
 import { css } from '@emotion/react'
 import { useTranslation } from 'react-i18next'
 import type { MemeModule } from './types'
@@ -37,6 +38,7 @@ interface ResourceSelectProps {
   fixedOptions?: string[]
   unselectAll?: () => never | void
   disabled?: boolean
+  helpDoc?: string
 }
 
 export default function ResourceSelect(props: ResourceSelectProps) {
@@ -166,9 +168,10 @@ export default function ResourceSelect(props: ResourceSelectProps) {
               >
                 <Box
                   sx={{
-                    alignItems: 'flex-start',
                     display: 'flex',
                     flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: '100%',
                   }}
                   css={css`
                     p {
@@ -176,55 +179,71 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                     }
                   `}
                 >
-                  <Checkbox
-                    checked={selected.includes(option.name)}
-                    sx={{ mr: 1 }}
-                  />
-                  <div>
-                    <Typography variant="body1">
-                      <Highlighter
-                        searchWords={[searchText]}
-                        autoEscape={true}
-                        textToHighlight={option.name}
-                      />
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ color: 'text.secondary' }}
-                    >
-                      {option.description}
-                      {option.contains
-                        ? ' · ' +
-                          t('form.collections.description_prefix') +
-                          option.contains.length.toString() +
-                          t('form.collections.resource_suffix')
-                        : ''}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'info.main' }}>
-                      {
-                        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                        option.author && (
-                          <>
-                            {t('form.author')}
-                            {option.author.join(t('metadata.ideographicComma'))}
-                          </>
-                        )
-                      }
-                      <Box component="span" sx={{ color: 'error.main' }}>
-                        {option.incompatible_with && (
-                          <>
-                            {' '}
-                            ·{' '}
-                            {t('form.incompatible', {
-                              i: option.incompatible_with.join(
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                    <Checkbox
+                      checked={selected.includes(option.name)}
+                      sx={{ mr: 1 }}
+                    />
+                    <Box>
+                      <Typography variant="body1">
+                        <Highlighter
+                          searchWords={[searchText]}
+                          autoEscape={true}
+                          textToHighlight={option.name}
+                        />
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: 'text.secondary' }}
+                      >
+                        {option.description}
+                        {option.contains
+                          ? ' · ' +
+                            t('form.collections.description_prefix') +
+                            option.contains.length.toString() +
+                            t('form.collections.resource_suffix')
+                          : ''}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'info.main' }}>
+                        {
+                          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                          option.author && (
+                            <>
+                              {t('form.author')}
+                              {option.author.join(
                                 t('metadata.ideographicComma')
-                              ),
-                            })}
-                          </>
-                        )}
-                      </Box>
-                    </Typography>
-                  </div>
+                              )}
+                            </>
+                          )
+                        }
+                        <Box component="span" sx={{ color: 'error.main' }}>
+                          {option.incompatible_with && (
+                            <>
+                              {' '}
+                              ·{' '}
+                              {t('form.incompatible', {
+                                i: option.incompatible_with.join(
+                                  t('metadata.ideographicComma')
+                                ),
+                              })}
+                            </>
+                          )}
+                        </Box>
+                      </Typography>
+                    </Box>
+                  </Box>
+                  {props.helpDoc && (
+                    <IconButton
+                      onClick={(e) => {
+                        e.stopPropagation()
+                      }}
+                      href={`${props.helpDoc}#${option.name}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <HelpCircle />
+                    </IconButton>
+                  )}
                 </Box>
               </MenuItem>
             ))}
