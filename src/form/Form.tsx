@@ -74,7 +74,18 @@ export default function Form() {
     }
   })
   const { enqueueSnackbar } = useSnackbar()
-  const [beforeUnloadSet, setBeforeUnloadSet] = useState(false)
+  const formRootRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const listener = () => {
+      formRootRef.current?.removeEventListener('click', listener)
+      window.addEventListener('beforeunload', (event) => {
+        event.preventDefault()
+        event.returnValue = 'Are you sure you want to leave?'
+        return 'Are you sure you want to leave?'
+      })
+    }
+    formRootRef.current?.addEventListener('click', listener)
+  }, [])
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [swiper, setSwiper] = useState<SwiperType>()
 
@@ -161,25 +172,12 @@ export default function Form() {
     return { shouldDisplayAd, adType }
   })
 
-  const setBeforeUnload = () => {
-    setBeforeUnloadSet(true)
-    window.addEventListener('beforeunload', (event) => {
-      event.preventDefault()
-      event.returnValue = 'Are you sure you want to leave?'
-      return 'Are you sure you want to leave?'
-    })
-  }
-
   const formRef = useRef<HTMLDivElement>(null)
 
   return (
     <>
       <Box
-        onClick={() => {
-          if (!beforeUnloadSet) {
-            setBeforeUnload()
-          }
-        }}
+        ref={formRootRef}
         sx={{
           display: 'flex',
           justifyContent: 'center',
@@ -280,6 +278,10 @@ export default function Form() {
                     color="error"
                     onClick={() => {
                       setLogs([])
+                      window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth',
+                      })
                     }}
                   >
                     <CloseCircleMultipleOutline />
