@@ -220,8 +220,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                         <Box component="span" sx={{ color: 'error.main' }}>
                           {option.incompatible_with && (
                             <>
-                              {' '}
-                              ·{' '}
+                              {' · '}
                               {t('form.incompatible', {
                                 i: option.incompatible_with.join(
                                   t('metadata.ideographicComma')

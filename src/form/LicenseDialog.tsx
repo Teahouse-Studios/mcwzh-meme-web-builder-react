@@ -13,7 +13,6 @@ import {
   AccountCircleOutline,
   Cancel,
   Close,
-  CreativeCommons,
   LockAlertOutline,
   Reload,
   ScaleBalance,
