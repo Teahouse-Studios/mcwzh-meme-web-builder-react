@@ -38,11 +38,11 @@ jobs:
 
       - name: Install
         if: steps.node-cache.outputs.cache-hit != 'true'
-        run: yarn
+        run: yarn install
 
       - name: Build
         run: yarn build
-        
+
       - name: Upload
         uses: Teahouse-Studios/aliyun-oss-action@0.7
         with:
