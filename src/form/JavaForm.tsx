@@ -80,7 +80,7 @@ export default function JavaForm({
   const [enabledMods, setEnabledMods] = useState<string[]>(api.mods)
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
   const [forceUseCompatible, setForceUseCompatible] = useState(false)
-  const [sfw, setSfw] = useState<number>(2)
+  const [sfw, setSfw] = useState<number>(1)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 
@@ -532,6 +532,7 @@ export default function JavaForm({
               onChange={(e, v) => {
                 setSfw(v as number)
               }}
+              disabled
               sx={{ mx: 1 }}
               value={sfw}
               step={1}

@@ -50,7 +50,7 @@ export default function BedrockForm({
   const [fixedModules, setFixedModules] = useState<string[]>([])
   const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>('mcpack')
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
-  const [sfw, setSfw] = useState<number>(2)
+  const [sfw, setSfw] = useState<number>(1)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 
@@ -295,6 +295,7 @@ export default function BedrockForm({
               sx={{ mx: 1 }}
               value={sfw}
               step={1}
+              disabled
               marks={[
                 { value: 1, label: t('form.child.ticks.0') },
                 { value: 2, label: t('form.child.ticks.1') },
