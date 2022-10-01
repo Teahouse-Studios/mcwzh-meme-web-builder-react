@@ -36,7 +36,6 @@ import {
   forwardRef,
   ForwardedRef,
   useRef,
-  lazy,
 } from 'react'
 import { css } from '@emotion/react'
 import { useSnackbar } from 'notistack'

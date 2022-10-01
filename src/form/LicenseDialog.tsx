@@ -7,8 +7,8 @@ import {
   Link,
   SvgIcon,
   Typography,
+  Box,
 } from '@mui/material'
-import { Box } from '@mui/system'
 import {
   AccountCircleOutline,
   Cancel,

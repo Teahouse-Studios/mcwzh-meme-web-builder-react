@@ -70,6 +70,7 @@ function App() {
 
   return (
     <div
+      // eslint-disable-next-line react/no-unknown-property
       css={css`
         color-scheme: ${mode === 'light' ? 'light' : 'dark'};
 
