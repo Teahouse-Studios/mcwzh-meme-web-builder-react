@@ -74,26 +74,31 @@ function App() {
 
   useEffectOnce(() => {
     async function checkCensorship() {
-      let shouldCensorL = false
+      try {
+        let shouldCensorL = false
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (ENABLE_GEOIP_CENSORSHIP) {
-        const geoip = (await (
-          await fetch('https://api.ip.sb/geoip')
-        ).json()) as {
-          country_code: string
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (ENABLE_GEOIP_CENSORSHIP) {
+          const geoip = (await (
+            await fetch('https://api.ip.sb/geoip')
+          ).json()) as {
+            country_code: string
+          }
+
+          shouldCensorL =
+            geoip.country_code === 'CN' &&
+            isDateInRange(
+              new Date(),
+              new Date('2022-10-01'),
+              new Date('2022-10-24')
+            )
         }
-
-        shouldCensorL =
-          geoip.country_code === 'CN' &&
-          isDateInRange(
-            new Date(),
-            new Date('2022-10-01'),
-            new Date('2022-10-24')
-          )
+        setShouldCensor(shouldCensorL)
+      } catch (err) {
+        console.error('Failed to check GeoIP:', err)
       }
-      setShouldCensor(shouldCensorL)
     }
+
     void checkCensorship()
   })
 
