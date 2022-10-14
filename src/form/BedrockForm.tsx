@@ -37,9 +37,11 @@ import endpoint from '../api'
 export default function BedrockForm({
   api,
   addLog,
+  shouldCensor,
 }: {
   api: MemeApi
   addLog: (log: BuildLog) => void
+  shouldCensor: boolean
 }) {
   const [enabledCollections, setEnabledCollections] = useState<string[]>([
     'choice_modules_default',
@@ -50,7 +52,7 @@ export default function BedrockForm({
   const [fixedModules, setFixedModules] = useState<string[]>([])
   const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>('mcpack')
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
-  const [sfw, setSfw] = useState<number>(1)
+  const [sfw, setSfw] = useState<number>(shouldCensor ? 1 : 2)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 
@@ -91,6 +93,8 @@ export default function BedrockForm({
         .filter(undefinedPredicate) as string[]
     }
 
+    if (shouldCensor) setSfw(1)
+
     let sfwModules: string[] = []
 
     switch (sfw) {
@@ -107,7 +111,7 @@ export default function BedrockForm({
 
     setFixedModules([...getModulesInCollection(), ...sfwModules])
     setDisabledModules([...getIncompatibleModulesInCollection()])
-  }, [enabledCollections, sfw, api])
+  }, [enabledCollections, sfw, api, shouldCensor])
 
   const calculatedEnabledModules = useMemo(
     () => [...enabledModules, ...fixedModules],
@@ -293,9 +297,9 @@ export default function BedrockForm({
                 setSfw(v as number)
               }}
               sx={{ mx: 1 }}
+              disabled={shouldCensor}
               value={sfw}
               step={1}
-              disabled
               marks={[
                 { value: 1, label: t('form.child.ticks.0') },
                 { value: 2, label: t('form.child.ticks.1') },
@@ -305,7 +309,9 @@ export default function BedrockForm({
               max={3}
             />
             <FormHelperText>
-              {t('form.child.helpers.' + (sfw - 1).toString())}
+              {shouldCensor
+                ? t('form.child.censoredHelper')
+                : t('form.child.helpers.' + (sfw - 1).toString())}
             </FormHelperText>
           </Box>
         </Stack>

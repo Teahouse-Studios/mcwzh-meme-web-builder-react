@@ -54,9 +54,11 @@ import endpoint from '../api'
 export default function JavaForm({
   api,
   addLog,
+  shouldCensor,
 }: {
   api: MemeApi
   addLog: (log: BuildLog) => void
+  shouldCensor: boolean
 }) {
   const [enabledCollections, setEnabledCollections] = useState<string[]>([
     'choice_modules_default',
@@ -80,7 +82,7 @@ export default function JavaForm({
   const [enabledMods, setEnabledMods] = useState<string[]>(api.mods)
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
   const [forceUseCompatible, setForceUseCompatible] = useState(false)
-  const [sfw, setSfw] = useState<number>(1)
+  const [sfw, setSfw] = useState<number>(shouldCensor ? 1 : 2)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 
@@ -121,6 +123,8 @@ export default function JavaForm({
         .flatMap((resourceModule) => resourceModule.incompatible_with)
         .filter(undefinedPredicate) as string[]
     }
+
+    if (shouldCensor) setSfw(1)
 
     let sfwModules: string[] = []
 
@@ -178,7 +182,14 @@ export default function JavaForm({
       ...getIncompatibleModulesInCollection(langPredicate),
     ])
     setFixedCollections([...versionModules])
-  }, [enabledCollections, sfw, gameVersion, api, fixedCollections])
+  }, [
+    enabledCollections,
+    sfw,
+    gameVersion,
+    api,
+    fixedCollections,
+    shouldCensor,
+  ])
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
@@ -532,7 +543,7 @@ export default function JavaForm({
               onChange={(e, v) => {
                 setSfw(v as number)
               }}
-              disabled
+              disabled={shouldCensor}
               sx={{ mx: 1 }}
               value={sfw}
               step={1}
@@ -545,7 +556,9 @@ export default function JavaForm({
               max={3}
             />
             <FormHelperText>
-              {t('form.child.helpers.' + (sfw - 1).toString())}
+              {shouldCensor
+                ? t('form.child.censoredHelper')
+                : t('form.child.helpers.' + (sfw - 1).toString())}
             </FormHelperText>
           </Box>
         </Stack>

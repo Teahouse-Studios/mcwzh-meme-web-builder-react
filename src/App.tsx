@@ -1,4 +1,4 @@
-import { useMemo, lazy, memo } from 'react'
+import { useMemo, lazy, memo, useState } from 'react'
 import {
   CssBaseline,
   ThemeProvider,
@@ -26,6 +26,7 @@ import BackToTop from './template/BackToTop'
 import SkipToForm from './template/SkipToForm'
 const DynamicNews = memo(lazy(() => import('./template/DynamicNews')))
 import Form from './form/Form'
+import { useEffectOnce } from 'usehooks-ts'
 
 void i18n
   .use(LanguageDetector)
@@ -51,7 +52,10 @@ void i18n
     },
   })
 
+const ENABLE_GEOIP_CENSORSHIP = true
+
 function App() {
+  const [shouldCensor, setShouldCensor] = useState(false)
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const mode = useMemo<PaletteMode>(
     () => (prefersDarkMode ? 'dark' : 'light'),
@@ -67,6 +71,31 @@ function App() {
       }),
     [mode]
   )
+
+  useEffectOnce(() => {
+    async function checkCensorship() {
+      let shouldCensorL = false
+
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      if (ENABLE_GEOIP_CENSORSHIP) {
+        const geoip = (await (
+          await fetch('https://api.ip.sb/geoip')
+        ).json()) as {
+          country_code: string
+        }
+
+        shouldCensorL =
+          geoip.country_code === 'CN' &&
+          isDateInRange(
+            new Date(),
+            new Date('2022-10-01'),
+            new Date('2022-10-24')
+          )
+      }
+      setShouldCensor(shouldCensorL)
+    }
+    void checkCensorship()
+  })
 
   return (
     <div
@@ -91,7 +120,7 @@ function App() {
           <SkipToForm />
           <CssBaseline />
           <MemeAppBar />
-          <Form />
+          <Form shouldCensor={shouldCensor} />
           <TeahouseFooter />
           <WebviewWarning />
           <DynamicAlerts />
@@ -104,3 +133,8 @@ function App() {
 }
 
 export default App
+
+// if date falls into a date range
+function isDateInRange(date: Date, start: Date, end: Date) {
+  return date.getTime() >= start.getTime() && date.getTime() <= end.getTime()
+}

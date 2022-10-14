@@ -57,7 +57,7 @@ export enum AdType {
   Renew,
 }
 
-export default function Form() {
+export default function Form(props: { shouldCensor: boolean }) {
   const { t } = useTranslation()
   const [api, setApi] = useState<MemeApi | undefined>(undefined)
   const [apiError, setApiError] = useState<Error | null>(null)
@@ -212,7 +212,11 @@ export default function Form() {
             {!api && (
               <TabPanel>
                 <LoadingMask>
-                  <JavaForm api={fakeApiData} addLog={addLog} />
+                  <JavaForm
+                    api={fakeApiData}
+                    addLog={addLog}
+                    shouldCensor={false}
+                  />
                 </LoadingMask>
               </TabPanel>
             )}
@@ -241,6 +245,7 @@ export default function Form() {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         api={api!}
                         addLog={addLog}
+                        shouldCensor={props.shouldCensor}
                       />
                     </TabPanel>
                   </SwiperSlide>
@@ -250,6 +255,7 @@ export default function Form() {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         api={api!}
                         addLog={addLog}
+                        shouldCensor={props.shouldCensor}
                       />
                     </TabPanel>
                   </SwiperSlide>
