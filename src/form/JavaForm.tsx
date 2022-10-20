@@ -143,8 +143,12 @@ export default function JavaForm({
     let versionModules: string[] = []
 
     switch (gameVersion) {
-      case 9:
+      case 11:
         versionModules = []
+        setForceUseCompatible(false)
+        break
+      case 9:
+        versionModules = ['version_1.19.2']
         setForceUseCompatible(false)
         break
       case 8:
