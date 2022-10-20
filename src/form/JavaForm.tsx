@@ -329,18 +329,22 @@ export default function JavaForm({
             >
               {[
                 {
-                  version: '1.19+',
-                  format: 9,
-                  caption: `${t('form.version.captions.release')}${t(
-                    'metadata.ideographicComma'
-                  )}${t('form.version.captions.snapshot')}`,
-                  icon: Wifi,
+                  version: '1.19.3+',
+                  format: 11,
+                  caption: t('form.version.captions.snapshot'),
                 },
                 {
-                  version: '1.18 - 1.18.2',
-                  format: 8,
-                  icon: ImageFilterHdr,
+                  version: '1.19 - 1.19.2',
+                  format: 9,
+                  caption: t('form.version.captions.release'),
+
+                  icon: Wifi,
                 },
+                { version: '1.18 - 1.18.2', format: 8, icon: ImageFilterHdr },
+
+
+
+
                 { version: '1.17 - 1.17.1', format: 7, icon: Candle },
                 { version: '1.16.2 - 1.16.5', format: 6, icon: Pig },
                 { version: '1.15 - 1.16.1', format: 5, icon: HexagonMultiple },
