@@ -63,25 +63,15 @@ export default function JavaForm({
   const [enabledCollections, setEnabledCollections] = useState<string[]>([
     'choice_modules_default',
   ])
-  const [fixedCollections, setFixedCollections] = useState<string[]>([])
   const [enabledResourceModules, setEnabledResourceModules] = useState<
     string[]
   >([])
   const [enabledLanguageModules, setEnabledLanguageModule] = useState<string[]>(
     []
   )
-  const [disabledResourceModules, setDisabledResourceModules] = useState<
-    string[]
-  >([])
-  const [disabledLanguageModules, setDisabledLanguageModules] = useState<
-    string[]
-  >([])
-  const [fixedResourceModules, setFixedResourceModules] = useState<string[]>([])
-  const [fixedLanguageModules, setFixedLanguageModules] = useState<string[]>([])
   const [gameVersion, setGameVersion] = useState<number>(9)
   const [enabledMods, setEnabledMods] = useState<string[]>(api.mods)
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
-  const [forceUseCompatible, setForceUseCompatible] = useState(false)
   const [sfw, setSfw] = useState<number>(shouldCensor ? 1 : 2)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
@@ -90,110 +80,108 @@ export default function JavaForm({
   const langPredicate = (i: string) => i.startsWith('lang_')
   const undefinedPredicate = <T,>(i: T | undefined) => i !== undefined
 
-  useEffect(() => {
-    type ArrayFilterPredicate = (
-      value: string,
-      index: number,
-      array: string[]
-    ) => boolean
+  let forceUseCompatible = false
+  let fixedResourceModules: string[] = []
+  let fixedLanguageModules: string[] = []
+  let fixedCollections: string[] = []
+  let disabledResourceModules: string[] = []
+  let disabledLanguageModules: string[] = []
 
-    const getModulesInCollection = (predicate: ArrayFilterPredicate) => {
-      return [...enabledCollections, ...fixedCollections]
-        .flatMap((m) =>
-          api.je_modules.collection
-            .find((c) => c.name === m)
-            ?.contains?.filter(predicate)
-        )
-        .filter(undefinedPredicate) as string[]
-    }
-    const getIncompatibleModulesInCollection = (
-      predicate: ArrayFilterPredicate
-    ) => {
-      return api.je_modules.resource
-        .filter((resourceModules) =>
-          [...enabledCollections, ...fixedCollections]
-            .flatMap((enabledCollection) =>
-              api.je_modules.collection
-                .find((collection) => collection.name === enabledCollection)
-                ?.contains?.filter(predicate)
-            )
-            .filter(undefinedPredicate)
-            .includes(resourceModules.name)
-        )
-        .flatMap((resourceModule) => resourceModule.incompatible_with)
-        .filter(undefinedPredicate) as string[]
-    }
+  type ArrayFilterPredicate = (
+    value: string,
+    index: number,
+    array: string[]
+  ) => boolean
 
-    if (shouldCensor) setSfw(1)
+  const getModulesInCollection = (predicate: ArrayFilterPredicate) => {
+    return [...enabledCollections, ...fixedCollections]
+      .flatMap((m) =>
+        api.je_modules.collection
+          .find((c) => c.name === m)
+          ?.contains?.filter(predicate)
+      )
+      .filter(undefinedPredicate) as string[]
+  }
+  const getIncompatibleModulesInCollection = (
+    predicate: ArrayFilterPredicate
+  ) => {
+    return api.je_modules.resource
+      .filter((resourceModules) =>
+        [...enabledCollections, ...fixedCollections]
+          .flatMap((enabledCollection) =>
+            api.je_modules.collection
+              .find((collection) => collection.name === enabledCollection)
+              ?.contains?.filter(predicate)
+          )
+          .filter(undefinedPredicate)
+          .includes(resourceModules.name)
+      )
+      .flatMap((resourceModule) => resourceModule.incompatible_with)
+      .filter(undefinedPredicate) as string[]
+  }
 
-    let sfwModules: string[] = []
+  if (shouldCensor) setSfw(1)
 
-    switch (sfw) {
-      case 1:
-        sfwModules = ['lang_sfc', 'lang_sfw']
-        break
-      case 2:
-        sfwModules = ['lang_sfw']
-        break
-      case 3:
-        sfwModules = []
-        break
-    }
+  let sfwModules: string[] = []
 
-    let versionModules: string[] = []
+  switch (sfw) {
+    case 1:
+      sfwModules = ['lang_sfc', 'lang_sfw']
+      break
+    case 2:
+      sfwModules = ['lang_sfw']
+      break
+    case 3:
+      sfwModules = []
+      break
+  }
 
-    switch (gameVersion) {
-      case 11:
-        versionModules = []
-        setForceUseCompatible(false)
-        break
-      case 9:
-        versionModules = ['version_1.19.2']
-        setForceUseCompatible(false)
-        break
-      case 8:
-        versionModules = ['version_1.18.2']
-        setForceUseCompatible(false)
-        break
-      case 7:
-        versionModules = ['version_1.17.1']
-        setForceUseCompatible(false)
-        break
-      case 6:
-        versionModules = ['version_1.16.5']
-        setForceUseCompatible(false)
-        break
-      case 5:
-      case 4:
-        versionModules = ['version_1.12.2-1.15.2']
-        setForceUseCompatible(false)
-        break
-      case 3:
-        versionModules = ['version_1.12.2-1.15.2']
-        setForceUseCompatible(true)
-        break
-    }
+  let versionModules: string[] = []
 
-    setFixedResourceModules([...getModulesInCollection(resourcePredicate)])
-    setFixedLanguageModules([
-      ...getModulesInCollection(langPredicate),
-      ...sfwModules,
-    ])
-    setDisabledResourceModules([
-      ...getIncompatibleModulesInCollection(resourcePredicate),
-    ])
-    setDisabledLanguageModules([
-      ...getIncompatibleModulesInCollection(langPredicate),
-    ])
-    setFixedCollections([...versionModules])
-  }, [
-    enabledCollections,
-    sfw,
-    gameVersion,
-    api,
-    fixedCollections,
-    shouldCensor,
-  ])
+  switch (gameVersion) {
+    case 11:
+      versionModules = []
+      forceUseCompatible = false
+      break
+    case 9:
+      versionModules = ['version_1.19.2']
+      forceUseCompatible = false
+      break
+    case 8:
+      versionModules = ['version_1.18.2']
+      forceUseCompatible = false
+      break
+    case 7:
+      versionModules = ['version_1.17.1']
+      forceUseCompatible = false
+      break
+    case 6:
+      versionModules = ['version_1.16.5']
+      forceUseCompatible = false
+      break
+    case 5:
+    case 4:
+      versionModules = ['version_1.12.2-1.15.2']
+      forceUseCompatible = false
+      break
+    case 3:
+      versionModules = ['version_1.12.2-1.15.2']
+      forceUseCompatible = true
+      break
+  }
+
+  fixedResourceModules = [...getModulesInCollection(resourcePredicate)]
+  fixedLanguageModules = [
+    ...getModulesInCollection(langPredicate),
+    ...sfwModules,
+  ]
+  disabledResourceModules = [
+    ...getIncompatibleModulesInCollection(resourcePredicate),
+  ]
+  disabledLanguageModules = [
+    ...getIncompatibleModulesInCollection(langPredicate),
+  ]
+  fixedCollections = [...versionModules]
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,

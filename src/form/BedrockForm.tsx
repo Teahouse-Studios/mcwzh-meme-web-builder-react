@@ -46,15 +46,17 @@ export default function BedrockForm({
   const [enabledCollections, setEnabledCollections] = useState<string[]>([
     'choice_modules_default',
   ])
-  const [disabledCollections, setDisabledCollections] = useState<string[]>([])
   const [enabledModules, setEnabledModules] = useState<string[]>([])
-  const [disabledModules, setDisabledModules] = useState<string[]>([])
-  const [fixedModules, setFixedModules] = useState<string[]>([])
   const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>('mcpack')
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
   const [sfw, setSfw] = useState<number>(shouldCensor ? 1 : 2)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
+
+  let fixedModules: string[] = []
+  let fixedCollections: string[] = []
+  let disabledModules: string[] = []
+  let disabledCollections: string[] = []
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
@@ -68,50 +70,48 @@ export default function BedrockForm({
 
   const undefinedPredicate = <T,>(i: T | undefined) => i !== undefined
 
-  useEffect(() => {
-    const getModulesInCollection = () => {
-      return enabledCollections
-        .flatMap(
-          (m) => api.be_modules.collection.find((c) => c.name === m)?.contains
-        )
-        .filter(undefinedPredicate) as string[]
-    }
-    const getIncompatibleModulesInCollection = () => {
-      return api.be_modules.resource
-        .filter((resourceModules) =>
-          enabledCollections
-            .flatMap(
-              (enabledCollection) =>
-                api.be_modules.collection.find(
-                  (collection) => collection.name === enabledCollection
-                )?.contains
-            )
-            .filter(undefinedPredicate)
-            .includes(resourceModules.name)
-        )
-        .flatMap((resourceModule) => resourceModule.incompatible_with)
-        .filter(undefinedPredicate) as string[]
-    }
+  const getModulesInCollection = () => {
+    return enabledCollections
+      .flatMap(
+        (m) => api.be_modules.collection.find((c) => c.name === m)?.contains
+      )
+      .filter(undefinedPredicate) as string[]
+  }
+  const getIncompatibleModulesInCollection = () => {
+    return api.be_modules.resource
+      .filter((resourceModules) =>
+        enabledCollections
+          .flatMap(
+            (enabledCollection) =>
+              api.be_modules.collection.find(
+                (collection) => collection.name === enabledCollection
+              )?.contains
+          )
+          .filter(undefinedPredicate)
+          .includes(resourceModules.name)
+      )
+      .flatMap((resourceModule) => resourceModule.incompatible_with)
+      .filter(undefinedPredicate) as string[]
+  }
 
-    if (shouldCensor) setSfw(1)
+  if (shouldCensor) setSfw(1)
 
-    let sfwModules: string[] = []
+  let sfwModules: string[] = []
 
-    switch (sfw) {
-      case 1:
-        sfwModules = ['lang_sfc', 'lang_sfw']
-        break
-      case 2:
-        sfwModules = ['lang_sfw']
-        break
-      case 3:
-        sfwModules = []
-        break
-    }
+  switch (sfw) {
+    case 1:
+      sfwModules = ['lang_sfc', 'lang_sfw']
+      break
+    case 2:
+      sfwModules = ['lang_sfw']
+      break
+    case 3:
+      sfwModules = []
+      break
+  }
 
-    setFixedModules([...getModulesInCollection(), ...sfwModules])
-    setDisabledModules([...getIncompatibleModulesInCollection()])
-  }, [enabledCollections, sfw, api, shouldCensor])
+  fixedModules = [...getModulesInCollection(), ...sfwModules]
+  disabledModules = [...getIncompatibleModulesInCollection()]
 
   const calculatedEnabledModules = useMemo(
     () => [...enabledModules, ...fixedModules],
