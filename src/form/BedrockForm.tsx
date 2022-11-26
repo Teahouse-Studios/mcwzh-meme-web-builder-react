@@ -250,7 +250,7 @@ export default function BedrockForm({
           disabledOptions={disabledModules}
           fixedOptions={fixedModules}
           label={t('form.resource.label')}
-          helper={t('form.resource.helper')}
+          helper={t('form.resource.helper')!}
           prependIcon={<Archive />}
           helpDoc="https://lakeus.xyz/wiki/%E6%A2%97%E4%BD%93%E4%B8%AD%E6%96%87/%E6%A8%A1%E5%9D%97%E5%88%97%E8%A1%A8"
         />
@@ -264,7 +264,7 @@ export default function BedrockForm({
           disabledOptions={disabledCollections}
           options={api.be_modules.collection}
           label={t('form.collections.label')}
-          helper={t('form.collections.helper')}
+          helper={t('form.collections.helper')!}
           prependIcon={<Group />}
         />
       </Grid>

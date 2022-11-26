@@ -111,7 +111,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
             <TextField
               key="searchTextField"
               size="small"
-              placeholder={t('form.search')}
+              placeholder={t('form.search')!}
               fullWidth
               InputProps={{
                 startAdornment: (
@@ -212,7 +212,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                             <>
                               {t('form.author')}
                               {option.author.join(
-                                t('metadata.ideographicComma')
+                                t('metadata.ideographicComma')!
                               )}
                             </>
                           )
@@ -223,7 +223,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                               {' · '}
                               {t('form.incompatible', {
                                 i: option.incompatible_with.join(
-                                  t('metadata.ideographicComma')
+                                  t('metadata.ideographicComma')!
                                 ),
                               })}
                             </>

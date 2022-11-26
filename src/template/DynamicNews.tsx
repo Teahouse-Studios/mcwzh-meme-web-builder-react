@@ -89,6 +89,7 @@ export default function DynamicNews() {
       <DialogContent dividers sx={{ pb: 3 }}>
         {news.image && (
           <img
+            title={news.title}
             src={news.image}
             css={css`
               width: 100%;

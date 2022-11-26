@@ -144,7 +144,7 @@ const LogAccordion = forwardRef(
                 )}
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
-                {new Date(log.time).toLocaleString(t('metadata.dateLocale'))}
+                {new Date(log.time).toLocaleString(t('metadata.dateLocale')!)}
               </Typography>
             </Box>
             <AccordionActions sx={{ padding: '0', pr: 1 }}>
