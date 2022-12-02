@@ -76,3 +76,7 @@ svg.donate-button {
 .MuiSlider-track {
   transition: all 0.175s ease-in-out !important;
 }
+
+body {
+  filter: grayscale(1);
+}
