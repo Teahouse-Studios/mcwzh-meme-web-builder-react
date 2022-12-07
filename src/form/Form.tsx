@@ -39,7 +39,7 @@ import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
-import LogAccordion from './LogAccordion'
+import LogAccordion from './log/LogAccordion'
 const SponsorsList = lazy(() => import('./SponsorsList'))
 import type { MemeApi, BuildLog } from './types'
 import fakeApiData from './fakeApiData'

@@ -13,6 +13,10 @@ import {
   Tooltip,
   Link,
   AccordionActions,
+  Collapse,
+  Card,
+  CardActionArea,
+  CardHeader,
 } from '@mui/material'
 import {
   CloseCircle,
@@ -28,6 +32,7 @@ import {
   ContentCopy,
   Close,
   Copyright,
+  Cube,
 } from 'mdi-material-ui'
 import {
   useState,
@@ -36,14 +41,16 @@ import {
   forwardRef,
   ForwardedRef,
   useRef,
+  createElement,
 } from 'react'
 import { css } from '@emotion/react'
 import { useSnackbar } from 'notistack'
 import { Trans, useTranslation } from 'react-i18next'
-import { AdType, CollapseTransition } from './Form'
-import type { BuildLog } from './types'
-import allowTracking from '../tracking'
-import LicenseDialog from './LicenseDialog'
+import { AdType, CollapseTransition } from '../Form'
+import type { BuildLog } from '../types'
+import allowTracking from '../../tracking'
+import LicenseDialog from '../LicenseDialog'
+import DownloadCard from './DownloadCard'
 
 const LogAccordion = forwardRef(
   (
@@ -71,6 +78,7 @@ const LogAccordion = forwardRef(
     const { enqueueSnackbar } = useSnackbar()
     const [shareCopiedToClipboard, setShareCopiedToClipboard] = useState(false)
     const [openLicenseDialog, setOpenLicenseDialog] = useState(false)
+    const [fullLogExpanded, setFullLogExpanded] = useState(false)
     const shareUrl = async (url: string) => {
       if (allowTracking) window.gtag('event', 'share')
 
@@ -167,74 +175,100 @@ const LogAccordion = forwardRef(
             elevation={0}
             sx={{
               pt: 2,
-              pb: 2,
+              pb: 4,
               fontFamily:
                 "source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace",
               mb: 1,
               backgroundImage:
                 'linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04))',
               overflowX: 'auto',
+              position: 'relative',
             }}
           >
-            <Tooltip title={t('log.logCopy')}>
+            <Box
+              sx={{
+                width: '100%',
+                position: 'absolute',
+                top: fullLogExpanded ? undefined : `${250 + 8}px`,
+                bottom: fullLogExpanded ? '0' : undefined,
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
               <IconButton
                 onClick={() => {
-                  void navigator.clipboard.writeText(log.log)
+                  setFullLogExpanded(!fullLogExpanded)
                 }}
-                sx={{ position: 'relative', float: 'right', right: '12px' }}
+                sx={{
+                  transform: `rotate(${fullLogExpanded ? '180' : '0'}deg)`,
+                  transition:
+                    'transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+                }}
               >
-                <ContentCopy />
+                <ChevronDown />
               </IconButton>
-            </Tooltip>
-            {log.log.split('\n').map((line, index) => {
-              return (
-                <Typography
-                  variant="body1"
-                  fontFamily="source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace"
-                  key={index}
-                  css={css`
-                    position: relative;
-                    white-space: pre-wrap;
-                    counter-increment: line;
-                    padding-left: 3.5rem;
-                    padding-right: 2rem;
-                    transition: color, background-color 0.075s ease-in-out;
-                    &::before {
-                      content: counter(line);
-                      position: absolute;
-                      left: 1.5rem;
-                    }
-                    &:hover {
-                      background-color: ${theme.palette.action.hover};
-                    }
-                  `}
-                  color={
-                    {
-                      warning: 'warning.main',
-                      error: 'error.main',
-                      success: 'success.main',
-                      info: 'info.main',
-                      debug: 'text.secondary',
-                      default: 'text.primary',
-                    }[
-                      line.toLowerCase().match(/(fail|error)/)
-                        ? 'error'
-                        : line.toLowerCase().match(/(warn)/)
-                        ? 'warning'
-                        : line.toLowerCase().match(/(success|succeed)/)
-                        ? 'success'
-                        : line.toLowerCase().match(/(info)/)
-                        ? 'info'
-                        : line.toLowerCase().match(/ {4}/)
-                        ? 'debug'
-                        : 'default'
-                    ]
-                  }
+            </Box>
+            <Collapse collapsedSize="250px" in={fullLogExpanded}>
+              <Tooltip title={t('log.logCopy')}>
+                <IconButton
+                  onClick={() => {
+                    void navigator.clipboard.writeText(log.log)
+                  }}
+                  sx={{ position: 'relative', float: 'right', right: '12px' }}
                 >
-                  {line}
-                </Typography>
-              )
-            })}
+                  <ContentCopy />
+                </IconButton>
+              </Tooltip>
+              {log.log.split('\n').map((line, index) => {
+                return (
+                  <Typography
+                    variant="body1"
+                    fontFamily="source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace"
+                    key={index}
+                    css={css`
+                      position: relative;
+                      white-space: pre-wrap;
+                      counter-increment: line;
+                      padding-left: 3.5rem;
+                      padding-right: 2rem;
+                      transition: color, background-color 0.075s ease-in-out;
+                      &::before {
+                        content: counter(line);
+                        position: absolute;
+                        left: 1.5rem;
+                      }
+                      &:hover {
+                        background-color: ${theme.palette.action.hover};
+                      }
+                    `}
+                    color={
+                      {
+                        warning: 'warning.main',
+                        error: 'error.main',
+                        success: 'success.main',
+                        info: 'info.main',
+                        debug: 'text.secondary',
+                        default: 'text.primary',
+                      }[
+                        line.toLowerCase().match(/(fail|error)/)
+                          ? 'error'
+                          : line.toLowerCase().match(/(warn)/)
+                          ? 'warning'
+                          : line.toLowerCase().match(/(success|succeed)/)
+                          ? 'success'
+                          : line.toLowerCase().match(/(info)/)
+                          ? 'info'
+                          : line.toLowerCase().match(/ {4}/)
+                          ? 'debug'
+                          : 'default'
+                      ]
+                    }
+                  >
+                    {line}
+                  </Typography>
+                )
+              })}
+            </Collapse>
           </Paper>
           <CollapseTransition
             in={adSettings.shouldDisplayAd}
@@ -385,71 +419,99 @@ const LogAccordion = forwardRef(
                     setOpenLicenseDialog(false)
                   }}
                 />
-                <Button
-                  variant="contained"
-                  startIcon={<Download />}
-                  onClick={() =>
-                    window.gtag('event', 'download', {
-                      eventType: log.platform,
-                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                      eventLabel: new URL(log.downloadUrl!).pathname,
-                    })
-                  }
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  href={log.downloadUrl!}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  sx={{ mr: 1 }}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
                 >
-                  {t('log.download')}
-                </Button>
-                <Button
-                  startIcon={<Disc />}
-                  sx={{ mr: 1 }}
-                  href={
-                    {
+                  <Typography component="h3" variant="h6" sx={{ mb: 1 }}>
+                    {t('log.download')}
+                  </Typography>
+                  <Box>
+                    <Button
+                      className="donate-button"
+                      startIcon={<Heart />}
+                      color="error"
+                      href="https://afdian.net/@teahouse"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{ mr: 1 }}
+                    >
+                      {t('footer.donate')}
+                    </Button>
+                    <Tooltip
+                      title={t(
+                        shareCopiedToClipboard ? 'log.clipboard' : 'log.share'
+                      )}
+                    >
+                      <IconButton
+                        onClick={() => {
+                          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                          void shareUrl(log.downloadUrl!)
+                        }}
+                        sx={{ mr: 1 }}
+                      >
+                        {shareCopiedToClipboard ? <Check /> : <ShareVariant />}
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title={t('log.howToInstall')}>
+                      <IconButton
+                        href="https://lakeus.xyz/wiki/梗体中文/导入"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <HelpCircle />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                </Box>
+                <DownloadCard
+                  actionProps={{
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    href: log.downloadUrl!,
+                    rel: 'noopener noreferrer',
+                    target: '_blank',
+                    onClick: () => {
+                      window.gtag('event', 'download', {
+                        eventType: log.platform,
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        eventLabel: new URL(log.downloadUrl!).pathname,
+                      })
+                    },
+                  }}
+                  name={
+                    new URL(log.downloadUrl!).pathname.split('/')[
+                      new URL(log.downloadUrl!).pathname.split('/').length - 1
+                    ]
+                  }
+                  caption={t('memepack')}
+                  icon={Cube}
+                  highlighted
+                  sx={{ mr: 1, mb: 1 }}
+                />
+                <DownloadCard
+                  actionProps={{
+                    href: {
                       java: 'https://wdf.ink/record-java',
                       bedrock: 'https://wdf.ink/record-bedrock',
+                    }[log.platform],
+
+                    target: '_blank',
+                    rel: 'noopener noreferrer',
+                  }}
+                  name={
+                    {
+                      java: 'java.zip',
+                      bedrock: 'bedrock.mcpack',
                     }[log.platform]
                   }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t('appbar.discPack')}
-                </Button>
-                <Button
-                  startIcon={
-                    shareCopiedToClipboard ? <Check /> : <ShareVariant />
-                  }
-                  onClick={() => {
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    void shareUrl(log.downloadUrl!)
-                  }}
+                  caption={t('appbar.discPack')}
+                  icon={Disc}
                   sx={{ mr: 1 }}
-                >
-                  {t(shareCopiedToClipboard ? 'log.clipboard' : 'log.share')}
-                </Button>
-                <Button
-                  className="donate-button"
-                  startIcon={<Heart />}
-                  color="error"
-                  href="https://afdian.net/@teahouse"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ mr: 1 }}
-                >
-                  {t('footer.donate')}
-                </Button>
-                <Tooltip title={t('log.howToInstall')}>
-                  <IconButton
-                    href="https://lakeus.xyz/wiki/梗体中文/导入"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{ float: 'right' }}
-                  >
-                    <HelpCircle />
-                  </IconButton>
-                </Tooltip>
+                />
               </Box>
             ) : (
               <Box ref={actionErrorRef}>

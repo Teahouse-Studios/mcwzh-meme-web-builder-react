@@ -5,6 +5,7 @@
   },
   "java": "Java Edition",
   "bedrock": "Bedrock Edition",
+  "memepack": "Memified Chinese",
   "appbar": {
     "title": "Memified Chinese · Web Builder",
     "mcbbs": "MCBBS",
@@ -74,11 +75,7 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": [
-        "12+",
-        "16+",
-        "18+"
-      ],
+      "ticks": ["12+", "16+", "18+"],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
