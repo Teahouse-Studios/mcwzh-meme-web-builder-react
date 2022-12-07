@@ -85,8 +85,6 @@ function App() {
             country_code: string
           }
 
-          if ((geoip.country_code === 'CN' || geoip.country_code === 'HK' || geoip.country_code === 'TW' || geoip.country_code === 'MO') && new Date().getDate() === 6) location.href = 'https://b23.tv/qJrlR0i'
-
           shouldCensorL =
             geoip.country_code === 'CN' &&
             isDateInRange(

@@ -5,7 +5,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: auto !important;
 }
 
 code {
@@ -76,8 +75,4 @@ svg.donate-button {
 .MuiSlider-thumb,
 .MuiSlider-track {
   transition: all 0.175s ease-in-out !important;
-}
-
-body {
-  filter: grayscale(1);
 }
