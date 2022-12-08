@@ -1,7 +1,7 @@
 import { ReactNode, Key, RefObject } from 'react'
 import { CSSTransition } from 'react-transition-group'
 
-export function CollapseTransition(props: {
+export default function CollapseTransition(props: {
   children?: ReactNode
   in?: boolean
   key?: Key

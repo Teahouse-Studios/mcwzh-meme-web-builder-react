@@ -51,7 +51,7 @@ import 'swiper/css'
 import './form.css'
 import type { Swiper as SwiperType } from 'swiper'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { CollapseTransition } from '../template/CollapseTransition'
+import CollapseTransition from '../template/CollapseTransition'
 
 export default function Form(props: { shouldCensor: boolean }) {
   const { t } = useTranslation()
