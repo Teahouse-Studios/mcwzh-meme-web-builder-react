@@ -1,3 +1,9 @@
+import './App.css'
+import InterVar from './assets/Inter.var.woff2'
+import InterVarItalic from './assets/Inter-Italic.var.woff2'
+import JetBrainsMonoVar from './assets/JetBrainsMono.var.woff2'
+import JetBrainsMonoVarItalic from './assets/JetBrainsMono-Italic.var.woff2'
+
 import { useMemo, lazy, memo, useState } from 'react'
 import {
   CssBaseline,
@@ -68,6 +74,55 @@ function App() {
         palette: {
           mode,
         },
+        typography: {
+          fontFamily: '"InterVar","Roboto","Helvetica","Arial",sans-serif',
+        },
+        components: {
+          MuiCssBaseline: {
+            styleOverrides: {
+              body: css`
+                @font-face {
+                  font-family: 'InterVar';
+                  font-weight: 300 900;
+                  font-display: swap;
+                  font-style: normal;
+                  src: url(${InterVar}) format('woff2-variations'),
+                    url(${InterVar}) format('woff2');
+                  src: url(${InterVar}) format('woff2') tech('variations');
+                }
+                @font-face {
+                  font-family: 'InterVar';
+                  font-weight: 300 900;
+                  font-display: swap;
+                  font-style: italic;
+                  src: url(${InterVarItalic}) format('woff2-variations'),
+                    url(${InterVarItalic}) format('woff2');
+                  src: url(${InterVarItalic}) format('woff2') tech('variations');
+                }
+                @font-face {
+                  font-family: 'JetBrainsMonoVar';
+                  font-weight: 300 900;
+                  font-display: swap;
+                  font-style: normal;
+                  src: url(${JetBrainsMonoVar}) format('woff2-variations'),
+                    url(${JetBrainsMonoVar}) format('woff2');
+                  src: url(${JetBrainsMonoVar}) format('woff2')
+                    tech('variations');
+                }
+                @font-face {
+                  font-family: 'JetBrainsMonoVar';
+                  font-weight: 300 900;
+                  font-display: swap;
+                  font-style: italic;
+                  src: url(${JetBrainsMonoVarItalic}) format('woff2-variations'),
+                    url(${JetBrainsMonoVarItalic}) format('woff2');
+                  src: url(${JetBrainsMonoVarItalic}) format('woff2')
+                    tech('variations');
+                }
+              `,
+            },
+          },
+        },
       }),
     [mode]
   )
@@ -112,7 +167,12 @@ function App() {
           color: ${theme.palette.primary.main};
         }
 
-        .SnackbarContent-root:not(.SnackbarContent-variantSuccess, .SnackbarContent-variantError, .SnackbarContent-variantWarning, .SnackbarContent-variantInfo)
+        .SnackbarContent-root:not(
+            .SnackbarContent-variantSuccess,
+            .SnackbarContent-variantError,
+            .SnackbarContent-variantWarning,
+            .SnackbarContent-variantInfo
+          )
           a {
           color: ${mode === 'light'
             ? theme.palette.primary.light

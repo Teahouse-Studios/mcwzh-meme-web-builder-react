@@ -30,6 +30,9 @@ export default function TeahouseFooter() {
         default: '#323437',
       },
     },
+    typography: {
+      fontFamily: '"InterVar","Roboto","Helvetica","Arial",sans-serif',
+    },
   })
 
   const smAndDown = useMediaQuery(theme.breakpoints.up('md'))

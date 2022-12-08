@@ -160,7 +160,7 @@ const LogAccordion = forwardRef(
               pt: 2,
               pb: 4,
               fontFamily:
-                "source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace",
+                "JetBrainsMonoVar, Menlo, Monaco, Consolas, 'Courier New', monospace",
               mb: 1,
               backgroundImage:
                 'linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04))',
@@ -206,7 +206,7 @@ const LogAccordion = forwardRef(
                 return (
                   <Typography
                     variant="body1"
-                    fontFamily="source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace"
+                    fontFamily="JetBrainsMonoVar, Menlo, Monaco, Consolas, 'Courier New', monospace"
                     key={index}
                     css={css`
                       position: relative;
