@@ -14,15 +14,11 @@ import {
   Link,
   AccordionActions,
   Collapse,
-  Card,
-  CardActionArea,
-  CardHeader,
 } from '@mui/material'
 import {
   CloseCircle,
   ChevronDown,
   Check,
-  Download,
   Bug,
   ShareVariant,
   Heart,
@@ -34,19 +30,11 @@ import {
   Copyright,
   Cube,
 } from 'mdi-material-ui'
-import {
-  useState,
-  Dispatch,
-  SetStateAction,
-  forwardRef,
-  ForwardedRef,
-  useRef,
-  createElement,
-} from 'react'
+import { useState, forwardRef, ForwardedRef, useRef } from 'react'
 import { css } from '@emotion/react'
-import { useSnackbar } from 'notistack'
 import { Trans, useTranslation } from 'react-i18next'
-import { AdType, CollapseTransition } from '../Form'
+import { AdType, useAd } from '../../hooks/useAd'
+import { CollapseTransition } from '../../template/CollapseTransition'
 import type { BuildLog } from '../types'
 import allowTracking from '../../tracking'
 import LicenseDialog from '../LicenseDialog'
@@ -56,29 +44,21 @@ const LogAccordion = forwardRef(
   (
     {
       log,
-      adLS,
-      setLS,
       deleteSelf,
-      adSettings,
-      setAdSettings,
       setManualExpanded,
     }: {
       log: BuildLog
-      adLS: { shown: boolean; lastShown: number; clicked: boolean }
-      setLS: Dispatch<SetStateAction<typeof adLS>>
       deleteSelf: () => void
-      adSettings: { shouldDisplayAd: boolean; adType: AdType }
-      setAdSettings: Dispatch<SetStateAction<typeof adSettings>>
       setManualExpanded: (expanded: boolean) => void
     },
     ref: ForwardedRef<HTMLDivElement>
   ) => {
     const { t } = useTranslation()
     const theme = useTheme()
-    const { enqueueSnackbar } = useSnackbar()
     const [shareCopiedToClipboard, setShareCopiedToClipboard] = useState(false)
     const [openLicenseDialog, setOpenLicenseDialog] = useState(false)
     const [fullLogExpanded, setFullLogExpanded] = useState(false)
+    const { shouldDisplayAd, adType, adAccepted, adDismissed } = useAd()
     const shareUrl = async (url: string) => {
       if (allowTracking) window.gtag('event', 'share')
 
@@ -152,7 +132,10 @@ const LogAccordion = forwardRef(
                 )}
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
-                {new Date(log.time).toLocaleString(t('metadata.dateLocale')!)}
+                {
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  new Date(log.time).toLocaleString(t('metadata.dateLocale')!)
+                }
               </Typography>
             </Box>
             <AccordionActions sx={{ padding: '0', pr: 1 }}>
@@ -271,7 +254,7 @@ const LogAccordion = forwardRef(
             </Collapse>
           </Paper>
           <CollapseTransition
-            in={adSettings.shouldDisplayAd}
+            in={shouldDisplayAd}
             classNames="collapse-out"
             timeout={300}
             nodeRef={adRef}
@@ -297,7 +280,7 @@ const LogAccordion = forwardRef(
                     [AdType.FirstTime]: t('log.ad.firstTime'),
                     [AdType.Reconsider]: t('log.ad.reconsider'),
                     [AdType.Renew]: t('log.ad.renew'),
-                  }[adSettings.adType]
+                  }[adType]
                 }
                 <Typography
                   variant="caption"
@@ -316,18 +299,7 @@ const LogAccordion = forwardRef(
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => {
-                      setAdSettings((adSettings) => {
-                        return { ...adSettings, shouldDisplayAd: false }
-                      })
-                      setLS({
-                        shown: true,
-                        lastShown: Date.now(),
-                        clicked: true,
-                      })
-                      enqueueSnackbar(t('log.ad.donateSnackbar'), {
-                        autoHideDuration: 10000,
-                        variant: 'success',
-                      })
+                      adAccepted()
                     }}
                     sx={{ mr: 1, md: 1 }}
                   >
@@ -337,18 +309,7 @@ const LogAccordion = forwardRef(
                     startIcon={<HeartBroken />}
                     color="inherit"
                     onClick={() => {
-                      setAdSettings((adSettings) => {
-                        return { ...adSettings, shouldDisplayAd: false }
-                      })
-                      setLS({
-                        shown: true,
-                        lastShown: Date.now(),
-                        clicked: false,
-                      })
-                      enqueueSnackbar(t('log.ad.dismissSnackbar'), {
-                        autoHideDuration: 10000,
-                        variant: 'info',
-                      })
+                      adDismissed()
                     }}
                     size="small"
                     sx={{ mr: 1 }}
@@ -360,7 +321,7 @@ const LogAccordion = forwardRef(
             </Alert>
           </CollapseTransition>
           <CollapseTransition
-            in={!adSettings.shouldDisplayAd}
+            in={!shouldDisplayAd}
             classNames="collapse-in"
             timeout={600}
             nodeRef={
@@ -483,7 +444,9 @@ const LogAccordion = forwardRef(
                     },
                   }}
                   name={
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     new URL(log.downloadUrl!).pathname.split('/')[
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                       new URL(log.downloadUrl!).pathname.split('/').length - 1
                     ]
                   }

@@ -88,13 +88,14 @@ export default function DynamicNews() {
       </DialogTitle>
       <DialogContent dividers sx={{ pb: 3 }}>
         {news.image && (
-          <img
+          <Box
+            component="img"
             title={news.title}
             src={news.image}
-            css={css`
-              width: 100%;
-              display: inline-block;
-            `}
+            sx={{
+              width: '100%',
+              display: 'inline-block',
+            }}
           />
         )}
         {news.video && (
@@ -113,13 +114,12 @@ export default function DynamicNews() {
                     display: hideIFrame ? 'none' : 'block',
                   }}
                 >
-                  <iframe
+                  <Box
+                    component="iframe"
                     src={news.video}
                     sandbox="allow-scripts allow-same-origin"
                     scrolling="no"
-                    css={css`
-                      border: 0;
-                    `}
+                    sx={{ border: 'none' }}
                     allow="autoplay; encrypted-media; fullscreen"
                     onLoad={() => setHideIFrame(false)}
                   />

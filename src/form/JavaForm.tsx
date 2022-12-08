@@ -1,11 +1,4 @@
-import {
-  useState,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-  useMemo,
-  createElement,
-} from 'react'
+import { useState, Dispatch, SetStateAction, createElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Grid,
@@ -69,7 +62,7 @@ export default function JavaForm({
   const [enabledLanguageModules, setEnabledLanguageModule] = useState<string[]>(
     []
   )
-  const [gameVersion, setGameVersion] = useState<number>(9)
+  const [gameVersion, setGameVersion] = useState<number>(11)
   const [enabledMods, setEnabledMods] = useState<string[]>(api.mods)
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
   const [sfw, setSfw] = useState<number>(shouldCensor ? 1 : 2)
@@ -193,20 +186,20 @@ export default function JavaForm({
     setState(value as unknown as T)
   }
 
-  const calculatedEnabledCollections = useMemo(
-    () => [...enabledCollections, ...fixedCollections],
-    [enabledCollections, fixedCollections]
-  )
+  const calculatedEnabledCollections = [
+    ...enabledCollections,
+    ...fixedCollections,
+  ]
 
-  const calculatedEnabledResourceModules = useMemo(
-    () => [...enabledResourceModules, ...fixedResourceModules],
-    [enabledResourceModules, fixedResourceModules]
-  )
+  const calculatedEnabledResourceModules = [
+    ...enabledResourceModules,
+    ...fixedResourceModules,
+  ]
 
-  const calculatedEnabledLanguageModules = useMemo(
-    () => [...enabledLanguageModules, ...fixedLanguageModules],
-    [enabledLanguageModules, fixedLanguageModules]
-  )
+  const calculatedEnabledLanguageModules = [
+    ...enabledLanguageModules,
+    ...fixedLanguageModules,
+  ]
 
   const handleSubmit = () => {
     if (allowTracking)
@@ -323,12 +316,12 @@ export default function JavaForm({
                 {
                   version: '1.19.3+',
                   format: 11,
-                  caption: t('form.version.captions.snapshot'),
+                  // t('form.version.captions.snapshot')
+                  caption: t('form.version.captions.release'),
                 },
                 {
                   version: '1.19 - 1.19.2',
                   format: 9,
-                  caption: t('form.version.captions.release'),
                   icon: Wifi,
                 },
                 { version: '1.18 - 1.18.2', format: 8, icon: ImageFilterHdr },
@@ -458,6 +451,7 @@ export default function JavaForm({
           disabledOptions={disabledResourceModules}
           fixedOptions={fixedResourceModules}
           label={t('form.resource.label')}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           helper={t('form.resource.helper')!}
           prependIcon={<Archive />}
           helpDoc="https://lakeus.xyz/wiki/%E6%A2%97%E4%BD%93%E4%B8%AD%E6%96%87/%E6%A8%A1%E5%9D%97%E5%88%97%E8%A1%A8"
@@ -479,6 +473,7 @@ export default function JavaForm({
           disabledOptions={disabledLanguageModules}
           fixedOptions={fixedLanguageModules}
           label={t('form.language.label')}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           helper={t('form.language.helper')!}
           prependIcon={<Cog />}
         />
@@ -492,6 +487,7 @@ export default function JavaForm({
           fixedOptions={fixedCollections}
           options={api.je_modules.collection}
           label={t('form.collections.label')}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           helper={t('form.collections.helper')!}
           prependIcon={<Group />}
         />

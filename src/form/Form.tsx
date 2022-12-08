@@ -31,9 +31,10 @@ import {
   useRef,
   lazy,
   Suspense,
-  Key,
   createRef,
   RefObject,
+  Dispatch,
+  SetStateAction,
 } from 'react'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
@@ -50,12 +51,7 @@ import 'swiper/css'
 import './form.css'
 import type { Swiper as SwiperType } from 'swiper'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-
-export enum AdType {
-  FirstTime,
-  Reconsider,
-  Renew,
-}
+import { CollapseTransition } from '../template/CollapseTransition'
 
 export default function Form(props: { shouldCensor: boolean }) {
   const { t } = useTranslation()
@@ -84,7 +80,12 @@ export default function Form(props: { shouldCensor: boolean }) {
         return 'Are you sure you want to leave?'
       })
     }
-    formRootRef.current?.addEventListener('click', listener)
+    const ref = formRootRef.current
+    ref?.addEventListener('click', listener)
+
+    return () => {
+      ref?.removeEventListener('click', listener)
+    }
   }, [])
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [swiper, setSwiper] = useState<SwiperType>()
@@ -141,36 +142,6 @@ export default function Form(props: { shouldCensor: boolean }) {
       },
     }[log.status]())
   }
-
-  const [adLS, setLS] = useLocalStorage('memeAd', {
-    shown: false,
-    lastShown: 0,
-    clicked: false,
-  })
-
-  const [adSettings, setAdSettings] = useState(() => {
-    let shouldDisplayAd = false
-    let adType: AdType = AdType.FirstTime
-
-    if (!adLS.shown) {
-      adType = AdType.FirstTime
-      shouldDisplayAd = true
-    } else if (
-      !adLS.clicked &&
-      Date.now() - adLS.lastShown > 1000 * 60 * 60 * 24 * 7 // 7 days
-    ) {
-      shouldDisplayAd = true
-      adType = AdType.Reconsider
-    } else if (
-      adLS.clicked &&
-      Date.now() - adLS.lastShown > 1000 * 60 * 60 * 24 * 40 // 40 days
-    ) {
-      shouldDisplayAd = true
-      adType = AdType.Renew
-    }
-
-    return { shouldDisplayAd, adType }
-  })
 
   const formRef = useRef<HTMLDivElement>(null)
 
@@ -265,113 +236,18 @@ export default function Form(props: { shouldCensor: boolean }) {
           </Container>
         )}
         <CollapseTransition in={logs.length > 0} nodeRef={logRootRef}>
-          <Container id="build-logs" ref={logRootRef}>
-            <Divider sx={{ mb: 2 }} />
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                mb: 2,
-              }}
-            >
-              <Typography variant="h5" component="h2">
-                {t('log.headline')}
-              </Typography>
-              <Box>
-                <Tooltip title={t('form.clearAll')}>
-                  <IconButton
-                    color="error"
-                    onClick={() => {
-                      setLogs([])
-                      window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth',
-                      })
-                    }}
-                  >
-                    <CloseCircleMultipleOutline />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title={t('log.collapseAll')}>
-                  <IconButton
-                    onClick={() => {
-                      setLogs((logs) =>
-                        logs.map((log) => ({ ...log, expanded: false }))
-                      )
-                    }}
-                  >
-                    <CollapseAll />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title={t('log.expandAll')}>
-                  <IconButton
-                    onClick={() => {
-                      setLogs((logs) =>
-                        logs.map((log) => ({ ...log, expanded: true }))
-                      )
-                    }}
-                  >
-                    <ExpandAll />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            </Box>
-            <Box>
-              <TransitionGroup>
-                {logs
-                  .slice()
-                  .reverse()
-                  .map((log) => {
-                    const itemRef = createRef<HTMLDivElement>()
-                    return (
-                      <CollapseTransition
-                        classNames="delayed-collapse"
-                        key={log.time}
-                        nodeRef={itemRef}
-                      >
-                        <LogAccordion
-                          ref={itemRef}
-                          log={log}
-                          deleteSelf={() => {
-                            setLogs(logs.filter((l) => l.time !== log.time))
-                          }}
-                          adLS={adLS}
-                          setLS={setLS}
-                          adSettings={adSettings}
-                          setAdSettings={setAdSettings}
-                          setManualExpanded={(exp) => {
-                            setLogs(
-                              logs.map((l) =>
-                                l.time === log.time
-                                  ? { ...l, expanded: exp }
-                                  : l
-                              )
-                            )
-                          }}
-                        />
-                      </CollapseTransition>
-                    )
-                  })}
-              </TransitionGroup>
-            </Box>
-            {logsExpired && (
-              <Alert severity="info" sx={{ my: 1 }}>
-                {t('log.expired')}
-              </Alert>
-            )}
-          </Container>
+          <BuildLogs
+            logRootRef={logRootRef}
+            setLogs={setLogs}
+            logs={logs}
+            logsExpired={logsExpired}
+          />
         </CollapseTransition>
       </Box>
       <Container sx={{ mb: 2 }}>
         <Divider sx={{ mb: 2 }} />
         <Suspense fallback={<CircularProgress />}>
-          <SponsorsList
-            adLS={adLS}
-            setLS={setLS}
-            adSettings={adSettings}
-            setAdSettings={setAdSettings}
-          />
+          <SponsorsList />
         </Suspense>
       </Container>
     </>
@@ -480,36 +356,119 @@ function LoadingMask({ children }: { children: ReactNode }) {
   )
 }
 
-export function CollapseTransition(props: {
-  children?: ReactNode
-  in?: boolean
-  key?: Key
-  classNames?: string
-  timeout?: number
-  nodeRef: RefObject<HTMLElement>
+function BuildLogs({
+  logRootRef,
+  setLogs,
+  logs,
+  logsExpired,
+}: // complete the type
+{
+  logRootRef: RefObject<HTMLDivElement>
+  setLogs: Dispatch<SetStateAction<BuildLog[]>>
+  logs: BuildLog[]
+  logsExpired: boolean
 }) {
+  const { t } = useTranslation()
+
   return (
-    <CSSTransition
-      in={props.in}
-      key={props.key}
-      timeout={props.timeout ?? 300}
-      classNames={props.classNames ?? 'collapse'}
-      unmountOnExit={!props.key}
-      onEnter={() => {
-        props.nodeRef.current?.style.setProperty(
-          '--transition-height',
-          `${props.nodeRef.current.scrollHeight}px`
-        )
-      }}
-      onExit={() => {
-        props.nodeRef.current?.style.setProperty(
-          '--transition-height',
-          `${props.nodeRef.current.scrollHeight}px`
-        )
-      }}
-      nodeRef={props.nodeRef}
-    >
-      {props.children}
-    </CSSTransition>
+    <Container id="build-logs" ref={logRootRef}>
+      <Divider
+        sx={{
+          mb: 2,
+        }}
+      />
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          mb: 2,
+        }}
+      >
+        <Typography variant="h5" component="h2">
+          {t('log.headline')}
+        </Typography>
+        <Box>
+          <Tooltip title={t('form.clearAll')}>
+            <IconButton
+              color="error"
+              onClick={() => {
+                setLogs([])
+                window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth',
+                })
+              }}
+            >
+              <CloseCircleMultipleOutline />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('log.collapseAll')}>
+            <IconButton
+              onClick={() => {
+                setLogs((logs) =>
+                  logs.map((log) => ({ ...log, expanded: false }))
+                )
+              }}
+            >
+              <CollapseAll />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('log.expandAll')}>
+            <IconButton
+              onClick={() => {
+                setLogs((logs) =>
+                  logs.map((log) => ({ ...log, expanded: true }))
+                )
+              }}
+            >
+              <ExpandAll />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Box>
+      <Box>
+        <TransitionGroup>
+          {logs
+            .slice()
+            .reverse()
+            .map((log) => {
+              const itemRef = createRef<HTMLDivElement>()
+              return (
+                <CollapseTransition
+                  classNames="delayed-collapse"
+                  key={log.time}
+                  nodeRef={itemRef}
+                >
+                  <LogAccordion
+                    ref={itemRef}
+                    log={log}
+                    deleteSelf={() => {
+                      setLogs(logs.filter((l) => l.time !== log.time))
+                    }}
+                    setManualExpanded={(exp) => {
+                      setLogs(
+                        logs.map((l) =>
+                          l.time === log.time ? { ...l, expanded: exp } : l
+                        )
+                      )
+                    }}
+                  />
+                </CollapseTransition>
+              )
+            })}
+        </TransitionGroup>
+      </Box>
+      {logsExpired && (
+        <Alert
+          severity="info"
+          sx={{
+            my: 1,
+          }}
+        >
+          {t('log.expired')}
+        </Alert>
+      )}
+    </Container>
   )
 }

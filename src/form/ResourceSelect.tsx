@@ -111,6 +111,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
             <TextField
               key="searchTextField"
               size="small"
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               placeholder={t('form.search')!}
               fullWidth
               InputProps={{
@@ -212,6 +213,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                             <>
                               {t('form.author')}
                               {option.author.join(
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                                 t('metadata.ideographicComma')!
                               )}
                             </>
@@ -223,6 +225,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                               {' · '}
                               {t('form.incompatible', {
                                 i: option.incompatible_with.join(
+                                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                                   t('metadata.ideographicComma')!
                                 ),
                               })}

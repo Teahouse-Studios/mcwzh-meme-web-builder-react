@@ -21,29 +21,13 @@ import {
   MessageText,
 } from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
-import { useSnackbar } from 'notistack'
-import { createElement, Dispatch, SetStateAction } from 'react'
-import { useState, useEffect } from 'react'
-import { css } from '@emotion/react'
-import { AdType } from './Form'
+import { useState, useEffect, createElement } from 'react'
+import { useAd } from '../hooks/useAd'
 import { useEffectOnce } from 'usehooks-ts'
 
-export default function QuoteAd({
-  adLS,
-  setLS,
-  adSettings,
-  setAdSettings,
-}: {
-  adLS: { shown: boolean; lastShown: number; clicked: boolean }
-  setLS: Dispatch<SetStateAction<typeof adLS>>
-  adSettings: {
-    shouldDisplayAd: boolean
-    adType: AdType
-  }
-  setAdSettings: Dispatch<SetStateAction<typeof adSettings>>
-}) {
+export default function QuoteAd() {
   const { t } = useTranslation()
-  const { enqueueSnackbar } = useSnackbar()
+  const { adAccepted } = useAd()
   const [msgs, setMsgs] = useState<{ [key: string]: string }>({
     [t('sponsor.quoteAd.author')]: t('sponsor.quoteAd.none'),
   })
@@ -157,16 +141,18 @@ export default function QuoteAd({
               href="https://afdian.net/@teahouse"
               rel="noopener noreferrer"
               target="_blank"
+              title="爱发电赞助者列表"
             >
-              <img
+              <Box
+                component="img"
                 src="https://fe.wd-ljt.com/m3me/sP0ns0r5/sP0ns0r5.svg" // lol easylist
                 alt="爱发电赞助者列表"
-                css={css`
-                  width: 100%;
-                  height: auto;
-                  margin: 0;
-                  display: inline-block;
-                `}
+                sx={{
+                  width: '100%',
+                  height: 'auto',
+                  margin: 0,
+                  display: 'inline-block',
+                }}
                 loading="lazy"
               />
             </a>
@@ -188,18 +174,7 @@ export default function QuoteAd({
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
-              setAdSettings((adSettings) => {
-                return { ...adSettings, shouldDisplayAd: false }
-              })
-              setLS({
-                shown: true,
-                lastShown: Date.now(),
-                clicked: true,
-              })
-              enqueueSnackbar(t('log.ad.donateSnackbar'), {
-                autoHideDuration: 10000,
-                variant: 'success',
-              })
+              adAccepted()
             }}
             sx={{ mr: 1 }}
           >

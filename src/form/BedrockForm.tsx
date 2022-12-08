@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, SetStateAction, useMemo } from 'react'
+import { useState, Dispatch, SetStateAction } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Grid,
@@ -54,8 +54,10 @@ export default function BedrockForm({
   const { t } = useTranslation()
 
   let fixedModules: string[] = []
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, prefer-const
   let fixedCollections: string[] = []
   let disabledModules: string[] = []
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, prefer-const
   let disabledCollections: string[] = []
 
   const handleSelectChange = <T,>(
@@ -113,10 +115,7 @@ export default function BedrockForm({
   fixedModules = [...getModulesInCollection(), ...sfwModules]
   disabledModules = [...getIncompatibleModulesInCollection()]
 
-  const calculatedEnabledModules = useMemo(
-    () => [...enabledModules, ...fixedModules],
-    [enabledModules, fixedModules]
-  )
+  const calculatedEnabledModules = [...enabledModules, ...fixedModules]
 
   const handleSubmit = () => {
     if (allowTracking)
@@ -250,6 +249,7 @@ export default function BedrockForm({
           disabledOptions={disabledModules}
           fixedOptions={fixedModules}
           label={t('form.resource.label')}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           helper={t('form.resource.helper')!}
           prependIcon={<Archive />}
           helpDoc="https://lakeus.xyz/wiki/%E6%A2%97%E4%BD%93%E4%B8%AD%E6%96%87/%E6%A8%A1%E5%9D%97%E5%88%97%E8%A1%A8"
@@ -264,6 +264,7 @@ export default function BedrockForm({
           disabledOptions={disabledCollections}
           options={api.be_modules.collection}
           label={t('form.collections.label')}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           helper={t('form.collections.helper')!}
           prependIcon={<Group />}
         />
@@ -358,7 +359,7 @@ export default function BedrockForm({
           }}
         >
           {t('form.modified')}
-          {new Date(api.je_modified).toLocaleString()}
+          {new Date(api.be_modified).toLocaleString()}
         </Typography>
         <Typography
           variant="body2"

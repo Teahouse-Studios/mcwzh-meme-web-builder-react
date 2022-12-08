@@ -8,7 +8,6 @@ import {
   SxProps,
   Box,
 } from '@mui/material'
-import { StarFourPoints } from 'mdi-material-ui'
 
 interface DownloadCardProps {
   // props for CardActionArea

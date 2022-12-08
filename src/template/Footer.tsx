@@ -11,7 +11,6 @@ import {
   Box,
   useMediaQuery,
 } from '@mui/material'
-import { css } from '@emotion/react'
 import { ReactNode } from 'react'
 import {
   Web,
@@ -144,14 +143,16 @@ export default function TeahouseFooter() {
                 href="https://teahouse.team/"
                 target="_blank"
                 rel="noopener noreferrer"
+                title="Teahouse Studios"
               >
-                <img
+                <Box
+                  component="img"
                   src={new URL('../assets/logo.svg', import.meta.url).href}
                   height="50"
-                  css={css`
-                    filter: invert(1);
-                    display: inline-block;
-                  `}
+                  sx={{
+                    filter: 'invert(1)',
+                    display: 'inline-block',
+                  }}
                   alt="Teahouse Studios"
                   loading="lazy"
                 />
