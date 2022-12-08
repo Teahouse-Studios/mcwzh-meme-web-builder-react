@@ -74,7 +74,7 @@ export default function QuoteAd() {
 
   return (
     <>
-      <Card sx={{ width: '100%' }}>
+      <Card sx={{ width: '100%' }} variant="outlined">
         <CardContent
           sx={{
             '&:last-child': {

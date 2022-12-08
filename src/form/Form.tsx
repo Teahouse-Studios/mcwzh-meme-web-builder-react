@@ -161,7 +161,27 @@ export default function Form(props: { shouldCensor: boolean }) {
           <ApiFailed error={apiError} load={loadApi} />
         ) : (
           <Container>
-            <Tabs value={tab} onChange={handleChange} centered>
+            <Tabs
+              value={tab}
+              onChange={handleChange}
+              centered
+              TabIndicatorProps={{
+                children: <span className="MuiTabs-indicatorSpan" />,
+              }}
+              sx={{
+                '& .MuiTabs-indicator': {
+                  display: 'flex',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  height: '3px',
+                },
+                '& .MuiTabs-indicatorSpan': {
+                  width: '55%',
+                  backgroundColor: 'primary.main',
+                  borderRadius: '3px 3px 0 0',
+                },
+              }}
+            >
               <Tab
                 icon={<Coffee />}
                 iconPosition="start"

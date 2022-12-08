@@ -148,7 +148,7 @@ export default function TeahouseFooter() {
                 <Box
                   component="img"
                   src={new URL('../assets/logo.svg', import.meta.url).href}
-                  height="50"
+                  height="50px"
                   sx={{
                     filter: 'invert(1)',
                     display: 'inline-block',
