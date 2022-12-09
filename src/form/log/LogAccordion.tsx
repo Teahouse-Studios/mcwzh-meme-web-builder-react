@@ -86,6 +86,7 @@ const LogAccordion = forwardRef(
     const adRef = useRef<HTMLDivElement>(null)
     const actionErrorRef = useRef<HTMLElement>(null)
     const actionSuccessRef = useRef<HTMLElement>(null)
+    const logRef = useRef<HTMLDivElement>(null)
 
     return (
       <Accordion
@@ -191,7 +192,17 @@ const LogAccordion = forwardRef(
                 <ChevronDown />
               </IconButton>
             </Box>
-            <Collapse collapsedSize="250px" in={fullLogExpanded}>
+            <Collapse
+              collapsedSize={`${
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
+                logRef.current?.scrollHeight! < 250
+                  ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
+                    logRef.current?.scrollHeight!
+                  : 250
+              }px`}
+              in={fullLogExpanded}
+              ref={logRef}
+            >
               <Tooltip title={t('log.logCopy')}>
                 <IconButton
                   onClick={() => {
@@ -330,50 +341,6 @@ const LogAccordion = forwardRef(
           >
             {log.status === 'success' ? (
               <Box ref={actionSuccessRef}>
-                <Alert
-                  severity="info"
-                  sx={{
-                    mb: 1,
-                  }}
-                >
-                  <Trans i18nKey="log.followUpdates">
-                    梗体中文每时每刻都在持续迭代更新！我们推荐您在一段时间后更新您的梗体中文资源包。您也可以关注我们的
-                    <Link
-                      href="https://space.bilibili.com/406275313"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      B 站动态
-                    </Link>
-                    获得一手资讯。
-                  </Trans>
-                </Alert>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItem: 'center',
-                    mb: 2,
-                  }}
-                >
-                  <Copyright sx={{ mr: 1 }} />
-                  <Typography variant="subtitle2" color="text.secondary">
-                    <Trans i18nKey="log.copyright">
-                      梗体中文以
-                      <Link
-                        href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        知识共享 署名-相同方式共享 4.0 国际（CC BY-SA 4.0）
-                      </Link>
-                      许可协议发布。若您想要重新发布本资源包或在本资源包的基础上二次创作，烦请阅读此
-                      <Link onClick={() => setOpenLicenseDialog(true)}>
-                        版权指南
-                      </Link>
-                      。
-                    </Trans>
-                  </Typography>
-                </Box>
                 <LicenseDialog
                   open={openLicenseDialog}
                   close={() => {
@@ -475,6 +442,45 @@ const LogAccordion = forwardRef(
                   icon={Disc}
                   sx={{ mr: 1 }}
                 />
+                <Alert
+                  severity="info"
+                  sx={{
+                    mb: 1,
+                  }}
+                >
+                  <Trans i18nKey="log.followUpdates">
+                    梗体中文每时每刻都在持续迭代更新！我们推荐您在一段时间后更新您的梗体中文资源包。您也可以关注我们的
+                    <Link
+                      href="https://space.bilibili.com/406275313"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      B 站动态
+                    </Link>
+                    获得一手资讯。
+                  </Trans>
+                </Alert>
+
+                <Alert
+                  icon={<Copyright />}
+                  severity="warning"
+                >
+                  <Trans i18nKey="log.copyright">
+                    梗体中文以
+                    <Link
+                      href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      知识共享 署名-相同方式共享 4.0 国际（CC BY-SA 4.0）
+                    </Link>
+                    许可协议发布。若您想要重新发布本资源包或在本资源包的基础上二次创作，烦请阅读此
+                    <Link onClick={() => setOpenLicenseDialog(true)}>
+                      版权指南
+                    </Link>
+                    。
+                  </Trans>
+                </Alert>
               </Box>
             ) : (
               <Box ref={actionErrorRef}>
