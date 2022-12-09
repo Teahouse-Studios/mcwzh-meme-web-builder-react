@@ -33,6 +33,7 @@ import SkipToForm from './template/SkipToForm'
 const DynamicNews = memo(lazy(() => import('./template/DynamicNews')))
 import Form from './form/Form'
 import { useEffectOnce } from 'usehooks-ts'
+import { mdRefPalette } from './theme'
 
 void i18n
   .use(LanguageDetector)
@@ -72,12 +73,53 @@ function App() {
     () =>
       createTheme({
         palette: {
+          primary: mdRefPalette.primary,
+          secondary: mdRefPalette.secondary,
+          t: mdRefPalette.t,
+          neutral: mdRefPalette.neutral,
+          neutralVariant: mdRefPalette.neutralVariant,
+          error: mdRefPalette.error,
+          background: {
+            default: mode === 'dark' ? mdRefPalette.neutral[100] : undefined,
+            paper: mdRefPalette.neutralVariant[mode === 'dark' ? 300 : 950],
+          },
           mode,
+        },
+        shape: {
+          borderRadius: 10,
         },
         typography: {
           fontFamily: '"InterVar","Roboto","Helvetica","Arial",sans-serif',
         },
         components: {
+          MuiPaper: {
+            variants: [
+              {
+                props: { variant: 'elevation' },
+                style: {
+                  backgroundColor:
+                    mdRefPalette.neutral[mode === 'dark' ? 100 : 990],
+                },
+              },
+              {
+                props: { elevation: 0 },
+                style: {
+                  backgroundColor:
+                    mdRefPalette.neutralVariant[mode === 'dark' ? 300 : 950],
+                },
+              },
+            ],
+          },
+          MuiAppBar: {
+            defaultProps: {
+              elevation: 0,
+            },
+          },
+          MuiAccordion: {
+            defaultProps: {
+              elevation: 0,
+            },
+          },
           MuiCssBaseline: {
             styleOverrides: {
               body: css`
@@ -124,6 +166,7 @@ function App() {
           },
         },
       }),
+
     [mode]
   )
 
@@ -164,7 +207,7 @@ function App() {
         color-scheme: ${mode === 'light' ? 'light' : 'dark'};
 
         a:not(.MuiButtonBase-root) {
-          color: ${theme.palette.primary.main};
+          color: ${theme.palette.primary[mode === 'light' ? 'main' : 'dark']};
         }
 
         .SnackbarContent-root:not(

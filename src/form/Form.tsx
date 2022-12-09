@@ -265,7 +265,7 @@ export default function Form(props: { shouldCensor: boolean }) {
         </CollapseTransition>
       </Box>
       <Container sx={{ mb: 2 }}>
-        <Divider sx={{ mb: 2 }} />
+        <Divider sx={{ my: 2 }} />
         <Suspense fallback={<CircularProgress />}>
           <SponsorsList />
         </Suspense>

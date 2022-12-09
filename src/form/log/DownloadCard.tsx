@@ -7,7 +7,9 @@ import {
   CardActionAreaProps,
   SxProps,
   Box,
+  IconButton,
 } from '@mui/material'
+import { Download } from 'mdi-material-ui'
 
 interface DownloadCardProps {
   // props for CardActionArea
@@ -37,13 +39,16 @@ export default function DownloadCard(props: DownloadCardProps) {
             fontSize: '24px',
           }}
         />
-        <Box sx={{ height: '100%', ml: 1, mr: 2 }}>
+        <Box sx={{ height: '100%', ml: 1, mr: 1 }}>
           <Typography variant="subtitle2">{props.name}</Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant="caption">{props.caption}</Typography>
             {props.highlighted && '✨'}
           </Box>
         </Box>
+        <IconButton sx={{ mr: 1 }}>
+          <Download />
+        </IconButton>
       </CardActionArea>
     </Card>
   )

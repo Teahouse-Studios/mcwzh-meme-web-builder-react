@@ -563,6 +563,7 @@ export default function JavaForm({
           color="primary"
           variant="contained"
           startIcon={<CloudDownload />}
+          disableElevation
           loading={submitting}
           onClick={() => handleSubmit()}
           sx={{ mr: '10px', mb: '10px' }}

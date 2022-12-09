@@ -344,6 +344,7 @@ export default function BedrockForm({
           color="primary"
           variant="contained"
           startIcon={<CloudDownload />}
+          disableElevation
           loading={submitting}
           onClick={() => handleSubmit()}
         >

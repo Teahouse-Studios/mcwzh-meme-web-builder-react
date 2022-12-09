@@ -13,6 +13,7 @@ import {
   MenuItem,
   FormHelperText,
   IconButton,
+  useTheme,
 } from '@mui/material'
 import { HelpCircle, Magnify } from 'mdi-material-ui'
 import { css } from '@emotion/react'
@@ -49,6 +50,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
   }
 
   const { t } = useTranslation()
+  const theme = useTheme()
   const [searchText, setSearchText] = useState('')
   const [selected, setSelected] = useState<string[]>(props.selected ?? [])
   const [fixedSelected, setFixedSelected] = useState<string[]>([])
@@ -219,7 +221,10 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                             </>
                           )
                         }
-                        <Box component="span" sx={{ color: 'error.main' }}>
+                        <Box
+                          component="span"
+                          sx={{ color: `error.${theme.palette.mode}` }}
+                        >
                           {option.incompatible_with && (
                             <>
                               {' · '}
