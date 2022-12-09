@@ -55,7 +55,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
 
   const handleFixedOption = (selected: string[]) => {
     const old = fixedSelected.filter(
-      (o) => !(props.fixedOptions ?? []).includes(o)
+      (o) => !(props.fixedOptions ?? []).includes(o),
     ) // old fixed options
     const filtered = selected.filter((v) => !old.includes(v)) // get rid of old fixed options
     return [...new Set([...filtered, ...(props.fixedOptions ?? [])])] // add new fixed options
@@ -160,7 +160,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                   props.disabledOptions?.includes(option.name) ||
                   option.incompatible_with?.some(
-                    (module) => selected.some((m) => m === module)
+                    (module) => selected.some((m) => m === module),
                     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                   ) ||
                   fixedSelected.includes(option.name) ||
@@ -214,7 +214,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                               {t('form.author')}
                               {option.author.join(
                                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                t('metadata.ideographicComma')!
+                                t('metadata.ideographicComma')!,
                               )}
                             </>
                           )
@@ -226,7 +226,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                               {t('form.incompatible', {
                                 i: option.incompatible_with.join(
                                   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                  t('metadata.ideographicComma')!
+                                  t('metadata.ideographicComma')!,
                                 ),
                               })}
                             </>

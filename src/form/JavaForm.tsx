@@ -60,7 +60,7 @@ export default function JavaForm({
     string[]
   >([])
   const [enabledLanguageModules, setEnabledLanguageModule] = useState<string[]>(
-    []
+    [],
   )
   const [gameVersion, setGameVersion] = useState<number>(11)
   const [enabledMods, setEnabledMods] = useState<string[]>(api.mods)
@@ -83,7 +83,7 @@ export default function JavaForm({
   type ArrayFilterPredicate = (
     value: string,
     index: number,
-    array: string[]
+    array: string[],
   ) => boolean
 
   const getModulesInCollection = (predicate: ArrayFilterPredicate) => {
@@ -91,12 +91,12 @@ export default function JavaForm({
       .flatMap((m) =>
         api.je_modules.collection
           .find((c) => c.name === m)
-          ?.contains?.filter(predicate)
+          ?.contains?.filter(predicate),
       )
       .filter(undefinedPredicate) as string[]
   }
   const getIncompatibleModulesInCollection = (
-    predicate: ArrayFilterPredicate
+    predicate: ArrayFilterPredicate,
   ) => {
     return api.je_modules.resource
       .filter((resourceModules) =>
@@ -104,10 +104,10 @@ export default function JavaForm({
           .flatMap((enabledCollection) =>
             api.je_modules.collection
               .find((collection) => collection.name === enabledCollection)
-              ?.contains?.filter(predicate)
+              ?.contains?.filter(predicate),
           )
           .filter(undefinedPredicate)
-          .includes(resourceModules.name)
+          .includes(resourceModules.name),
       )
       .flatMap((resourceModule) => resourceModule.incompatible_with)
       .filter(undefinedPredicate) as string[]
@@ -178,7 +178,7 @@ export default function JavaForm({
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
-    setState: Dispatch<SetStateAction<T>>
+    setState: Dispatch<SetStateAction<T>>,
   ) => {
     const {
       target: { value },
@@ -445,7 +445,7 @@ export default function JavaForm({
             setEnabledCollections([])
           }}
           options={api.je_modules.resource.filter(
-            (i) => !i.name.startsWith('lang_') // separate lang modules
+            (i) => !i.name.startsWith('lang_'), // separate lang modules
           )}
           selected={enabledResourceModules}
           disabledOptions={disabledResourceModules}
@@ -467,7 +467,7 @@ export default function JavaForm({
             setEnabledCollections([])
           }}
           options={api.je_modules.resource.filter(
-            (i) => i.name.startsWith('lang_') // separate lang modules
+            (i) => i.name.startsWith('lang_'), // separate lang modules
           )}
           selected={enabledLanguageModules}
           disabledOptions={disabledLanguageModules}
@@ -509,7 +509,7 @@ export default function JavaForm({
             {t(
               forceUseCompatible
                 ? 'form.compatible.disabled'
-                : 'form.compatible.helper'
+                : 'form.compatible.helper',
             )}
           </FormHelperText>
         </FormControl>

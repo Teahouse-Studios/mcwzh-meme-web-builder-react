@@ -62,7 +62,7 @@ export default function BedrockForm({
 
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
-    setState: Dispatch<SetStateAction<T>>
+    setState: Dispatch<SetStateAction<T>>,
   ) => {
     const {
       target: { value },
@@ -75,7 +75,7 @@ export default function BedrockForm({
   const getModulesInCollection = () => {
     return enabledCollections
       .flatMap(
-        (m) => api.be_modules.collection.find((c) => c.name === m)?.contains
+        (m) => api.be_modules.collection.find((c) => c.name === m)?.contains,
       )
       .filter(undefinedPredicate) as string[]
   }
@@ -86,11 +86,11 @@ export default function BedrockForm({
           .flatMap(
             (enabledCollection) =>
               api.be_modules.collection.find(
-                (collection) => collection.name === enabledCollection
-              )?.contains
+                (collection) => collection.name === enabledCollection,
+              )?.contains,
           )
           .filter(undefinedPredicate)
-          .includes(resourceModules.name)
+          .includes(resourceModules.name),
       )
       .flatMap((resourceModule) => resourceModule.incompatible_with)
       .filter(undefinedPredicate) as string[]

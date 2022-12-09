@@ -13,7 +13,7 @@ interface Alert {
 export default function DynamicAlerts() {
   const [alertsRead, setAlertsRead] = useLocalStorage<string[]>(
     'memeAlertsRead',
-    []
+    [],
   )
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
@@ -56,7 +56,7 @@ export default function DynamicAlerts() {
                   </IconButton>
                 </Fragment>
               ),
-            }
+            },
           )
         })
       })

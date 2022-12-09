@@ -51,7 +51,7 @@ const LogAccordion = forwardRef(
       deleteSelf: () => void
       setManualExpanded: (expanded: boolean) => void
     },
-    ref: ForwardedRef<HTMLDivElement>
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const { t } = useTranslation()
     const theme = useTheme()
@@ -128,8 +128,8 @@ const LogAccordion = forwardRef(
                 )}
                 {t(
                   `log.build${log.status.replace(/^\S/, (s) =>
-                    s.toUpperCase()
-                  )}`
+                    s.toUpperCase(),
+                  )}`,
                 )}
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
@@ -201,67 +201,68 @@ const LogAccordion = forwardRef(
                   : 250
               }px`}
               in={fullLogExpanded}
-              ref={logRef}
             >
-              <Tooltip title={t('log.logCopy')}>
-                <IconButton
-                  onClick={() => {
-                    void navigator.clipboard.writeText(log.log)
-                  }}
-                  sx={{ position: 'relative', float: 'right', right: '12px' }}
-                >
-                  <ContentCopy />
-                </IconButton>
-              </Tooltip>
-              {log.log.split('\n').map((line, index) => {
-                return (
-                  <Typography
-                    variant="body1"
-                    fontFamily="JetBrainsMonoVar, Menlo, Monaco, Consolas, 'Courier New', monospace"
-                    key={index}
-                    css={css`
-                      position: relative;
-                      white-space: pre-wrap;
-                      counter-increment: line;
-                      padding-left: 3.5rem;
-                      padding-right: 2rem;
-                      transition: color, background-color 0.075s ease-in-out;
-                      &::before {
-                        content: counter(line);
-                        position: absolute;
-                        left: 1.5rem;
-                      }
-                      &:hover {
-                        background-color: ${theme.palette.action.hover};
-                      }
-                    `}
-                    color={
-                      {
-                        warning: 'warning.main',
-                        error: 'error.main',
-                        success: 'success.main',
-                        info: 'info.main',
-                        debug: 'text.secondary',
-                        default: 'text.primary',
-                      }[
-                        line.toLowerCase().match(/(fail|error)/)
-                          ? 'error'
-                          : line.toLowerCase().match(/(warn)/)
-                          ? 'warning'
-                          : line.toLowerCase().match(/(success|succeed)/)
-                          ? 'success'
-                          : line.toLowerCase().match(/(info)/)
-                          ? 'info'
-                          : line.toLowerCase().match(/ {4}/)
-                          ? 'debug'
-                          : 'default'
-                      ]
-                    }
+              <Box ref={logRef}>
+                <Tooltip title={t('log.logCopy')}>
+                  <IconButton
+                    onClick={() => {
+                      void navigator.clipboard.writeText(log.log)
+                    }}
+                    sx={{ position: 'relative', float: 'right', right: '12px' }}
                   >
-                    {line}
-                  </Typography>
-                )
-              })}
+                    <ContentCopy />
+                  </IconButton>
+                </Tooltip>
+                {log.log.split('\n').map((line, index) => {
+                  return (
+                    <Typography
+                      variant="body1"
+                      fontFamily="JetBrainsMonoVar, Menlo, Monaco, Consolas, 'Courier New', monospace"
+                      key={index}
+                      css={css`
+                        position: relative;
+                        white-space: pre-wrap;
+                        counter-increment: line;
+                        padding-left: 3.5rem;
+                        padding-right: 2rem;
+                        transition: color, background-color 0.075s ease-in-out;
+                        &::before {
+                          content: counter(line);
+                          position: absolute;
+                          left: 1.5rem;
+                        }
+                        &:hover {
+                          background-color: ${theme.palette.action.hover};
+                        }
+                      `}
+                      color={
+                        {
+                          warning: 'warning.main',
+                          error: 'error.main',
+                          success: 'success.main',
+                          info: 'info.main',
+                          debug: 'text.secondary',
+                          default: 'text.primary',
+                        }[
+                          line.toLowerCase().match(/(fail|error)/)
+                            ? 'error'
+                            : line.toLowerCase().match(/(warn)/)
+                            ? 'warning'
+                            : line.toLowerCase().match(/(success|succeed)/)
+                            ? 'success'
+                            : line.toLowerCase().match(/(info)/)
+                            ? 'info'
+                            : line.toLowerCase().match(/ {4}/)
+                            ? 'debug'
+                            : 'default'
+                        ]
+                      }
+                    >
+                      {line}
+                    </Typography>
+                  )
+                })}
+              </Box>
             </Collapse>
           </Paper>
           <CollapseTransition
@@ -352,6 +353,7 @@ const LogAccordion = forwardRef(
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+                    my: 1,
                   }}
                 >
                   <Typography component="h3" variant="h6" sx={{ mb: 1 }}>
@@ -371,7 +373,7 @@ const LogAccordion = forwardRef(
                     </Button>
                     <Tooltip
                       title={t(
-                        shareCopiedToClipboard ? 'log.clipboard' : 'log.share'
+                        shareCopiedToClipboard ? 'log.clipboard' : 'log.share',
                       )}
                     >
                       <IconButton
@@ -440,7 +442,7 @@ const LogAccordion = forwardRef(
                   }
                   caption={t('appbar.discPack')}
                   icon={Disc}
-                  sx={{ mr: 1 }}
+                  sx={{ mr: 1, mb: 1 }}
                 />
                 <Alert
                   severity="info"
@@ -461,10 +463,7 @@ const LogAccordion = forwardRef(
                   </Trans>
                 </Alert>
 
-                <Alert
-                  icon={<Copyright />}
-                  severity="warning"
-                >
+                <Alert icon={<Copyright />} severity="warning">
                   <Trans i18nKey="log.copyright">
                     梗体中文以
                     <Link
@@ -500,7 +499,7 @@ const LogAccordion = forwardRef(
         </AccordionDetails>
       </Accordion>
     )
-  }
+  },
 )
 
 LogAccordion.displayName = 'LogAccordion'

@@ -3,7 +3,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "format": "prettier --write \"**/*.{js,ts,jsx,tsx,json}\"",
+    "format": "prettier --write \"src/**/*.{js,ts,jsx,tsx,json}\"",
     "lint": "eslint ."
   },
   "dependencies": {

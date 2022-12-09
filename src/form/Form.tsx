@@ -62,7 +62,7 @@ export default function Form(props: { shouldCensor: boolean }) {
   useEffectOnce(() => {
     const original = logs.length
     const newLogs = logs.filter(
-      (log) => Date.now().valueOf() - log.time < 1000 * 60 * 60 * 24 * 7
+      (log) => Date.now().valueOf() - log.time < 1000 * 60 * 60 * 24 * 7,
     )
     if (original !== newLogs.length) {
       setLogsExpired(true)
@@ -427,7 +427,7 @@ function BuildLogs({
             <IconButton
               onClick={() => {
                 setLogs((logs) =>
-                  logs.map((log) => ({ ...log, expanded: false }))
+                  logs.map((log) => ({ ...log, expanded: false })),
                 )
               }}
             >
@@ -438,7 +438,7 @@ function BuildLogs({
             <IconButton
               onClick={() => {
                 setLogs((logs) =>
-                  logs.map((log) => ({ ...log, expanded: true }))
+                  logs.map((log) => ({ ...log, expanded: true })),
                 )
               }}
             >
@@ -469,8 +469,8 @@ function BuildLogs({
                     setManualExpanded={(exp) => {
                       setLogs(
                         logs.map((l) =>
-                          l.time === log.time ? { ...l, expanded: exp } : l
-                        )
+                          l.time === log.time ? { ...l, expanded: exp } : l,
+                        ),
                       )
                     }}
                   />

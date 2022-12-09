@@ -51,7 +51,7 @@ export default function LicenseDialog(props: {
           <Close />
         </IconButton>
       </DialogTitle>
-      <DialogContent dividers sx={{ pb: 3 }}>
+      <DialogContent dividers sx={{ pb: 3, wordBreak: 'break-all' }}>
         <Typography variant="body1" sx={{ mb: 2 }}>
           <Trans i18nKey={'license.tagline'}>
             嗨。作为梗体中文的作者，我们相信开放的环境一定能激发更好的创作。因此，我们支持并欢迎转载和二创。然而，我们也不得不用
@@ -141,7 +141,7 @@ function IconItem(props: {
         sx={{
           width: '3rem',
           height: '3rem',
-          mr: 1,
+          mr: 2,
         }}
       />
       <Box>

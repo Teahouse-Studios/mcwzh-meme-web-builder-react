@@ -65,7 +65,7 @@ function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const mode = useMemo<PaletteMode>(
     () => (prefersDarkMode ? 'dark' : 'light'),
-    [prefersDarkMode]
+    [prefersDarkMode],
   )
 
   const theme = useMemo(
@@ -124,7 +124,7 @@ function App() {
           },
         },
       }),
-    [mode]
+    [mode],
   )
 
   useEffectOnce(() => {
@@ -145,7 +145,7 @@ function App() {
             isDateInRange(
               new Date(),
               new Date('2022-10-01'),
-              new Date('2022-10-24')
+              new Date('2022-10-24'),
             )
         }
         setShouldCensor(shouldCensorL)

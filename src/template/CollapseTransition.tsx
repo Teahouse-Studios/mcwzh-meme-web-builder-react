@@ -19,13 +19,13 @@ export default function CollapseTransition(props: {
       onEnter={() => {
         props.nodeRef.current?.style.setProperty(
           '--transition-height',
-          `${props.nodeRef.current.scrollHeight}px`
+          `${props.nodeRef.current.scrollHeight}px`,
         )
       }}
       onExit={() => {
         props.nodeRef.current?.style.setProperty(
           '--transition-height',
-          `${props.nodeRef.current.scrollHeight}px`
+          `${props.nodeRef.current.scrollHeight}px`,
         )
       }}
       nodeRef={props.nodeRef}

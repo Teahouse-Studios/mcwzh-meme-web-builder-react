@@ -14,7 +14,7 @@ export default function SkipToForm() {
         const form = document.querySelector('#form')
 
         const selectable = form?.querySelector(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
         ) as HTMLButtonElement
         selectable.focus()
       }}

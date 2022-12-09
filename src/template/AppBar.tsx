@@ -232,7 +232,7 @@ function LangMenu() {
 
   const handleMenuItemClick = async (
     event: MouseEvent<HTMLElement>,
-    option: Option
+    option: Option,
   ) => {
     setSelectedItem(option)
     await i18n.changeLanguage(option.value)
