@@ -35,6 +35,7 @@ import {
   RefObject,
   Dispatch,
   SetStateAction,
+  memo
 } from 'react'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
@@ -46,7 +47,8 @@ import type { MemeApi, BuildLog } from './types'
 import fakeApiData from './fakeApiData'
 import endpoint from '../api'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
-import { Swiper, SwiperSlide } from 'swiper/react'
+const SwiperSlide = lazy(() =>  import('swiper/react').then((module) => ({ default: module.SwiperSlide })))
+const Swiper = lazy(() =>  import('swiper/react').then((module) => ({ default: module.Swiper })))
 import 'swiper/css'
 import './form.css'
 import type { Swiper as SwiperType } from 'swiper'
