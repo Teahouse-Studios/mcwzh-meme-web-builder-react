@@ -40,7 +40,7 @@
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-E6FLGS46PG"
     ></script>
-    <script>
+    <script defer>
       if (
         window.location.host === 'meme.teahouse.team' ||
         window.location.host === 'meme.wd-ljt.com'
@@ -58,10 +58,55 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link
+      rel="preload"
+      type="application/json"
+      as="fetch"
+      fetchPriority="high"
+      href="https://meme.wd-api.com/v2/modules"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      type="font/woff2"
+      as="font"
+      fetchPriority="high"
+      href="/src/assets/Inter.var.woff2"
+    />
+    <link
+      rel="preload"
+      type="application/json"
+      as="fetch"
+      fetchPriority="low"
+      href="https://api.ip.sb/geoip"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      type="font/woff2"
+      as="font"
+      fetchPriority="low"
+      href="/src/assets/Inter-Italic.var.woff2"
+    />
+    <link
+      rel="preload"
+      type="font/woff2"
+      as="font"
+      fetchPriority="low"
+      href="/src/assets/JetBrainsMono.var.woff2"
+    />
+    <link
+      rel="preload"
+      type="font/woff2"
+      as="font"
+      fetchPriority="low"
+      href="/src/assets/JetBrainsMono-Italic.var.woff2"
+    />
   </head>
   <body>
     <noscript>
-      <strong>本站需要 JavaScript。</strong>
+      <strong lang="zh-Hans-CN">本站需要 JavaScript。</strong>
+      <strong lang="en">This site requires JavaScript.</strong>
     </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
