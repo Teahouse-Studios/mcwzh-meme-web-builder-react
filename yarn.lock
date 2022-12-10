@@ -2677,9 +2677,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-legacy@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@vitejs/plugin-legacy@npm:3.0.0"
+"@vitejs/plugin-legacy@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@vitejs/plugin-legacy@npm:3.0.1"
   dependencies:
     "@babel/standalone": "npm:^7.20.6"
     core-js: "npm:^3.26.1"
@@ -2688,8 +2688,8 @@ __metadata:
     systemjs: "npm:^6.13.0"
   peerDependencies:
     terser: ^5.4.0
-    vite: ^3.0.0
-  checksum: b62ffff3925df66070cdf0758687a7a42aa3a3e0d91c0e11b47e50a67d4a8f79a23e565514d1eed6d409c0d7f50b799f736bdb90ef45f9650f162d364b5c24c7
+    vite: ^4.0.0
+  checksum: 43ad0b456ae4d55552f646613bd83f2c1cef2b15c0dd3109f052a927b2e11086c63728484016185a782be9ff0c5ec2f3bb2c7fb2db4c258718d60fd6337f2cee
   languageName: node
   linkType: hard
 
@@ -5908,7 +5908,7 @@ __metadata:
     "@types/react-transition-group": "npm:^4.4.5"
     "@typescript-eslint/eslint-plugin": "npm:^5.46.0"
     "@typescript-eslint/parser": "npm:^5.46.0"
-    "@vitejs/plugin-legacy": "npm:^3.0.0"
+    "@vitejs/plugin-legacy": "npm:^3.0.1"
     "@vitejs/plugin-react": "npm:^3.0.0"
     eslint: "npm:^8.29.0"
     eslint-config-prettier: "npm:^8.5.0"
@@ -5931,7 +5931,7 @@ __metadata:
     rollup-plugin-visualizer: "npm:^5.8.3"
     swiper: "npm:^8.4.5"
     terser: "npm:^5.16.1"
-    typescript: "npm:^4.9.3"
+    typescript: "npm:^4.9.4"
     usehooks-ts: "npm:^2.9.1"
     vite: "npm:^4.0.0"
     vite-plugin-pwa: "npm:^0.13.3"
@@ -6465,23 +6465,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.9.3":
-  version: 4.9.3
-  resolution: "typescript@npm:4.9.3"
+"typescript@npm:^4.9.4":
+  version: 4.9.4
+  resolution: "typescript@npm:4.9.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: b0aafee5d6427b67fc557c46a6e9c093586444db463fde7a19ffc4eecc31889246210ff679f8384769dc99fca975bba5ac17411816855bb2d8a549e4fe442cc7
+  checksum: b142d5e50785d0e5055771e4d9e712b01be58985ff29be3d3acc64f0fddd5fd8ade8b28583ba502f2565783c23bd5b509c5abcc1a93a2d7d4f05b8e4ee731fc9
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^4.9.3#optional!builtin<compat/typescript>":
-  version: 4.9.3
-  resolution: "typescript@patch:typescript@npm%3A4.9.3#optional!builtin<compat/typescript>::version=4.9.3&hash=d73830"
+"typescript@patch:typescript@npm%3A^4.9.4#optional!builtin<compat/typescript>":
+  version: 4.9.4
+  resolution: "typescript@patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=d73830"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 06fd518bc55d054127b39aa7ad11551fd132bb7a8395913ed84fd5caf715455393d622e884ccb4fcf962d4eb5182600009c096b82ec516e8fadd09bf2150bb93
+  checksum: b53b083cf90883c6c73d66ce2e8b39115f06a642dfc538085c32e030687cf9872c5ea8720c5f361d4d2d14a8af946bb5423e0bf6b472b11f776e020ba6332ced
   languageName: node
   linkType: hard
 
