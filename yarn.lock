@@ -2316,15 +2316,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-replace@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@rollup/plugin-replace@npm:4.0.0"
+"@rollup/plugin-replace@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@rollup/plugin-replace@npm:5.0.1"
   dependencies:
-    "@rollup/pluginutils": "npm:^3.1.0"
-    magic-string: "npm:^0.25.7"
+    "@rollup/pluginutils": "npm:^5.0.1"
+    magic-string: "npm:^0.26.4"
   peerDependencies:
-    rollup: ^1.20.0 || ^2.0.0
-  checksum: a3e98b41d0afc593fd5eb7200f7f82db00f3eab35949b6adcce3e27ef8738fc711c1676d7a5ca26d3bd564c0ff90e6235e316c1da4ace6ef933d30de715205c5
+    rollup: ^1.20.0||^2.0.0||^3.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: e7c8f3a221ac3c876c18743ff89d43e4e1221e5ad5e2b3d337dd6f3944cc89eb0ea22d4c92e697212ba15b30706508c48189424e82f75a8fcb4a80c499acbc75
   languageName: node
   linkType: hard
 
@@ -2338,6 +2341,22 @@ __metadata:
   peerDependencies:
     rollup: ^1.20.0||^2.0.0
   checksum: cd1fa3b565bab5556479aeea8ae14d4c622e2071abbac2de4182715c5220074a55d6ec08be31a1207676d307330eef6697fc739d2d7e1cf34937e87d23770dc3
+  languageName: node
+  linkType: hard
+
+"@rollup/pluginutils@npm:^5.0.1":
+  version: 5.0.2
+  resolution: "@rollup/pluginutils@npm:5.0.2"
+  dependencies:
+    "@types/estree": "npm:^1.0.0"
+    estree-walker: "npm:^2.0.2"
+    picomatch: "npm:^2.3.1"
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0||^3.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: c8e01caaf5d63c23f82ad6a1402cd8878718b298c29e09e57592dfffa18e01c389242610c41cb608f429828d13ef0848ff83fa474bbfe568966a9a8b2e93d25a
   languageName: node
   linkType: hard
 
@@ -2431,6 +2450,13 @@ __metadata:
   version: 0.0.39
   resolution: "@types/estree@npm:0.0.39"
   checksum: 17875aa97e2734f4a6c5d1e7d4978888961f4c890694c6e0d1c51b17b3eaceba6be1478cf76c50730860002766e4a05c3e8afa12cccbcd5f0b628c458b607357
+  languageName: node
+  linkType: hard
+
+"@types/estree@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@types/estree@npm:1.0.0"
+  checksum: 474df434e3a469cb7a68d44c8b7ac3a21bca344fa3b49651c3451d0f3662ff0c3b2ba52149cbc5b9c9a9f3f1ac37958c163ef29b65a8b36fccb5ccb2acfc9b08
   languageName: node
   linkType: hard
 
@@ -3858,6 +3884,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"estree-walker@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "estree-walker@npm:2.0.2"
+  checksum: 6fd7656e20b3c8f1fa74cd3d922e09d2cc9815ba5ea2d4cc0d5f16870b00e4c40d9aaae5efeb26299ea684a89b8e64868f42ecdddd45e8d18283f47098c9943a
+  languageName: node
+  linkType: hard
+
 "esutils@npm:^2.0.2":
   version: 2.0.3
   resolution: "esutils@npm:2.0.3"
@@ -3872,7 +3905,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.9":
+"fast-glob@npm:^3.2.12":
+  version: 3.2.12
+  resolution: "fast-glob@npm:3.2.12"
+  dependencies:
+    "@nodelib/fs.stat": "npm:^2.0.2"
+    "@nodelib/fs.walk": "npm:^1.2.3"
+    glob-parent: "npm:^5.1.2"
+    merge2: "npm:^1.3.0"
+    micromatch: "npm:^4.0.4"
+  checksum: 3b98e0cadbf2aea3fa2be76e28b0c895bb18d920ccb7b3d3f603a464e3dc2c6a89a8afb9f9765226bd4d4d74b70e880721ff7a57a267c2eaa11353f35d42d11b
+  languageName: node
+  linkType: hard
+
+"fast-glob@npm:^3.2.9":
   version: 3.2.11
   resolution: "fast-glob@npm:3.2.11"
   dependencies:
@@ -4333,12 +4379,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^22.1.5":
-  version: 22.1.5
-  resolution: "i18next@npm:22.1.5"
+"i18next@npm:^22.4.3":
+  version: 22.4.3
+  resolution: "i18next@npm:22.4.3"
   dependencies:
     "@babel/runtime": "npm:^7.20.6"
-  checksum: 2184d63795969742ec07414de6445073f9dcc0a794707013d006464f8b04158574341a1f2e0a353108a1089ce1933ea34edd456ed1cbff4494de94df4469b1e1
+  checksum: a5f4639c06e3735c6493f58203d3c2cce508728766abb8ae979209b8db4b76e7758c628899848e37d85b576b6d55b465692fd5b862c9aadeb348a3803147c06d
   languageName: node
   linkType: hard
 
@@ -4893,6 +4939,15 @@ __metadata:
   dependencies:
     sourcemap-codec: "npm:^1.4.8"
   checksum: 8a2cb8470617fbe2fa9b924b4b1de9322686f035f8b506daa9bbe0dc5d1ba182da9e3b53fa9d3a932ab1b003b05ee81a49f9b9ea169f3c790a979f32222af5c2
+  languageName: node
+  linkType: hard
+
+"magic-string@npm:^0.26.4":
+  version: 0.26.7
+  resolution: "magic-string@npm:0.26.7"
+  dependencies:
+    sourcemap-codec: "npm:^1.4.8"
+  checksum: c32d85ae488a66f9dd604199d41f7f4335c9db2adc3c5e24555a3f75551de9a81cb1ba9ce16941e4fa9af9908e832a25a796b27d744a707a4343cecf20d75e54
   languageName: node
   linkType: hard
 
@@ -5861,20 +5916,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.79.0":
-  version: 2.79.1
-  resolution: "rollup@npm:2.79.1"
-  dependencies:
-    fsevents: "npm:~2.3.2"
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  bin:
-    rollup: dist/bin/rollup
-  checksum: b91c27c3b5234af864f282ffa2c13891d9caf25cad8ba7ad11f5201bdb6516f10c90a8c3402a5f72eafc74a555b1c685b6b04d107a6d6866195812a82f4aa308
-  languageName: node
-  linkType: hard
-
 "rollup@npm:^3.7.0":
   version: 3.7.0
   resolution: "rollup@npm:3.7.0"
@@ -5886,6 +5927,20 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: c23bc02dc01bccf45db5cd508025fecd27419fb98e1077d79787e50dff07afab6617030eb5f5cae0e70efd584dc12a1d28741ec30835b2d8723a9ea9f240e68b
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^3.7.2":
+  version: 3.7.3
+  resolution: "rollup@npm:3.7.3"
+  dependencies:
+    fsevents: "npm:~2.3.2"
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: df60daa18163f8cfc05c864cec7bdc4d5c45bf005a59a86c2f92e35e190ea2287d52b5673c08c2bb54fe84fed17f5737fe6d39317280ce8b1875a598fae5a298
   languageName: node
   linkType: hard
 
@@ -5914,7 +5969,7 @@ __metadata:
     eslint-config-prettier: "npm:^8.5.0"
     eslint-plugin-react: "npm:^7.31.11"
     eslint-plugin-react-hooks: "npm:^4.6.0"
-    i18next: "npm:^22.1.5"
+    i18next: "npm:^22.4.3"
     i18next-browser-languagedetector: "npm:^7.0.1"
     markdown-to-jsx: "npm:^7.1.8"
     mdi-material-ui: "npm:^7.6.0"
@@ -5934,7 +5989,7 @@ __metadata:
     typescript: "npm:^4.9.4"
     usehooks-ts: "npm:^2.9.1"
     vite: "npm:^4.0.0"
-    vite-plugin-pwa: "npm:^0.13.3"
+    vite-plugin-pwa: "npm:^0.14.0"
     web-vitals: "npm:^3.1.0"
     workbox-window: "npm:^6.5.4"
   languageName: unknown
@@ -6477,11 +6532,11 @@ __metadata:
 
 "typescript@patch:typescript@npm%3A^4.9.4#optional!builtin<compat/typescript>":
   version: 4.9.4
-  resolution: "typescript@patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=d73830"
+  resolution: "typescript@patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=ad5954"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: b53b083cf90883c6c73d66ce2e8b39115f06a642dfc538085c32e030687cf9872c5ea8720c5f361d4d2d14a8af946bb5423e0bf6b472b11f776e020ba6332ced
+  checksum: e7321aeb1e2c0e3c19599808707208e2b730de8d17a5624f0a7297b9a1ffa39974edd4a819108b3b635bc00171476ddfa339e04d928a03ce8d8c6944cb8ec008
   languageName: node
   linkType: hard
 
@@ -6623,22 +6678,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-pwa@npm:^0.13.3":
-  version: 0.13.3
-  resolution: "vite-plugin-pwa@npm:0.13.3"
+"vite-plugin-pwa@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "vite-plugin-pwa@npm:0.14.0"
   dependencies:
-    "@rollup/plugin-replace": "npm:^4.0.0"
+    "@rollup/plugin-replace": "npm:^5.0.1"
     debug: "npm:^4.3.4"
-    fast-glob: "npm:^3.2.11"
+    fast-glob: "npm:^3.2.12"
     pretty-bytes: "npm:^6.0.0"
-    rollup: "npm:^2.79.0"
+    rollup: "npm:^3.7.2"
     workbox-build: "npm:^6.5.4"
     workbox-window: "npm:^6.5.4"
   peerDependencies:
-    vite: ^3.1.0
+    vite: ^3.1.0 || ^4.0.0
     workbox-build: ^6.5.4
     workbox-window: ^6.5.4
-  checksum: fe19f7c2f20ddb04e7e1ad631d52036b7f414c906020621ec33f495f9553cf2ba99156c30fbf0085196a3f2bf4ab751556528b4ccd02d4aa7a8c79c55761e203
+  checksum: cc45b2b24fbfb348be4b74e1e0a395244834038d6d3fd74fc65e2cade3b72625eb58efb9bc7763aec6cfffcd1036a672abfd5b2ab1ff3fe27c078c3620efecc9
   languageName: node
   linkType: hard
 
