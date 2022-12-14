@@ -58,15 +58,15 @@
     "submit": "搞快点",
     "clearSelected": "清空已选",
     "clearAll": "全部扬了",
-    "author": "作者：",
+    "author": "作者",
     "item": "个玩意",
     "collections": {
       "helper": "选择我们预先钦定的模块集合。",
       "label": "模块集合选择",
-      "description_prefix": "共",
-      "resource_suffix": "个附加内容"
+      "resource": "含模块",
+      "piece": " 个"
     },
-    "incompatible": "（与 {{i}} 不兼容）",
+    "incompatible": "不兼容模块",
     "modified": "最后更新时间: ",
     "modOption": {
       "all": "所有",

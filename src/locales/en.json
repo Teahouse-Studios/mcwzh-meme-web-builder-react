@@ -58,15 +58,15 @@
     "submit": "Submit build options",
     "clearSelected": "Clear selected",
     "clearAll": "Clear all",
-    "author": "Author: ",
+    "author": "Author",
     "item": "item(s)",
+    "incompatible": "Incompatible with",
     "collections": {
       "helper": "Please select Add-on module collections, cherry-picked by our team.",
       "label": "Module collections",
-      "description_prefix": "Total ",
-      "resource_suffix": " resource modules"
+      "resource": "Contained resource modules",
+      "piece": ""
     },
-    "incompatible": "(incompatible with {{i}})",
     "modified": "Last Modified at ",
     "modOption": {
       "all": "All",

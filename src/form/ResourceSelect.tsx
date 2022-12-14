@@ -13,10 +13,18 @@ import {
   MenuItem,
   FormHelperText,
   IconButton,
+  SvgIcon,
 } from '@mui/material'
-import { HelpCircle, Magnify } from 'mdi-material-ui'
+import {
+  Account,
+  AccountMultiple,
+  Cancel,
+  Contain,
+  HelpCircle,
+  Magnify,
+} from 'mdi-material-ui'
 import { css } from '@emotion/react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import type { MemeModule } from './types'
 import {
   cloneElement,
@@ -103,17 +111,14 @@ export default function ResourceSelect(props: ResourceSelectProps) {
             ))
           }
         >
-          <ListSubheader
-            sx={{
-              backgroundColor: 'transparent',
-            }}
-          >
+          <ListSubheader sx={{ boxShadow: 2 }}>
             <TextField
               key="searchTextField"
               size="small"
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               placeholder={t('form.search')!}
               fullWidth
+              sx={{ mt: 1 }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -131,25 +136,25 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                 }
               }}
             />
-          </ListSubheader>
-          <MenuItem
-            disabled={selected.length === 0}
-            onClick={() => {
-              setSelected(handleFixedOption([]))
-              props.onChange([])
-            }}
-          >
-            {t('form.clearSelected')}
-          </MenuItem>
-          {props.unselectAll && (
             <MenuItem
+              disabled={selected.length === 0}
               onClick={() => {
-                props.unselectAll?.()
+                setSelected(handleFixedOption([]))
+                props.onChange(handleFixedOption([]))
               }}
             >
-              {t('form.clearAll')}
+              {t('form.clearSelected')}
             </MenuItem>
-          )}
+            {props.unselectAll && (
+              <MenuItem
+                onClick={() => {
+                  props.unselectAll?.()
+                }}
+              >
+                {t('form.clearAll')}
+              </MenuItem>
+            )}
+          </ListSubheader>
           {props.options
             .filter((i) => i.name.includes(searchText))
             .map((option, i) => (
@@ -186,8 +191,8 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                       checked={selected.includes(option.name)}
                       sx={{ mr: 1 }}
                     />
-                    <Box>
-                      <Typography variant="body1">
+                    <Box sx={{ whiteSpace: 'normal' }}>
+                      <Typography variant="body1" component="code">
                         <Highlighter
                           searchWords={[searchText]}
                           autoEscape={true}
@@ -199,39 +204,63 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                         sx={{ color: 'text.secondary' }}
                       >
                         {option.description}
-                        {option.contains
-                          ? ' · ' +
-                            t('form.collections.description_prefix') +
-                            option.contains.length.toString() +
-                            t('form.collections.resource_suffix')
-                          : ''}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'info.main' }}>
+                      <Typography
+                        component="ul"
+                        variant="body2"
+                        sx={{
+                          color: 'info.main',
+                          listStyle: 'none',
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          pl: 0,
+                          '& > li': {
+                            display: 'inline-block',
+                            ':not(:last-child)': {
+                              mr: 1,
+                            },
+                          },
+                        }}
+                      >
                         {
                           // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                           option.author && (
-                            <>
-                              {t('form.author')}
-                              {option.author.join(
+                            <ModuleLabel
+                              icon={
+                                option.author.length === 1
+                                  ? Account
+                                  : AccountMultiple
+                              }
+                              title={t('form.author')}
+                              content={option.author.join(
                                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                                 t('metadata.ideographicComma')!,
                               )}
-                            </>
+                            />
                           )
                         }
-                        <Box component="span" sx={{ color: 'error.main' }}>
-                          {option.incompatible_with && (
-                            <>
-                              {' · '}
-                              {t('form.incompatible', {
-                                i: option.incompatible_with.join(
-                                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                  t('metadata.ideographicComma')!,
-                                ),
-                              })}
-                            </>
-                          )}
-                        </Box>
+                        {option.contains && (
+                          <ModuleLabel
+                            icon={Contain}
+                            color="text.secondary"
+                            title={t('form.collections.resource')}
+                            content={
+                              option.contains.length.toString() +
+                              t('form.collections.piece')
+                            }
+                          />
+                        )}
+                        {option.incompatible_with && (
+                          <ModuleLabel
+                            icon={Cancel}
+                            color="error.main"
+                            title={t('form.incompatible')}
+                            content={option.incompatible_with.join(
+                              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                              t('metadata.ideographicComma')!,
+                            )}
+                          />
+                        )}
                       </Typography>
                     </Box>
                   </Box>
@@ -255,6 +284,35 @@ export default function ResourceSelect(props: ResourceSelectProps) {
         </Select>
         <FormHelperText>{props.helper}</FormHelperText>
       </FormControl>
+    </Box>
+  )
+}
+
+function ModuleLabel(props: {
+  color?: string
+  icon?: typeof SvgIcon
+  title: string
+  content: string
+}) {
+  return (
+    <Box
+      component="li"
+      sx={{
+        color: props.color,
+        '& > *': {
+          verticalAlign: 'top',
+        },
+      }}
+    >
+      {props.icon && (
+        <props.icon
+          sx={{ mr: 0.5, fontSize: '1.2rem', verticalAlign: 'middle' }}
+        />
+      )}
+      <Box component="strong" sx={{ mr: 0.5 }}>
+        {props.title}
+      </Box>
+      {props.content}
     </Box>
   )
 }

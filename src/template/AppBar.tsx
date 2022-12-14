@@ -23,6 +23,7 @@ import {
   Heart,
 } from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
+import mcbbsLogo from '../assets/mcbbs.svg'
 
 export default function MemeAppBar() {
   const { t } = useTranslation()
@@ -92,7 +93,6 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
         赞助
       </Button>
       <CompositeMenu
-        icon={<Post />}
         items={[
           {
             name: t('java'),
@@ -104,7 +104,12 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
           },
         ]}
       >
-        {t('appbar.mcbbs')}
+        <img
+          src={mcbbsLogo}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          title={t('appbar.mcbbs')!}
+          height="14px"
+        />
       </CompositeMenu>
       <CompositeMenu
         icon={<Github />}
@@ -143,7 +148,7 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
 
 interface CompositeMenuProps {
   children: ReactNode
-  icon: JSX.Element
+  icon?: JSX.Element
   items: {
     name: string
     href: string

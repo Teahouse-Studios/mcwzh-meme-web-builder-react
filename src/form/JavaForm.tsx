@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, createElement } from 'react'
+import { useState, Dispatch, SetStateAction, createElement, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Grid,
@@ -39,10 +39,12 @@ import {
   HomeModern,
 } from 'mdi-material-ui'
 import { css } from '@emotion/react'
-import ResourceSelect from './ResourceSelect'
+import ResourceSelectSrc from './ResourceSelect'
 import { MemeApi, BuildLog } from './types'
 import allowTracking from '../tracking'
 import endpoint from '../api'
+
+const ResourceSelect = memo(ResourceSelectSrc)
 
 export default function JavaForm({
   api,
@@ -417,7 +419,7 @@ export default function JavaForm({
               </ListSubheader>
               {api.mods.map((m) => (
                 <MenuItem value={m} key={m}>
-                  {m.replace(/mods\/(.*)\.json/g, '$1')}
+                  <code>{m.replace(/mods\/(.*)\.json/g, '$1')}</code>
                 </MenuItem>
               ))}
               <ListSubheader>
@@ -427,7 +429,7 @@ export default function JavaForm({
               </ListSubheader>
               {api.enmods.map((m) => (
                 <MenuItem value={m} key={m}>
-                  {m.replace(/mods\/(.*)\.json/g, '$1')}
+                  <code>{m.replace(/mods\/(.*)\.json/g, '$1')}</code>
                 </MenuItem>
               ))}
             </Select>

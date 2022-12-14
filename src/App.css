@@ -8,7 +8,7 @@ body {
 
 code {
   font-family: JetBrainsMonoVar, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    monospace !important;
 }
 
 .donate-button svg,
