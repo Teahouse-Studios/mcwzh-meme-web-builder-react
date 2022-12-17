@@ -33,6 +33,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useRef,
 } from 'react'
 import Highlighter from 'react-highlight-words'
 import { useTranslation } from 'react-i18next'
@@ -76,6 +77,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
     ],
     [fixedSelected, props.disabledOptions, props.options, props.selected],
   )
+  const selectedRef = useRef(selected)
 
   const handleFixedOption = (selected: string[]) => {
     const old = fixedSelected.filter(
@@ -86,7 +88,11 @@ export default function ResourceSelect(props: ResourceSelectProps) {
   }
 
   useEffect(() => {
-    onChange(handleFixedOption(props.selected))
+    selectedRef.current = props.selected
+  }, [props.selected])
+
+  useEffect(() => {
+    onChange(handleFixedOption(selectedRef.current))
 
     setFixedSelected(props.fixedOptions ?? [])
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -94,13 +100,13 @@ export default function ResourceSelect(props: ResourceSelectProps) {
 
   const selectHandler = useMemo(
     () => (option: MemeModule, itemSelected: boolean) => {
-      onChange(
-        !itemSelected
-          ? selected.filter((v) => v !== option.name)
-          : [...selected, option.name],
-      )
+      const newValue = !itemSelected
+        ? selectedRef.current.filter((v) => v !== option.name)
+        : [...selectedRef.current, option.name]
+      onChange(newValue)
+      selectedRef.current = newValue
     },
-    [onChange, selected],
+    [],
   )
 
   return (
