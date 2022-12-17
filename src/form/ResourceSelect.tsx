@@ -1,19 +1,20 @@
+import { css } from '@emotion/react'
 import {
-  Chip,
   Box,
-  TextField,
-  Typography,
   Checkbox,
+  Chip as ChipSrc,
   FormControl,
-  InputLabel,
-  SvgIconProps,
-  Select,
-  InputAdornment,
-  ListSubheader,
-  MenuItem,
   FormHelperText,
   IconButton,
+  InputAdornment,
+  InputLabel,
+  ListSubheader,
+  MenuItem,
+  Select,
   SvgIcon,
+  SvgIconProps,
+  TextField,
+  Typography,
 } from '@mui/material'
 import {
   Account,
@@ -23,17 +24,21 @@ import {
   HelpCircle,
   Magnify,
 } from 'mdi-material-ui'
-import { css } from '@emotion/react'
-import { Trans, useTranslation } from 'react-i18next'
-import type { MemeModule } from './types'
 import {
   cloneElement,
-  ReactElement,
-  useState,
+  forwardRef,
+  memo,
   MouseEvent,
+  ReactElement,
   useEffect,
+  useMemo,
+  useState,
 } from 'react'
 import Highlighter from 'react-highlight-words'
+import { useTranslation } from 'react-i18next'
+import type { MemeModule } from './types'
+
+const Chip = memo(ChipSrc)
 
 interface ResourceSelectProps {
   onChange: (value: string[]) => void
@@ -41,7 +46,7 @@ interface ResourceSelectProps {
   label: string
   prependIcon: ReactElement<SvgIconProps>
   helper?: string
-  selected?: string[]
+  selected: string[]
   disabledOptions?: string[]
   fixedOptions?: string[]
   unselectAll?: () => never | void
@@ -56,10 +61,21 @@ export default function ResourceSelect(props: ResourceSelectProps) {
     setAnchorEl(anchorEl ? null : event.currentTarget)
   }
 
+  const { onChange, selected } = props
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
-  const [selected, setSelected] = useState<string[]>(props.selected ?? [])
   const [fixedSelected, setFixedSelected] = useState<string[]>([])
+  const disabledOptions = useMemo(
+    () => [
+      ...(props.disabledOptions ?? []),
+      ...fixedSelected,
+      ...props.options
+        .filter((i) => props.selected.includes(i.name))
+        .map((i) => i.incompatible_with)
+        .flat(),
+    ],
+    [fixedSelected, props.disabledOptions, props.options, props.selected],
+  )
 
   const handleFixedOption = (selected: string[]) => {
     const old = fixedSelected.filter(
@@ -70,16 +86,22 @@ export default function ResourceSelect(props: ResourceSelectProps) {
   }
 
   useEffect(() => {
-    setSelected(handleFixedOption)
+    onChange(handleFixedOption(props.selected))
 
     setFixedSelected(props.fixedOptions ?? [])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.fixedOptions])
 
-  useEffect(() => {
-    setSelected(props.selected ?? [])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selected])
+  const selectHandler = useMemo(
+    () => (option: MemeModule, itemSelected: boolean) => {
+      onChange(
+        !itemSelected
+          ? selected.filter((v) => v !== option.name)
+          : [...selected, option.name],
+      )
+    },
+    [onChange, selected],
+  )
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -94,21 +116,19 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           value={selected}
           multiple
           onClick={handleClick}
-          onChange={(event) => {
-            setSelected(event.target.value as string[])
-            props.onChange(event.target.value as string[])
-          }}
           onClose={() => setSearchText('')}
           disabled={props.disabled}
           renderValue={(selected) =>
-            selected.map((option) => (
-              <Chip
-                key={option}
-                label={option}
-                sx={{ mr: 0.5 }}
-                disabled={(props.disabledOptions ?? []).includes(option)}
-              />
-            ))
+            selected
+              .slice(0, 5)
+              .map((option) => (
+                <Chip
+                  key={option}
+                  label={option}
+                  sx={{ mr: 0.5 }}
+                  disabled={(props.disabledOptions ?? []).includes(option)}
+                />
+              ))
           }
         >
           <ListSubheader sx={{ boxShadow: 2 }}>
@@ -127,7 +147,6 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                 ),
               }}
               onChange={(e) => {
-                console.log(e.target.value)
                 setSearchText(e.target.value)
               }}
               onKeyDown={(e) => {
@@ -136,150 +155,39 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                 }
               }}
             />
-            <MenuItem
-              disabled={selected.length === 0}
-              onClick={() => {
-                setSelected(handleFixedOption([]))
-                props.onChange(handleFixedOption([]))
-              }}
-            >
-              {t('form.clearSelected')}
-            </MenuItem>
-            {props.unselectAll && (
+            <Box>
               <MenuItem
+                disabled={selected.length === 0}
                 onClick={() => {
-                  props.unselectAll?.()
+                  onChange(handleFixedOption([]))
+                  props.onChange(handleFixedOption([]))
                 }}
               >
-                {t('form.clearAll')}
+                {t('form.clearSelected')}
               </MenuItem>
-            )}
+              {props.unselectAll && (
+                <MenuItem
+                  onClick={() => {
+                    props.unselectAll?.()
+                  }}
+                >
+                  {t('form.clearAll')}
+                </MenuItem>
+              )}
+            </Box>
           </ListSubheader>
           {props.options
             .filter((i) => i.name.includes(searchText))
-            .map((option, i) => (
-              <MenuItem
-                key={i}
-                value={option.name}
-                disabled={
-                  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-                  props.disabledOptions?.includes(option.name) ||
-                  option.incompatible_with?.some(
-                    (module) => selected.some((m) => m === module),
-                    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-                  ) ||
-                  fixedSelected.includes(option.name) ||
-                  false
-                }
-              >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    width: '100%',
-                  }}
-                  css={css`
-                    p {
-                      width: 100%;
-                    }
-                  `}
-                >
-                  <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                    <Checkbox
-                      checked={selected.includes(option.name)}
-                      sx={{ mr: 1 }}
-                    />
-                    <Box sx={{ whiteSpace: 'normal' }}>
-                      <Typography variant="body1" component="code">
-                        <Highlighter
-                          searchWords={[searchText]}
-                          autoEscape={true}
-                          textToHighlight={option.name}
-                        />
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{ color: 'text.secondary' }}
-                      >
-                        {option.description}
-                      </Typography>
-                      <Typography
-                        component="ul"
-                        variant="body2"
-                        sx={{
-                          color: 'info.main',
-                          listStyle: 'none',
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          pl: 0,
-                          '& > li': {
-                            display: 'inline-block',
-                            ':not(:last-child)': {
-                              mr: 1,
-                            },
-                          },
-                        }}
-                      >
-                        {
-                          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                          option.author && (
-                            <ModuleLabel
-                              icon={
-                                option.author.length === 1
-                                  ? Account
-                                  : AccountMultiple
-                              }
-                              title={t('form.author')}
-                              content={option.author.join(
-                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                t('metadata.ideographicComma')!,
-                              )}
-                            />
-                          )
-                        }
-                        {option.contains && (
-                          <ModuleLabel
-                            icon={Contain}
-                            color="text.secondary"
-                            title={t('form.collections.resource')}
-                            content={
-                              option.contains.length.toString() +
-                              t('form.collections.piece')
-                            }
-                          />
-                        )}
-                        {option.incompatible_with && (
-                          <ModuleLabel
-                            icon={Cancel}
-                            color="error.main"
-                            title={t('form.incompatible')}
-                            content={option.incompatible_with.join(
-                              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                              t('metadata.ideographicComma')!,
-                            )}
-                          />
-                        )}
-                      </Typography>
-                    </Box>
-                  </Box>
-                  {props.helpDoc && (
-                    <Box sx={{ pointerEvents: 'all' }}>
-                      <IconButton
-                        onClick={(e) => {
-                          e.stopPropagation()
-                        }}
-                        href={`${props.helpDoc}#${option.name}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <HelpCircle />
-                      </IconButton>
-                    </Box>
-                  )}
-                </Box>
-              </MenuItem>
+            .map((option) => (
+              <ResourceSelectItem
+                option={option}
+                key={option.name}
+                selected={selected.includes(option.name)}
+                disabled={disabledOptions.includes(option.name)}
+                searchWords={searchText}
+                helpDoc={props.helpDoc}
+                onSelect={selectHandler}
+              />
             ))}
         </Select>
         <FormHelperText>{props.helper}</FormHelperText>
@@ -316,3 +224,155 @@ function ModuleLabel(props: {
     </Box>
   )
 }
+
+const ResourceSelectItemSrc = forwardRef<
+  HTMLLIElement,
+  {
+    option: MemeModule
+    disabled: boolean
+    selected: boolean
+    searchWords: string
+    helpDoc?: string
+    onSelect: (option: MemeModule, selected: boolean) => void
+  }
+>(({ option, disabled, selected, searchWords, helpDoc, onSelect }, ref) => {
+  const { t } = useTranslation()
+  return (
+    <MenuItem
+      value={option.name}
+      selected={selected}
+      disabled={disabled}
+      ref={ref}
+      onClick={() => {
+        onSelect(option, !selected)
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%',
+        }}
+        css={css`
+          p {
+            width: 100%;
+          }
+        `}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'flex-start',
+          }}
+        >
+          <Checkbox
+            checked={selected}
+            sx={{
+              mr: 1,
+            }}
+          />
+          <Box
+            sx={{
+              whiteSpace: 'normal',
+            }}
+          >
+            <Typography variant="body1" component="code">
+              <Highlighter
+                searchWords={[searchWords]}
+                autoEscape={true}
+                textToHighlight={option.name}
+              />
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+              }}
+            >
+              {option.description}
+            </Typography>
+            <Typography
+              component="ul"
+              variant="body2"
+              sx={{
+                color: 'info.main',
+                listStyle: 'none',
+                display: 'flex',
+                flexWrap: 'wrap',
+                pl: 0,
+                '& > li': {
+                  display: 'inline-block',
+                  ':not(:last-child)': {
+                    mr: 1,
+                  },
+                },
+              }}
+            >
+              {
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                option.author && (
+                  <ModuleLabel
+                    icon={
+                      option.author.length === 1 ? Account : AccountMultiple
+                    }
+                    title={t('form.author')}
+                    content={option.author.join(
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                      t('metadata.ideographicComma')!,
+                    )}
+                  />
+                )
+              }
+              {option.contains && (
+                <ModuleLabel
+                  icon={Contain}
+                  color="text.secondary"
+                  title={t('form.collections.resource')}
+                  content={
+                    option.contains.length.toString() +
+                    t('form.collections.piece')
+                  }
+                />
+              )}
+              {option.incompatible_with && (
+                <ModuleLabel
+                  icon={Cancel}
+                  color="error.main"
+                  title={t('form.incompatible')}
+                  content={option.incompatible_with.join(
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    t('metadata.ideographicComma')!,
+                  )}
+                />
+              )}
+            </Typography>
+          </Box>
+        </Box>
+        {helpDoc && (
+          <Box
+            sx={{
+              pointerEvents: 'all',
+            }}
+          >
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation()
+              }}
+              href={`${helpDoc}#${option.name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <HelpCircle />
+            </IconButton>
+          </Box>
+        )}
+      </Box>
+    </MenuItem>
+  )
+})
+
+ResourceSelectItemSrc.displayName = 'ResourceSelectItem'
+
+const ResourceSelectItem = memo(ResourceSelectItemSrc)

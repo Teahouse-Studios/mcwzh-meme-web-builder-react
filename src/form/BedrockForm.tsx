@@ -1,38 +1,46 @@
-import { useState, Dispatch, SetStateAction } from 'react'
-import { useTranslation } from 'react-i18next'
+import { css } from '@emotion/react'
+import { LoadingButton } from '@mui/lab'
 import {
-  Grid,
-  Stack,
+  Box,
   FormControl,
   FormControlLabel,
-  FormLabel,
   FormHelperText,
-  Switch,
+  FormLabel,
+  Grid,
   InputLabel,
-  Select,
-  Slider,
-  MenuItem,
-  Box,
-  Typography,
-  SelectChangeEvent,
   Link,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Slider,
+  Stack,
+  Switch,
+  Typography,
 } from '@mui/material'
-import { LoadingButton } from '@mui/lab'
-import { css } from '@emotion/react'
 import {
-  Archive,
-  Group,
   AccountChildCircle,
+  Archive,
   CloudDownload,
   FolderInformation,
+  FolderZip,
+  Group,
   Information,
   PackageVariant,
-  FolderZip,
 } from 'mdi-material-ui'
-import ResourceSelect from './ResourceSelect'
-import { MemeApi, BuildLog } from './types'
-import allowTracking from '../tracking'
-import endpoint from '../api'
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react'
+import { useTranslation } from 'react-i18next'
+import ResourceSelectSrc from './ResourceSelect'
+import submit from './submit'
+import { BuildLog, MemeApi } from './types'
+
+const ResourceSelect = memo(ResourceSelectSrc)
 
 export default function BedrockForm({
   api,
@@ -53,13 +61,6 @@ export default function BedrockForm({
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 
-  let fixedModules: string[] = []
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, prefer-const
-  let fixedCollections: string[] = []
-  let disabledModules: string[] = []
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, prefer-const
-  let disabledCollections: string[] = []
-
   const handleSelectChange = <T,>(
     event: SelectChangeEvent<T>,
     setState: Dispatch<SetStateAction<T>>,
@@ -72,14 +73,14 @@ export default function BedrockForm({
 
   const undefinedPredicate = <T,>(i: T | undefined) => i !== undefined
 
-  const getModulesInCollection = () => {
+  const getModulesInCollection = useCallback(() => {
     return enabledCollections
       .flatMap(
         (m) => api.be_modules.collection.find((c) => c.name === m)?.contains,
       )
       .filter(undefinedPredicate) as string[]
-  }
-  const getIncompatibleModulesInCollection = () => {
+  }, [api.be_modules.collection, enabledCollections])
+  const getIncompatibleModulesInCollection = useCallback(() => {
     return api.be_modules.resource
       .filter((resourceModules) =>
         enabledCollections
@@ -94,100 +95,49 @@ export default function BedrockForm({
       )
       .flatMap((resourceModule) => resourceModule.incompatible_with)
       .filter(undefinedPredicate) as string[]
-  }
+  }, [api.be_modules.collection, api.be_modules.resource, enabledCollections])
 
   if (shouldCensor) setSfw(1)
 
-  let sfwModules: string[] = []
+  const sfwModules: string[] = useMemo(() => {
+    return {
+      1: ['lang_sfc', 'lang_sfw'],
+      2: ['lang_sfw'],
+      3: [],
+    }[sfw] as unknown as string[]
+  }, [sfw])
 
-  switch (sfw) {
-    case 1:
-      sfwModules = ['lang_sfc', 'lang_sfw']
-      break
-    case 2:
-      sfwModules = ['lang_sfw']
-      break
-    case 3:
-      sfwModules = []
-      break
-  }
+  const fixedModules = useMemo(
+    () => [...getModulesInCollection(), ...sfwModules],
+    [getModulesInCollection, sfwModules],
+  )
+  const disabledModules = useMemo(
+    () => [...getIncompatibleModulesInCollection()],
+    [getIncompatibleModulesInCollection],
+  )
 
-  fixedModules = [...getModulesInCollection(), ...sfwModules]
-  disabledModules = [...getIncompatibleModulesInCollection()]
-
-  const calculatedEnabledModules = [...enabledModules, ...fixedModules]
-
-  const handleSubmit = () => {
-    if (allowTracking)
-      window.gtag('event', 'build', {
-        eventType: 'be',
-      })
-
+  const handleSubmit = useCallback(async () => {
     setSubmitting(true)
-    interface Data {
-      logs: string
-      root: string
-      filename: string
-    }
-    fetch(`${endpoint}/v2/build/bedrock`, {
-      method: 'POST',
-      body: JSON.stringify({
+    await submit(
+      'bedrock',
+      {
         extension: beExtType,
         type: useCompatible ? 'compatible' : 'normal',
         modules: {
-          resource: calculatedEnabledModules,
+          resource: [...enabledModules, ...fixedModules],
           collection: enabledCollections,
         },
-      }),
-      headers: {
-        'Content-Type': 'application/json',
       },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          res
-            .json()
-            .then((data: Data) => {
-              setSubmitting(false)
-              addLog({
-                status: 'success',
-                platform: 'bedrock',
-                log: data.logs,
-                downloadUrl: data.root + data.filename,
-                time: Date.now(),
-                expanded: true,
-              })
-            })
-            .catch(catchFetch)
-        } else {
-          res
-            .json()
-            .then((data: Data) => {
-              setSubmitting(false)
-              addLog({
-                status: 'error',
-                platform: 'bedrock',
-                log: data.logs,
-                time: Date.now(),
-                expanded: true,
-              })
-            })
-            .catch(catchFetch)
-        }
-      })
-      .catch(catchFetch)
-
-    function catchFetch(error: Error) {
-      setSubmitting(false)
-      addLog({
-        status: 'error',
-        platform: 'bedrock',
-        log: `${error.name}: ${error.message}`,
-        time: Date.now(),
-        expanded: true,
-      })
-    }
-  }
+      addLog,
+    )
+  }, [
+    addLog,
+    beExtType,
+    enabledModules,
+    fixedModules,
+    enabledCollections,
+    useCompatible,
+  ])
 
   return (
     <Grid
@@ -261,7 +211,7 @@ export default function BedrockForm({
             setEnabledCollections(v)
           }}
           selected={enabledCollections}
-          disabledOptions={disabledCollections}
+          // disabledOptions={disabledCollections}
           options={api.be_modules.collection}
           label={t('form.collections.label')}
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -345,7 +295,7 @@ export default function BedrockForm({
           variant="contained"
           startIcon={<CloudDownload />}
           loading={submitting}
-          onClick={() => handleSubmit()}
+          onClick={() => void handleSubmit()}
         >
           {t('form.submit')}
         </LoadingButton>

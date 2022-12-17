@@ -1,48 +1,55 @@
-import { useState, Dispatch, SetStateAction, createElement, memo } from 'react'
-import { useTranslation } from 'react-i18next'
-import {
-  Grid,
-  Stack,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  FormHelperText,
-  Switch,
-  InputLabel,
-  Select,
-  Slider,
-  MenuItem,
-  Box,
-  Typography,
-  SelectChangeEvent,
-  ListSubheader,
-  Chip,
-} from '@mui/material'
+import { css } from '@emotion/react'
 import { LoadingButton } from '@mui/lab'
 import {
-  Archive,
-  Clock,
-  Cog,
-  SelectGroup,
-  Group,
+  Box,
+  Chip,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  FormLabel,
+  Grid,
+  InputLabel,
+  ListSubheader,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Slider,
+  Stack,
+  Switch,
+  Typography,
+} from '@mui/material'
+import {
   AccountChildCircle,
-  CloudDownload,
-  Information,
-  ImageFilterHdr,
-  Wifi,
+  Archive,
   Candle,
-  Pig,
-  HexagonMultiple,
+  Clock,
+  CloudDownload,
+  Cog,
   Fish,
-  Panda,
-  Looks,
+  Group,
+  HexagonMultiple,
   HomeModern,
+  ImageFilterHdr,
+  Information,
+  Looks,
+  Panda,
+  Pig,
+  SelectGroup,
+  Wifi,
 } from 'mdi-material-ui'
-import { css } from '@emotion/react'
+import {
+  createElement,
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react'
+import { useTranslation } from 'react-i18next'
 import ResourceSelectSrc from './ResourceSelect'
-import { MemeApi, BuildLog } from './types'
-import allowTracking from '../tracking'
-import endpoint from '../api'
+import submit from './submit'
+import { BuildLog, MemeApi } from './types'
 
 const ResourceSelect = memo(ResourceSelectSrc)
 
@@ -71,16 +78,15 @@ export default function JavaForm({
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 
-  const resourcePredicate = (i: string) => !i.startsWith('lang_')
-  const langPredicate = (i: string) => i.startsWith('lang_')
-  const undefinedPredicate = <T,>(i: T | undefined) => i !== undefined
-
-  let forceUseCompatible = false
-  let fixedResourceModules: string[] = []
-  let fixedLanguageModules: string[] = []
-  let fixedCollections: string[] = []
-  let disabledResourceModules: string[] = []
-  let disabledLanguageModules: string[] = []
+  const resourcePredicate = useCallback(
+    (i: string) => !i.startsWith('lang_'),
+    [],
+  )
+  const langPredicate = useCallback((i: string) => i.startsWith('lang_'), [])
+  const undefinedPredicate = useCallback(
+    <T,>(i: T | undefined) => i !== undefined,
+    [],
+  )
 
   type ArrayFilterPredicate = (
     value: string,
@@ -88,136 +94,108 @@ export default function JavaForm({
     array: string[],
   ) => boolean
 
-  const getModulesInCollection = (predicate: ArrayFilterPredicate) => {
-    return [...enabledCollections, ...fixedCollections]
-      .flatMap((m) =>
-        api.je_modules.collection
-          .find((c) => c.name === m)
-          ?.contains?.filter(predicate),
-      )
-      .filter(undefinedPredicate) as string[]
-  }
-  const getIncompatibleModulesInCollection = (
-    predicate: ArrayFilterPredicate,
-  ) => {
-    return api.je_modules.resource
-      .filter((resourceModules) =>
-        [...enabledCollections, ...fixedCollections]
-          .flatMap((enabledCollection) =>
-            api.je_modules.collection
-              .find((collection) => collection.name === enabledCollection)
-              ?.contains?.filter(predicate),
-          )
-          .filter(undefinedPredicate)
-          .includes(resourceModules.name),
-      )
-      .flatMap((resourceModule) => resourceModule.incompatible_with)
-      .filter(undefinedPredicate) as string[]
-  }
-
   if (shouldCensor) setSfw(1)
 
-  let sfwModules: string[] = []
+  const sfwModules: string[] = useMemo(() => {
+    return {
+      1: ['lang_sfc', 'lang_sfw'],
+      2: ['lang_sfw'],
+      3: [],
+    }[sfw] as unknown as string[]
+  }, [sfw])
 
-  switch (sfw) {
-    case 1:
-      sfwModules = ['lang_sfc', 'lang_sfw']
-      break
-    case 2:
-      sfwModules = ['lang_sfw']
-      break
-    case 3:
-      sfwModules = []
-      break
-  }
+  const versionModules = useMemo(() => {
+    return {
+      11: [],
+      9: ['version_1.19.2'],
+      8: ['version_1.18.2'],
+      7: ['version_1.17.1'],
+      6: ['version_1.16.5'],
+      5: ['version_1.12.2-1.15.2'],
+      4: ['version_1.12.2-1.15.2'],
+      3: ['version_1.12.2-1.15.2'],
+    }[gameVersion] as unknown as string[]
+  }, [gameVersion])
+  const forceUseCompatible = gameVersion === 3
 
-  let versionModules: string[] = []
+  const fixedCollections = useMemo(() => [...versionModules], [versionModules])
 
-  switch (gameVersion) {
-    case 11:
-      versionModules = []
-      forceUseCompatible = false
-      break
-    case 9:
-      versionModules = ['version_1.19.2']
-      forceUseCompatible = false
-      break
-    case 8:
-      versionModules = ['version_1.18.2']
-      forceUseCompatible = false
-      break
-    case 7:
-      versionModules = ['version_1.17.1']
-      forceUseCompatible = false
-      break
-    case 6:
-      versionModules = ['version_1.16.5']
-      forceUseCompatible = false
-      break
-    case 5:
-    case 4:
-      versionModules = ['version_1.12.2-1.15.2']
-      forceUseCompatible = false
-      break
-    case 3:
-      versionModules = ['version_1.12.2-1.15.2']
-      forceUseCompatible = true
-      break
-  }
+  const getModulesInCollection = useCallback(
+    (predicate: ArrayFilterPredicate) => {
+      return [...enabledCollections, ...fixedCollections]
+        .flatMap((m) =>
+          api.je_modules.collection
+            .find((c) => c.name === m)
+            ?.contains?.filter(predicate),
+        )
+        .filter(undefinedPredicate) as string[]
+    },
+    [
+      api.je_modules.collection,
+      enabledCollections,
+      fixedCollections,
+      undefinedPredicate,
+    ],
+  )
+  const getIncompatibleModulesInCollection = useCallback(
+    (predicate: ArrayFilterPredicate) => {
+      return api.je_modules.resource
+        .filter((resourceModules) =>
+          [...enabledCollections, ...fixedCollections]
+            .flatMap((enabledCollection) =>
+              api.je_modules.collection
+                .find((collection) => collection.name === enabledCollection)
+                ?.contains?.filter(predicate),
+            )
+            .filter(undefinedPredicate)
+            .includes(resourceModules.name),
+        )
+        .flatMap((resourceModule) => resourceModule.incompatible_with)
+        .filter(undefinedPredicate) as string[]
+    },
+    [
+      api.je_modules.collection,
+      api.je_modules.resource,
+      enabledCollections,
+      fixedCollections,
+      undefinedPredicate,
+    ],
+  )
+  const fixedResourceModules = useMemo(
+    () => [...getModulesInCollection(resourcePredicate)],
+    [getModulesInCollection, resourcePredicate],
+  )
+  const fixedLanguageModules = useMemo(
+    () => [...getModulesInCollection(langPredicate), ...sfwModules],
+    [getModulesInCollection, langPredicate, sfwModules],
+  )
+  const disabledResourceModules = useMemo(
+    () => [...getIncompatibleModulesInCollection(resourcePredicate)],
+    [getIncompatibleModulesInCollection, resourcePredicate],
+  )
+  const disabledLanguageModules = useMemo(
+    () => [...getIncompatibleModulesInCollection(langPredicate)],
+    [getIncompatibleModulesInCollection, langPredicate],
+  )
 
-  fixedResourceModules = [...getModulesInCollection(resourcePredicate)]
-  fixedLanguageModules = [
-    ...getModulesInCollection(langPredicate),
-    ...sfwModules,
-  ]
-  disabledResourceModules = [
-    ...getIncompatibleModulesInCollection(resourcePredicate),
-  ]
-  disabledLanguageModules = [
-    ...getIncompatibleModulesInCollection(langPredicate),
-  ]
-  fixedCollections = [...versionModules]
+  const handleSelectChange = useCallback(
+    <T,>(
+      event: SelectChangeEvent<T>,
+      setState: Dispatch<SetStateAction<T>>,
+    ) => {
+      const {
+        target: { value },
+      } = event
+      setState(value as unknown as T)
+    },
+    [],
+  )
 
-  const handleSelectChange = <T,>(
-    event: SelectChangeEvent<T>,
-    setState: Dispatch<SetStateAction<T>>,
-  ) => {
-    const {
-      target: { value },
-    } = event
-    setState(value as unknown as T)
-  }
-
-  const calculatedEnabledCollections = [
-    ...enabledCollections,
-    ...fixedCollections,
-  ]
-
-  const calculatedEnabledResourceModules = [
-    ...enabledResourceModules,
-    ...fixedResourceModules,
-  ]
-
-  const calculatedEnabledLanguageModules = [
-    ...enabledLanguageModules,
-    ...fixedLanguageModules,
-  ]
-
-  const handleSubmit = () => {
-    if (allowTracking)
-      window.gtag('event', 'build', {
-        eventType: 'be',
-      })
-
+  const handleSubmit = async () => {
     setSubmitting(true)
-    interface Data {
-      logs: string
-      root: string
-      filename: string
-    }
-    fetch(`${endpoint}/v2/build/java`, {
-      method: 'POST',
-      body: JSON.stringify({
+    await submit(
+      'java',
+      {
         type:
           gameVersion === 3
             ? 'legacy'
@@ -228,60 +206,15 @@ export default function JavaForm({
         mods: enabledMods,
         modules: {
           resource: [
-            ...calculatedEnabledResourceModules,
-            ...calculatedEnabledLanguageModules,
+            ...[...enabledResourceModules, ...fixedResourceModules],
+            ...[...enabledLanguageModules, ...fixedLanguageModules],
           ],
-          collection: calculatedEnabledCollections,
+          collection: [...enabledCollections, ...fixedCollections],
         },
-      }),
-      headers: {
-        'Content-Type': 'application/json',
       },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          res
-            .json()
-            .then((data: Data) => {
-              setSubmitting(false)
-              addLog({
-                status: 'success',
-                platform: 'java',
-                log: data.logs,
-                downloadUrl: data.root + data.filename,
-                time: Date.now(),
-                expanded: true,
-              })
-            })
-            .catch(catchFetch)
-        } else {
-          res
-            .json()
-            .then((data: Data) => {
-              setSubmitting(false)
-              addLog({
-                status: 'error',
-                platform: 'java',
-                log: data.logs,
-                time: Date.now(),
-                expanded: true,
-              })
-            })
-            .catch(catchFetch)
-        }
-      })
-      .catch(catchFetch)
-
-    function catchFetch(error: Error) {
-      setSubmitting(false)
-      addLog({
-        status: 'error',
-        platform: 'java',
-        log: `${error.name}: ${error.message}`,
-        time: Date.now(),
-        expanded: true,
-      })
-    }
+      addLog,
+    )
+    setSubmitting(false)
   }
 
   return (
@@ -566,7 +499,7 @@ export default function JavaForm({
           variant="contained"
           startIcon={<CloudDownload />}
           loading={submitting}
-          onClick={() => handleSubmit()}
+          onClick={() => void handleSubmit()}
           sx={{ mr: '10px', mb: '10px' }}
         >
           {t('form.submit')}
