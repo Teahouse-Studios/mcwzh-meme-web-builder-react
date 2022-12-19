@@ -14,8 +14,6 @@ import {
   SvgIcon,
   SvgIconProps,
   TextField,
-  ToggleButton,
-  ToggleButtonGroup,
   Typography,
 } from '@mui/material'
 import {
@@ -25,12 +23,6 @@ import {
   Contain,
   HelpCircle,
   Magnify,
-  OrderBoolAscendingVariant,
-  SortAlphabeticalAscending,
-  SortAlphabeticalDescending,
-  SortBoolAscendingVariant,
-  SortBoolDescendingVariant,
-  SortVariantRemove,
 } from 'mdi-material-ui'
 import {
   cloneElement,
@@ -74,15 +66,6 @@ export default function ResourceSelect(props: ResourceSelectProps) {
   const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
   const [fixedSelected, setFixedSelected] = useState<string[]>([])
-  const [sortingMode, setSortingMode] = useState<{
-    alphabetical: 'asc' | 'desc'
-    selected: 'asc' | 'desc' | 'ignore'
-    incompatible: 'asc' | 'ignore'
-  }>({
-    alphabetical: 'asc',
-    selected: 'ignore',
-    incompatible: 'ignore',
-  })
   const disabledOptions = useMemo(
     () => [
       ...(props.disabledOptions ?? []),
@@ -123,51 +106,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
       onChange(newValue)
       selectedRef.current = newValue
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
-  )
-
-  const sortedItems = useMemo(() => {
-    const abSortedItems = props.options.slice().sort((a, b) => {
-      if (sortingMode.alphabetical === 'asc') {
-        return a.name.localeCompare(b.name)
-      }
-      return b.name.localeCompare(a.name)
-    })
-    return [
-      ...(sortingMode.selected === 'desc'
-        ? abSortedItems.filter((o) => selectedRef.current.includes(o.name))
-        : []),
-      ...abSortedItems.filter((i) => {
-        if (
-          abSortedItems
-            .filter((o) => selectedRef.current.includes(o.name))
-            .some((o) => o.incompatible_with?.includes(i.name))
-        )
-          return false
-        if (selectedRef.current.includes(i.name)) return false
-        return true
-      }),
-      ...(sortingMode.selected === 'asc'
-        ? abSortedItems.filter((o) => selectedRef.current.includes(o.name))
-        : []),
-      ...(sortingMode.incompatible === 'asc'
-        ? abSortedItems.filter((i) =>
-            abSortedItems
-              .filter((o) => selectedRef.current.includes(o.name))
-              .flatMap((i) => i.incompatible_with)
-              .includes(i.name),
-          )
-        : []),
-    ]
-  }, [props.options, sortingMode])
-
-  const displayedItems = useMemo(
-    () =>
-      searchText !== ''
-        ? sortedItems.filter((i) => i.name.includes(searchText))
-        : sortedItems,
-    [sortedItems, searchText],
   )
 
   return (
@@ -199,90 +138,29 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           }
         >
           <ListSubheader sx={{ boxShadow: 2 }}>
-            <Box sx={{ display: 'flex', pt: 1 }}>
-              <TextField
-                key="searchTextField"
-                size="small"
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                placeholder={t('form.search')!}
-                fullWidth
-                sx={{ mr: 1 }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Magnify />
-                    </InputAdornment>
-                  ),
-                }}
-                onChange={(e) => {
-                  setSearchText(e.target.value)
-                }}
-                onKeyDown={(e) => {
-                  if (e.key !== 'Escape') {
-                    e.stopPropagation()
-                  }
-                }}
-              />
-              <ToggleButtonGroup size="small">
-                <ToggleButton
-                  value="alphabetical"
-                  selected={true}
-                  onClick={() =>
-                    setSortingMode({
-                      ...sortingMode,
-                      alphabetical: { asc: 'desc', desc: 'asc' }[
-                        sortingMode.alphabetical
-                      ] as 'asc' | 'desc',
-                    })
-                  }
-                >
-                  {sortingMode.alphabetical === 'asc' ? (
-                    <SortAlphabeticalAscending />
-                  ) : (
-                    <SortAlphabeticalDescending />
-                  )}
-                </ToggleButton>
-                <ToggleButton
-                  value="selected"
-                  selected={
-                    { asc: true, desc: true, ignore: false }[
-                      sortingMode.selected
-                    ]
-                  }
-                  onClick={() =>
-                    setSortingMode({
-                      ...sortingMode,
-                      selected: { asc: 'desc', desc: 'ignore', ignore: 'asc' }[
-                        sortingMode.selected
-                      ] as 'asc' | 'desc' | 'ignore',
-                    })
-                  }
-                >
-                  {
-                    {
-                      desc: <SortBoolDescendingVariant />,
-                      asc: <SortBoolAscendingVariant />,
-                      ignore: <OrderBoolAscendingVariant />,
-                    }[sortingMode.selected]
-                  }
-                </ToggleButton>
-                <ToggleButton
-                  value="incompatible"
-                  selected={sortingMode.incompatible !== 'ignore'}
-                  onClick={() =>
-                    setSortingMode({
-                      ...sortingMode,
-                      incompatible: {
-                        asc: 'ignore',
-                        ignore: 'asc',
-                      }[sortingMode.incompatible] as 'asc' | 'ignore',
-                    })
-                  }
-                >
-                  <SortVariantRemove />
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Box>
+            <TextField
+              key="searchTextField"
+              size="small"
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              placeholder={t('form.search')!}
+              fullWidth
+              sx={{ mt: 1 }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Magnify />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => {
+                setSearchText(e.target.value)
+              }}
+              onKeyDown={(e) => {
+                if (e.key !== 'Escape') {
+                  e.stopPropagation()
+                }
+              }}
+            />
             <Box>
               <MenuItem
                 disabled={selected.length === 0}
@@ -304,10 +182,9 @@ export default function ResourceSelect(props: ResourceSelectProps) {
               )}
             </Box>
           </ListSubheader>
-          {displayedItems.length === 0 ? (
-            <Typography sx={{ mx: 2 }}>{t('form.noData')}</Typography>
-          ) : (
-            displayedItems.map((option) => (
+          {props.options
+            .filter((i) => i.name.includes(searchText))
+            .map((option) => (
               <ResourceSelectItem
                 option={option}
                 key={option.name}
@@ -317,8 +194,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                 helpDoc={props.helpDoc}
                 onSelect={selectHandler}
               />
-            ))
-          )}
+            ))}
         </Select>
         <FormHelperText>{props.helper}</FormHelperText>
       </FormControl>
