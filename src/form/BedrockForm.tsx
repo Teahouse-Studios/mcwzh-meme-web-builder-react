@@ -130,6 +130,7 @@ export default function BedrockForm({
       },
       addLog,
     )
+    setSubmitting(false)
   }, [
     addLog,
     beExtType,

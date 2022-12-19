@@ -18,7 +18,7 @@ export default async function submit(
     filename: string
   }
   try {
-    const res = await fetch(`${endpoint}/v2/build/java`, {
+    const res = await fetch(`${endpoint}/v2/build/${platform}`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
