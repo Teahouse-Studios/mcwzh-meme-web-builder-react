@@ -75,7 +75,11 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": ["12+", "16+", "18+"],
+      "ticks": [
+        "12+",
+        "16+",
+        "18+"
+      ],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
@@ -89,7 +93,8 @@
       "end": " in the GitHub repo."
     },
     "search": "Type to search",
-    "idk": "If you don't know how to use the advanced build options, feel free to click the submit button and download the pack straight away."
+    "idk": "If you don't know how to use the advanced build options, feel free to click the submit button and download the pack straight away.",
+    "noData": "No result."
   },
   "log": {
     "buildSuccess": "Success",
