@@ -71,7 +71,7 @@ export default function JavaForm({
   const [enabledLanguageModules, setEnabledLanguageModule] = useState<string[]>(
     [],
   )
-  const [gameVersion, setGameVersion] = useState<number>(11)
+  const [gameVersion, setGameVersion] = useState<number>(12)
   const [enabledMods, setEnabledMods] = useState<string[]>(api.mods)
   const [useCompatible, setUseCompatible] = useState<boolean>(false)
   const [sfw, setSfw] = useState<number>(shouldCensor ? 1 : 2)
