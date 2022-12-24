@@ -4,7 +4,6 @@ import {
   CardContent,
   Typography,
   Box,
-  Button,
   Divider,
   IconButton,
   Tooltip,
@@ -17,18 +16,15 @@ import {
   Dice5,
   Dice6,
   FormatQuoteOpen,
-  Heart,
   MessageText,
 } from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import { useState, useEffect, createElement } from 'react'
-import { useAd } from '../../hooks/useAd'
 import { useEffectOnce } from 'usehooks-ts'
 import SponsorButton from './SponsorButton'
 
 export default function QuoteAd() {
   const { t } = useTranslation()
-  const { adAccepted } = useAd()
   const [msgs, setMsgs] = useState<{ [key: string]: string }>({
     [t('sponsor.quoteAd.author')]: t('sponsor.quoteAd.none'),
   })

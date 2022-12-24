@@ -21,6 +21,7 @@ import {
   Lock,
   Script,
 } from 'mdi-material-ui'
+import Logo from '../../assets/logo.svg'
 
 export default function TeahouseFooter() {
   const theme = createTheme({
@@ -150,7 +151,7 @@ export default function TeahouseFooter() {
               >
                 <Box
                   component="img"
-                  src={new URL('../assets/logo.svg', import.meta.url).href}
+                  src={Logo}
                   height="50px"
                   sx={{
                     filter: 'invert(1)',
