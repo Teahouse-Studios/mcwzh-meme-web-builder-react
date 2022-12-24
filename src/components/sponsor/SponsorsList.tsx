@@ -22,8 +22,9 @@ import {
 } from 'mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import { useState, useEffect, createElement } from 'react'
-import { useAd } from '../hooks/useAd'
+import { useAd } from '../../hooks/useAd'
 import { useEffectOnce } from 'usehooks-ts'
+import SponsorButton from './SponsorButton'
 
 export default function QuoteAd() {
   const { t } = useTranslation()
@@ -166,20 +167,7 @@ export default function QuoteAd() {
             {t('log.ad.donationNotice')}
             {t('sponsor.quoteAd.commercialWarning')}
           </Typography>
-          <Button
-            className="donate-button"
-            startIcon={<Heart />}
-            color="error"
-            href="https://afdian.net/@teahouse"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => {
-              adAccepted()
-            }}
-            sx={{ mr: 1 }}
-          >
-            {t('footer.donate')}
-          </Button>
+          <SponsorButton sx={{ mr: 1 }} />
         </CardContent>
       </Card>
     </>

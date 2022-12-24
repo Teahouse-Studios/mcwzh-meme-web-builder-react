@@ -1,5 +1,5 @@
-import endpoint from '../api'
-import allowTracking from '../tracking'
+import endpoint from '../../api'
+import allowTracking from '../../tracking'
 import type { BuildLog } from './types'
 
 export default async function submit(

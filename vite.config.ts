@@ -21,7 +21,6 @@ export default defineConfig({
     splitVendorChunkPlugin(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: 'auto',
       includeAssets: [
         'favicon-16x16.png',
         'favicon-32x32.png',

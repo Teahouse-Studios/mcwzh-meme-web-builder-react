@@ -29,7 +29,6 @@ import {
   MouseEventHandler,
   SyntheticEvent,
   useRef,
-  lazy,
   Suspense,
   createRef,
   RefObject,
@@ -41,10 +40,10 @@ import { useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
 import LogAccordion from './log/LogAccordion'
-const SponsorsList = lazy(() => import('./SponsorsList'))
+import SponsorsList from '../sponsor/SponsorsList'
 import type { MemeApi, BuildLog } from './types'
 import fakeApiData from './fakeApiData'
-import endpoint from '../api'
+import endpoint from '../../api'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
@@ -280,7 +279,7 @@ function ApiFailed({ error, load }: { error: Error; load: MouseEventHandler }) {
   return (
     <Box
       sx={{
-        width:'100%',
+        width: '100%',
         textAlign: 'center',
         py: 2,
       }}

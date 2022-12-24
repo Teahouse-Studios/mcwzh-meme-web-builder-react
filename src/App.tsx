@@ -24,14 +24,14 @@ import en from './locales/en.json'
 import zhHans from './locales/zh-hans.json'
 import zhMeme from './locales/zh-meme.json'
 
-import MemeAppBar from './template/AppBar'
-import TeahouseFooter from './template/Footer'
-import WebviewWarning from './template/WebviewWarning'
-import DynamicAlerts from './template/DynamicAlerts'
-import BackToTop from './template/BackToTop'
-import SkipToForm from './template/SkipToForm'
-const DynamicNews = memo(lazy(() => import('./template/DynamicNews')))
-import Form from './form/Form'
+import MemeAppBar from './components/template/AppBar'
+import TeahouseFooter from './components/template/Footer'
+import WebviewWarning from './components/dialogs/WebviewWarning'
+import DynamicAlerts from './components/dialogs/DynamicAlerts'
+import BackToTop from './components/template/BackToTop'
+import SkipToForm from './components/template/SkipToForm'
+const DynamicNews = memo(lazy(() => import('./components/dialogs/DynamicNews')))
+import Form from './components/form/Form'
 import { useEffectOnce } from 'usehooks-ts'
 
 void i18n

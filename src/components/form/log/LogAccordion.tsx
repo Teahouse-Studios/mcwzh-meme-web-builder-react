@@ -33,11 +33,11 @@ import {
 import { useState, forwardRef, ForwardedRef, useRef } from 'react'
 import { css } from '@emotion/react'
 import { Trans, useTranslation } from 'react-i18next'
-import { AdType, useAd } from '../../hooks/useAd'
+import { AdType, useAd } from '../../../hooks/useAd'
 import CollapseTransition from '../../template/CollapseTransition'
 import type { BuildLog } from '../types'
-import allowTracking from '../../tracking'
-import LicenseDialog from '../LicenseDialog'
+import allowTracking from '../../../tracking'
+import LicenseDialog from '../../dialogs/LicenseDialog'
 import DownloadCard from './DownloadCard'
 
 const LogAccordion = forwardRef(
