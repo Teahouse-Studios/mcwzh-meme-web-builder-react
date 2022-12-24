@@ -280,6 +280,7 @@ function ApiFailed({ error, load }: { error: Error; load: MouseEventHandler }) {
   return (
     <Box
       sx={{
+        width:'100%',
         textAlign: 'center',
         py: 2,
       }}
