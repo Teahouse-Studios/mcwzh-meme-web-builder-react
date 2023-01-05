@@ -34,6 +34,7 @@ import {
   RefObject,
   Dispatch,
   SetStateAction,
+  useMemo,
 } from 'react'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
@@ -42,6 +43,7 @@ import BedrockForm from './BedrockForm'
 import LogAccordion from './log/LogAccordion'
 import SponsorsList from '../sponsor/SponsorsList'
 import type { MemeApi, BuildLog } from './types'
+import { schema } from './types'
 import fakeApiData from './fakeApiData'
 import endpoint from '../../api'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
@@ -51,10 +53,12 @@ import './form.css'
 import type { Swiper as SwiperType } from 'swiper'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import CollapseTransition from '../template/CollapseTransition'
+import brotliPromise, { BrotliWasmType } from 'brotli-wasm'
 
 export default function Form(props: { shouldCensor: boolean }) {
   const { t } = useTranslation()
   const [api, setApi] = useState<MemeApi | undefined>(undefined)
+  const [brotli, setBrotli] = useState<BrotliWasmType>()
   const [apiError, setApiError] = useState<Error | null>(null)
   const [logs, setLogs] = useLocalStorage<BuildLog[]>('memeBuildLogs', [])
   const [logsExpired, setLogsExpired] = useState(false)
@@ -92,6 +96,8 @@ export default function Form(props: { shouldCensor: boolean }) {
   const load = async () => {
     const data = await fetch(`${endpoint}/v2/modules`)
     const api = (await data.json()) as MemeApi
+    const brotli = await brotliPromise
+    setBrotli(brotli)
     setApi(api)
     setApiError(null)
   }
@@ -109,6 +115,34 @@ export default function Form(props: { shouldCensor: boolean }) {
   useEffect(() => {
     load().catch(catchLoad)
   }, [])
+
+  const params = useMemo(() => {
+    const extractHash = () => {
+      if (!brotli) return {}
+      const { hash } = location
+      let res
+      try {
+        let content = hash.split('#')[1]
+        if (content.startsWith('br=')) {
+          content = new TextDecoder().decode(
+            brotli.decompress(
+              new Uint8Array(
+                atob(content.slice(3))
+                  .split('')
+                  .map((c) => c.charCodeAt(0)),
+              ),
+            ),
+          )
+        }
+        res = JSON.parse(decodeURIComponent(content)) as unknown
+      } catch (e) {
+        console.error('Unable to parse hash config:', e)
+        res = {}
+      }
+      return res
+    }
+    return schema.safeParse(extractHash())
+  }, [brotli])
 
   const [tab, setTab] = useState(0)
   const slideChange = (index: number) => {
@@ -199,19 +233,20 @@ export default function Form(props: { shouldCensor: boolean }) {
                 disabled={!api}
               />
             </Tabs>
-            {!api && (
+            {(!api || !brotli) && (
               <TabPanel>
                 <LoadingMask>
                   <JavaForm
                     api={fakeApiData}
                     addLog={addLog}
                     shouldCensor={false}
+                    rawParams={schema.safeParse({})}
                   />
                 </LoadingMask>
               </TabPanel>
             )}
             <CSSTransition
-              in={!!api}
+              in={!!api || !!brotli}
               classNames="blur"
               timeout={1000}
               mountOnEnter
@@ -236,6 +271,7 @@ export default function Form(props: { shouldCensor: boolean }) {
                         api={api!}
                         addLog={addLog}
                         shouldCensor={props.shouldCensor}
+                        rawParams={params}
                       />
                     </TabPanel>
                   </SwiperSlide>
@@ -246,6 +282,7 @@ export default function Form(props: { shouldCensor: boolean }) {
                         api={api!}
                         addLog={addLog}
                         shouldCensor={props.shouldCensor}
+                        rawParams={params}
                       />
                     </TabPanel>
                   </SwiperSlide>
@@ -254,12 +291,17 @@ export default function Form(props: { shouldCensor: boolean }) {
             </CSSTransition>
           </Container>
         )}
-        <CollapseTransition in={logs.length > 0} nodeRef={logRootRef}>
+        <CollapseTransition
+          in={logs.length > 0 && !!brotli}
+          nodeRef={logRootRef}
+        >
           <BuildLogs
             logRootRef={logRootRef}
             setLogs={setLogs}
             logs={logs}
             logsExpired={logsExpired}
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            brotli={brotli!}
           />
         </CollapseTransition>
       </Box>
@@ -381,12 +423,14 @@ function BuildLogs({
   setLogs,
   logs,
   logsExpired,
+  brotli,
 }: // complete the type
 {
   logRootRef: RefObject<HTMLDivElement>
   setLogs: Dispatch<SetStateAction<BuildLog[]>>
   logs: BuildLog[]
   logsExpired: boolean
+  brotli: BrotliWasmType
 }) {
   const { t } = useTranslation()
 
@@ -463,6 +507,7 @@ function BuildLogs({
                   <LogAccordion
                     ref={itemRef}
                     log={log}
+                    brotli={brotli}
                     deleteSelf={() => {
                       setLogs(logs.filter((l) => l.time !== log.time))
                     }}

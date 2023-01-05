@@ -36,9 +36,10 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { SafeParseReturnType } from 'zod'
 import ResourceSelectSrc from './ResourceSelect'
 import submit from './submit'
-import { BuildLog, MemeApi } from './types'
+import { BuildLog, MemeApi, schema, SchemaType } from './types'
 
 const ResourceSelect = memo(ResourceSelectSrc)
 
@@ -46,18 +47,29 @@ export default function BedrockForm({
   api,
   addLog,
   shouldCensor,
+  rawParams,
 }: {
   api: MemeApi
   addLog: (log: BuildLog) => void
   shouldCensor: boolean
+  rawParams: SafeParseReturnType<unknown, SchemaType>
 }) {
-  const [enabledCollections, setEnabledCollections] = useState<string[]>([
-    'choice_modules_default',
-  ])
-  const [enabledModules, setEnabledModules] = useState<string[]>([])
-  const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>('mcpack')
-  const [useCompatible, setUseCompatible] = useState<boolean>(false)
-  const [sfw, setSfw] = useState<number>(shouldCensor ? 1 : 2)
+  const params = useMemo(() => {
+    if (rawParams.success && rawParams.data.platform === 'bedrock') {
+      return rawParams.data
+    } else {
+      return schema.parse({})
+    }
+  }, [rawParams])
+  const [enabledCollections, setEnabledCollections] = useState<string[]>(
+    params.collection,
+  )
+  const [enabledModules, setEnabledModules] = useState<string[]>(
+    params.resource,
+  )
+  const [beExtType, setBeExtType] = useState<'mcpack' | 'zip'>(params.format)
+  const [useCompatible, setUseCompatible] = useState<boolean>(params.compatible)
+  const [sfw, setSfw] = useState<number>(shouldCensor ? 1 : params.sfw)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 
@@ -129,6 +141,15 @@ export default function BedrockForm({
         },
       },
       addLog,
+      {
+        v: 1,
+        platform: 'bedrock',
+        format: beExtType,
+        resource: enabledModules,
+        collection: enabledCollections,
+        compatible: useCompatible,
+        sfw,
+      },
     )
     setSubmitting(false)
   }, [
@@ -138,6 +159,7 @@ export default function BedrockForm({
     fixedModules,
     enabledCollections,
     useCompatible,
+    sfw,
   ])
 
   return (

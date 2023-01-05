@@ -231,7 +231,6 @@ function LangMenu() {
   ) => {
     setSelectedItem(option)
     await i18n.changeLanguage(option.value)
-    console.log(option.value)
     setAnchorEl(null)
   }
 

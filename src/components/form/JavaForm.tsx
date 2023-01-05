@@ -49,7 +49,8 @@ import {
 import { useTranslation } from 'react-i18next'
 import ResourceSelectSrc from './ResourceSelect'
 import submit from './submit'
-import { BuildLog, MemeApi } from './types'
+import { SafeParseReturnType } from 'zod'
+import { BuildLog, MemeApi, schema, SchemaType } from './types'
 
 const ResourceSelect = memo(ResourceSelectSrc)
 
@@ -57,24 +58,35 @@ export default function JavaForm({
   api,
   addLog,
   shouldCensor,
+  rawParams,
 }: {
   api: MemeApi
   addLog: (log: BuildLog) => void
   shouldCensor: boolean
+  rawParams: SafeParseReturnType<unknown, SchemaType>
 }) {
-  const [enabledCollections, setEnabledCollections] = useState<string[]>([
-    'choice_modules_default',
-  ])
-  const [enabledResourceModules, setEnabledResourceModules] = useState<
-    string[]
-  >([])
-  const [enabledLanguageModules, setEnabledLanguageModule] = useState<string[]>(
-    [],
+  const params = useMemo(() => {
+    if (rawParams.success && rawParams.data.platform === 'java') {
+      return rawParams.data
+    } else {
+      return schema.parse({})
+    }
+  }, [rawParams])
+  const [enabledCollections, setEnabledCollections] = useState(
+    params.collection,
   )
-  const [gameVersion, setGameVersion] = useState<number>(12)
-  const [enabledMods, setEnabledMods] = useState<string[]>(api.mods)
-  const [useCompatible, setUseCompatible] = useState<boolean>(false)
-  const [sfw, setSfw] = useState<number>(shouldCensor ? 1 : 2)
+  const [enabledResourceModules, setEnabledResourceModules] = useState(
+    params.resource,
+  )
+  const [enabledLanguageModules, setEnabledLanguageModule] = useState(
+    params.language,
+  )
+  const [gameVersion, setGameVersion] = useState(params.gameVersion)
+  const [enabledMods, setEnabledMods] = useState(
+    params.mod.length === 0 ? api.mods : params.mod,
+  )
+  const [useCompatible, setUseCompatible] = useState(params.compatible)
+  const [sfw, setSfw] = useState(shouldCensor ? 1 : params.sfw)
   const [submitting, setSubmitting] = useState(false)
   const { t } = useTranslation()
 
@@ -213,6 +225,17 @@ export default function JavaForm({
         },
       },
       addLog,
+      {
+        v: 1,
+        platform: 'java',
+        gameVersion,
+        mod: enabledMods,
+        resource: enabledResourceModules,
+        language: enabledLanguageModules,
+        collection: enabledCollections,
+        compatible: useCompatible,
+        sfw,
+      },
     )
     setSubmitting(false)
   }
@@ -254,7 +277,7 @@ export default function JavaForm({
                   // t('form.version.captions.snapshot')
                   caption: t('form.version.captions.release'),
                 },
-                { version: '1.19 - 1.19.2', format: 9, icon: Wifi, },
+                { version: '1.19 - 1.19.2', format: 9, icon: Wifi },
                 { version: '1.18 - 1.18.2', format: 8, icon: ImageFilterHdr },
                 { version: '1.17 - 1.17.1', format: 7, icon: Candle },
                 { version: '1.16.2 - 1.16.5', format: 6, icon: Pig },

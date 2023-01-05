@@ -75,7 +75,11 @@
     },
     "child": {
       "label": "Child Mode",
-      "ticks": ["12+", "16+", "18+"],
+      "ticks": [
+        "12+",
+        "16+",
+        "18+"
+      ],
       "helpers": [
         "For children with immature mentality. Extra protected and censored. Recommended for streaming and recording.",
         "For teenagers. Only political and especially suggestive contents are censored. Suitable for streaming and recording.",
@@ -115,7 +119,27 @@
     "expired": "Build logs older than 7 days have been removed.",
     "collapseAll": "Collapse all",
     "expandAll": "Expand all",
-    "copyright": "Memified Chinese is licensed under <1>Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</1> (with an exception to Mod translations — they are released under their corresponding licenses). If you intend to reproduce this pack or material derived from this pack, we recommend you to read this <3>Copyright Guide</3>."
+    "copyright": "Memified Chinese is licensed under <1>Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)</1> (with an exception to Mod translations — they are released under their corresponding licenses). If you intend to reproduce this pack or material derived from this pack, we recommend you to read this <3>Copyright Guide</3>.",
+    "shareDialog": {
+      "file": {
+        "copy": {
+          "primary": "Copy link to clipboard"
+        },
+        "share": {
+          "primary": "Use system share dialog",
+          "secondary": "Using the system share dialog allows you to send it to your contacts fast."
+        }
+      },
+      "copiedToClipboard": "Text copied to clipboard.",
+      "download": {
+        "title": "Direct download link",
+        "desc": "Direct download link to the resource pack file. Valid in 7 days."
+      },
+      "config": {
+        "title": "Pack configuration file",
+        "desc": "The pack config link for Web Builder. It can export the config of your build, and others can download a pack with the same config by opening the link and pressing the submit button. Though we can't make any promises, but this is probably valid forerver."
+      }
+    }
   },
   "sponsor": {
     "overline": "Sponsors",

@@ -1,11 +1,14 @@
 import endpoint from '../../api'
 import allowTracking from '../../tracking'
 import type { BuildLog } from './types'
+import { z } from 'zod'
+import { schema } from './types'
 
 export default async function submit(
   platform: 'java' | 'bedrock',
   body: unknown,
   addLog: (log: BuildLog) => void,
+  share: Partial<z.infer<typeof schema>>,
 ) {
   if (allowTracking)
     window.gtag('event', 'build', {
@@ -34,6 +37,7 @@ export default async function submit(
         downloadUrl: data.root + data.filename,
         time: Date.now(),
         expanded: true,
+        share,
       })
     } else {
       addLog({

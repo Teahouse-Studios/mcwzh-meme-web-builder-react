@@ -10,6 +10,9 @@ export default defineConfig({
   esbuild: {
     logOverride: { 'this-is-undefined-in-esm': 'silent' },
   },
+  optimizeDeps: {
+    exclude: ['brotli-wasm', 'brotli-wasm/pkg.bundler/brotli_wasm_bg.wasm'],
+  },
   plugins: [
     react({
       jsxImportSource: '@emotion/react',

@@ -20,7 +20,6 @@ import {
   ChevronDown,
   Check,
   Bug,
-  ShareVariant,
   Heart,
   HeartBroken,
   Disc,
@@ -39,6 +38,7 @@ import type { BuildLog } from '../types'
 import allowTracking from '../../../tracking'
 import LicenseDialog from '../../dialogs/LicenseDialog'
 import DownloadCard from './DownloadCard'
+import { BrotliWasmType } from 'brotli-wasm'
 
 const LogAccordion = forwardRef(
   (
@@ -46,10 +46,12 @@ const LogAccordion = forwardRef(
       log,
       deleteSelf,
       setManualExpanded,
+      brotli,
     }: {
       log: BuildLog
       deleteSelf: () => void
       setManualExpanded: (expanded: boolean) => void
+      brotli: BrotliWasmType
     },
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
@@ -59,30 +61,7 @@ const LogAccordion = forwardRef(
     const [openLicenseDialog, setOpenLicenseDialog] = useState(false)
     const [fullLogExpanded, setFullLogExpanded] = useState(false)
     const { shouldDisplayAd, adType, adAccepted, adDismissed } = useAd()
-    const shareUrl = async (url: string) => {
-      if (allowTracking) window.gtag('event', 'share')
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: '梗体中文构建配置分享',
-            text: '你的好友给你分享了 ta 他的梗体中文！此链接 7 日内有效：',
-            url: url,
-          })
-        } catch (err) {
-          if ((err as Error).name !== 'AbortError') {
-            throw err
-          }
-        }
-      } else {
-        await navigator.clipboard.writeText(url)
-        setShareCopiedToClipboard(true)
-        setTimeout(() => {
-          setShareCopiedToClipboard(false)
-        }, 3000)
-      }
-    }
     const adRef = useRef<HTMLDivElement>(null)
     const actionErrorRef = useRef<HTMLElement>(null)
     const actionSuccessRef = useRef<HTMLElement>(null)
@@ -132,7 +111,13 @@ const LogAccordion = forwardRef(
                   )}`,
                 )}
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontFeatureSettings:
+                    "'tnum', 'cv02', 'cv06', 'cv08', 'cv09', 'cv10', 'cv11'",
+                }}
+              >
                 {
                   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   new Date(log.time).toLocaleString(t('metadata.dateLocale')!)
@@ -371,21 +356,6 @@ const LogAccordion = forwardRef(
                     >
                       {t('footer.donate')}
                     </Button>
-                    <Tooltip
-                      title={t(
-                        shareCopiedToClipboard ? 'log.clipboard' : 'log.share',
-                      )}
-                    >
-                      <IconButton
-                        onClick={() => {
-                          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                          void shareUrl(log.downloadUrl!)
-                        }}
-                        sx={{ mr: 1 }}
-                      >
-                        {shareCopiedToClipboard ? <Check /> : <ShareVariant />}
-                      </IconButton>
-                    </Tooltip>
 
                     <Tooltip title={t('log.howToInstall')}>
                       <IconButton
@@ -405,11 +375,12 @@ const LogAccordion = forwardRef(
                     rel: 'noopener noreferrer',
                     target: '_blank',
                     onClick: () => {
-                      window.gtag('event', 'download', {
-                        eventType: log.platform,
-                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        eventLabel: new URL(log.downloadUrl!).pathname,
-                      })
+                      if (allowTracking)
+                        window.gtag('event', 'download', {
+                          eventType: log.platform,
+                          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                          eventLabel: new URL(log.downloadUrl!).pathname,
+                        })
                     },
                   }}
                   name={
@@ -422,6 +393,13 @@ const LogAccordion = forwardRef(
                   caption={t('memepack')}
                   icon={Cube}
                   highlighted
+                  share={{
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    file: log.downloadUrl!,
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    params: log.share!,
+                    brotli,
+                  }}
                   sx={{ mr: 1, mb: 1 }}
                 />
                 <DownloadCard
