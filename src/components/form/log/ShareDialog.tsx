@@ -26,7 +26,7 @@ interface ShareDialogProps {
   open: boolean
   onClose: () => void
   file: string
-  params: SchemaType
+  params: Partial<SchemaType>
   brotli: BrotliWasmType
 }
 

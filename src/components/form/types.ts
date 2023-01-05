@@ -47,5 +47,5 @@ export interface BuildLog {
   downloadUrl?: string
   time: number
   expanded: boolean
-  share?: SchemaType
+  share?: Partial<SchemaType>
 }

@@ -23,7 +23,7 @@ interface DownloadCardProps {
   highlighted?: boolean
   share?: {
     file: string
-    params: SchemaType
+    params: Partial<SchemaType>
     brotli: BrotliWasmType
   }
   sx?: SxProps
