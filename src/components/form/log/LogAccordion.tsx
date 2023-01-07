@@ -57,7 +57,6 @@ const LogAccordion = forwardRef(
   ) => {
     const { t } = useTranslation()
     const theme = useTheme()
-    const [shareCopiedToClipboard, setShareCopiedToClipboard] = useState(false)
     const [openLicenseDialog, setOpenLicenseDialog] = useState(false)
     const [fullLogExpanded, setFullLogExpanded] = useState(false)
     const { shouldDisplayAd, adType, adAccepted, adDismissed } = useAd()

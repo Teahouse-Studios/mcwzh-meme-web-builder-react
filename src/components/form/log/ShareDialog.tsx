@@ -106,8 +106,8 @@ export default function ShareDialog(props: ShareDialogProps) {
               icon={ShareVariant}
               text={{
                 primary: t('log.shareDialog.file.share.primary'),
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-                secondary: t('log.shareDialog.file.share.secondary') as string,
+                secondary: t('log.shareDialog.file.share.secondary'),
+                disabled: t('log.shareDialog.file.share.disabled'),
               }}
               unsupported={noShare}
               onClick={() => {
@@ -140,8 +140,8 @@ export default function ShareDialog(props: ShareDialogProps) {
               icon={ShareVariant}
               text={{
                 primary: t('log.shareDialog.file.share.primary'),
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-                secondary: t('log.shareDialog.file.share.secondary') as string,
+                secondary: t('log.shareDialog.file.share.secondary'),
+                disabled: t('log.shareDialog.file.share.disabled'),
               }}
               unsupported={noShare}
               onClick={() => {
@@ -159,7 +159,8 @@ interface ShareActionItemProps {
   icon: typeof SvgIcon
   text: {
     primary: string
-    secondary?: string
+    secondary?: string | null
+    disabled?: string | null
   }
   unsupported?: boolean
   onClick: () => void
@@ -167,13 +168,24 @@ interface ShareActionItemProps {
 
 function ShareActionItem(props: ShareActionItemProps) {
   return (
-    <ListItemButton disabled={props.unsupported} onClick={props.onClick}>
+    <ListItemButton
+      sx={{
+        borderRadius: 2,
+      }}
+      disabled={props.unsupported}
+      onClick={props.onClick}
+    >
       <ListItemAvatar>
         <Avatar>
           <props.icon />
         </Avatar>
       </ListItemAvatar>
-      <ListItemText {...props.text} />
+      <ListItemText
+        primary={props.text.primary}
+        secondary={
+          props.unsupported ? props.text.disabled : props.text.secondary
+        }
+      />
     </ListItemButton>
   )
 }

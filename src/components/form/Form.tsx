@@ -116,35 +116,62 @@ export default function Form(props: { shouldCensor: boolean }) {
     load().catch(catchLoad)
   }, [])
 
+  useEffect(() => {
+    const listener = (event: HashChangeEvent) => {
+      if (
+        event.newURL.startsWith('#{') ||
+        event.newURL.startsWith('#br=') ||
+        event.oldURL.startsWith('#{') ||
+        event.oldURL.startsWith('#br=')
+      )
+        location.reload()
+    }
+    window.addEventListener('hashchange', listener)
+    return () => {
+      window.removeEventListener('hashchange', listener)
+    }
+  })
+  const [tab, setTab] = useState(0)
+
   const params = useMemo(() => {
     const extractHash = () => {
-      if (!brotli) return {}
       const { hash } = location
-      let res
+      if (!brotli || hash.length <= 1) return {}
+      let res: unknown = {}
       try {
-        let content = hash.split('#')[1]
+        const content = hash.split('#')[1]
         if (content.startsWith('br=')) {
-          content = new TextDecoder().decode(
-            brotli.decompress(
-              new Uint8Array(
-                atob(content.slice(3))
-                  .split('')
-                  .map((c) => c.charCodeAt(0)),
+          res = JSON.parse(
+            new TextDecoder().decode(
+              brotli.decompress(
+                new Uint8Array(
+                  atob(content.slice(3))
+                    .split('')
+                    .map((c) => c.charCodeAt(0)),
+                ),
               ),
             ),
           )
+        } else if (content.startsWith('{')) {
+          res = JSON.parse(decodeURIComponent(content)) as unknown
         }
-        res = JSON.parse(decodeURIComponent(content)) as unknown
       } catch (e) {
         console.error('Unable to parse hash config:', e)
-        res = {}
       }
       return res
     }
-    return schema.safeParse(extractHash())
-  }, [brotli])
 
-  const [tab, setTab] = useState(0)
+    const extracted = extractHash()
+    const parsed = schema.safeParse(extracted)
+    swiper?.slideTo(
+      parsed.success ? (parsed.data.platform === 'bedrock' ? 1 : 0) : 0,
+    400,
+    )
+    setTab(parsed.success ? (parsed.data.platform === 'bedrock' ? 1 : 0) : 0)
+
+    return parsed
+  }, [brotli, swiper])
+
   const slideChange = (index: number) => {
     setTab(index)
   }
@@ -246,7 +273,7 @@ export default function Form(props: { shouldCensor: boolean }) {
               </TabPanel>
             )}
             <CSSTransition
-              in={!!api || !!brotli}
+              in={!!api && !!brotli}
               classNames="blur"
               timeout={1000}
               mountOnEnter

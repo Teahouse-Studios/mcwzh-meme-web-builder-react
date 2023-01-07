@@ -127,7 +127,8 @@
         },
         "share": {
           "primary": "Use system share dialog",
-          "secondary": "Using the system share dialog allows you to send it to your contacts fast."
+          "secondary": "Using the system share dialog allows you to send it to your contacts fast.",
+          "disabled": "Your browser does not supporting sharing via system dialog."
         }
       },
       "copiedToClipboard": "Text copied to clipboard.",

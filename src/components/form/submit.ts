@@ -76,4 +76,5 @@ export default async function submit(
       })
     }
   }
+  navigator.vibrate(300)
 }
