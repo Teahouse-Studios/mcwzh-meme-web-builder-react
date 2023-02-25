@@ -14,7 +14,6 @@ import {
 } from '@mui/material'
 import { css } from '@emotion/react'
 import {
-  Github,
   Album,
   Translate,
   ChevronDown,
@@ -23,6 +22,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import mcbbsLogo from '../../assets/mcbbs.svg'
 import githubMark from '../../assets/github-mark.svg'
+import githubLogo from '../../assets/github-logo.svg'
 import SponsorButton from '../sponsor/SponsorButton'
 
 export default function MemeAppBar() {
@@ -103,7 +103,6 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
         />
       </CompositeMenu>
       <CompositeMenu
-        icon={<Github />}
         items={[
           {
             name: t('java'),
@@ -115,11 +114,19 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
           },
         ]}
       >
-        <img
+        <Box
+          component="img"
           src={githubMark}
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          alt=""
+          height="18px"
+          sx={{ mr: 0.75 }}
+        />
+        <Box
+          component="img"
+          src={githubLogo}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unsafe-assignment
           title={t('appbar.github')!}
-          height="14px"
+          height="18px"
         />
       </CompositeMenu>
       <CompositeMenu
