@@ -22,6 +22,7 @@ import {
 } from '@teahouse-studios/mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import mcbbsLogo from '../../assets/mcbbs.svg'
+import githubMark from '../../assets/github-mark.svg'
 import SponsorButton from '../sponsor/SponsorButton'
 
 export default function MemeAppBar() {
@@ -114,7 +115,12 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
           },
         ]}
       >
-        {t('appbar.github')}
+        <img
+          src={githubMark}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          title={t('appbar.github')!}
+          height="14px"
+        />
       </CompositeMenu>
       <CompositeMenu
         icon={<Album />}
