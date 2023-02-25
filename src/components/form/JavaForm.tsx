@@ -118,7 +118,8 @@ export default function JavaForm({
 
   const versionModules = useMemo(() => {
     return {
-      12: [],
+      13: [],
+      12: ['version_1.19.3'],
       9: ['version_1.19.2'],
       8: ['version_1.18.2'],
       7: ['version_1.17.1'],
@@ -271,10 +272,14 @@ export default function JavaForm({
               }}
             >
               {[
+{
+                  version: '1.19.4+',
+                  format: 13,
+                  caption: t('form.version.captions.snapshot'),
+                },
                 {
-                  version: '1.19.3+',
+                  version: '1.19.3',
                   format: 12,
-                  // t('form.version.captions.snapshot')
                   caption: t('form.version.captions.release'),
                 },
                 { version: '1.19 - 1.19.2', format: 9, icon: Wifi },
