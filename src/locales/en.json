@@ -94,7 +94,9 @@
     },
     "search": "Type to search",
     "idk": "If you don't know how to use the advanced build options, feel free to click the submit button and download the pack straight away.",
-    "noData": "No result."
+    "noData": "No result.",
+    "alphabetical": "Alphabetical sort",
+    "selected": "Selected items"
   },
   "log": {
     "buildSuccess": "Success",

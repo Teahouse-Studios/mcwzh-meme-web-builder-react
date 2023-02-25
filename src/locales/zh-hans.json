@@ -94,7 +94,9 @@
     },
     "search": "搜索",
     "idk": "若您不知道如何使用高级构建选项，您可以直接点击按钮构建并下载。",
-    "noData": "无结果。"
+    "noData": "无结果。",
+    "alphabetical": "A-Z 顺序",
+    "selected": "已选"
   },
   "log": {
     "buildSuccess": "成功",

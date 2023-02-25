@@ -94,7 +94,9 @@
     },
     "search": "搜索",
     "idk": "如果你不会用可以不用！直接点击按钮下载吧。",
-    "noData": "无结果。"
+    "noData": "无结果。",
+    "alphabetical": "A-Z 顺序",
+    "selected": "已选"
   },
   "log": {
     "buildSuccess": "完了",

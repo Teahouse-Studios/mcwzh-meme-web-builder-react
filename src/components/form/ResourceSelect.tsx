@@ -16,6 +16,7 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import {
@@ -140,6 +141,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
         : []),
       ...abSortedItems.filter((i) => {
         if (
+          sortingMode.incompatible !== 'ignore' &&
           abSortedItems
             .filter((o) => selectedRef.current.includes(o.name))
             .some((o) => o.incompatible_with?.includes(i.name))
@@ -228,63 +230,71 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                 }}
               />
               <ToggleButtonGroup size="small">
-                <ToggleButton
-                  value="alphabetical"
-                  selected={true}
-                  onClick={() =>
-                    setSortingMode({
-                      ...sortingMode,
-                      alphabetical: { asc: 'desc', desc: 'asc' }[
-                        sortingMode.alphabetical
-                      ] as 'asc' | 'desc',
-                    })
-                  }
-                >
-                  {sortingMode.alphabetical === 'asc' ? (
-                    <SortAlphabeticalAscending />
-                  ) : (
-                    <SortAlphabeticalDescending />
-                  )}
-                </ToggleButton>
-                <ToggleButton
-                  value="selected"
-                  selected={
-                    { asc: true, desc: true, ignore: false }[
-                      sortingMode.selected
-                    ]
-                  }
-                  onClick={() =>
-                    setSortingMode({
-                      ...sortingMode,
-                      selected: { asc: 'desc', desc: 'ignore', ignore: 'asc' }[
+                <Tooltip title={t('form.alphabetical')}>
+                  <ToggleButton
+                    value="alphabetical"
+                    selected={true}
+                    onClick={() =>
+                      setSortingMode({
+                        ...sortingMode,
+                        alphabetical: { asc: 'desc', desc: 'asc' }[
+                          sortingMode.alphabetical
+                        ] as 'asc' | 'desc',
+                      })
+                    }
+                  >
+                    {sortingMode.alphabetical === 'asc' ? (
+                      <SortAlphabeticalAscending />
+                    ) : (
+                      <SortAlphabeticalDescending />
+                    )}
+                  </ToggleButton>
+                </Tooltip>
+                <Tooltip title={t('form.selected')}>
+                  <ToggleButton
+                    value="selected"
+                    selected={
+                      { asc: true, desc: true, ignore: false }[
                         sortingMode.selected
-                      ] as 'asc' | 'desc' | 'ignore',
-                    })
-                  }
-                >
-                  {
+                      ]
+                    }
+                    onClick={() =>
+                      setSortingMode({
+                        ...sortingMode,
+                        selected: {
+                          asc: 'desc',
+                          desc: 'ignore',
+                          ignore: 'asc',
+                        }[sortingMode.selected] as 'asc' | 'desc' | 'ignore',
+                      })
+                    }
+                  >
                     {
-                      desc: <SortBoolDescendingVariant />,
-                      asc: <SortBoolAscendingVariant />,
-                      ignore: <OrderBoolAscendingVariant />,
-                    }[sortingMode.selected]
-                  }
-                </ToggleButton>
-                <ToggleButton
-                  value="incompatible"
-                  selected={sortingMode.incompatible !== 'ignore'}
-                  onClick={() =>
-                    setSortingMode({
-                      ...sortingMode,
-                      incompatible: {
-                        asc: 'ignore',
-                        ignore: 'asc',
-                      }[sortingMode.incompatible] as 'asc' | 'ignore',
-                    })
-                  }
-                >
-                  <SortVariantRemove />
-                </ToggleButton>
+                      {
+                        desc: <SortBoolDescendingVariant />,
+                        asc: <SortBoolAscendingVariant />,
+                        ignore: <OrderBoolAscendingVariant />,
+                      }[sortingMode.selected]
+                    }
+                  </ToggleButton>
+                </Tooltip>
+                <Tooltip title={t('form.incompatible')}>
+                  <ToggleButton
+                    value="incompatible"
+                    selected={sortingMode.incompatible !== 'ignore'}
+                    onClick={() =>
+                      setSortingMode({
+                        ...sortingMode,
+                        incompatible: {
+                          asc: 'ignore',
+                          ignore: 'asc',
+                        }[sortingMode.incompatible] as 'asc' | 'ignore',
+                      })
+                    }
+                  >
+                    <SortVariantRemove />
+                  </ToggleButton>
+                </Tooltip>
               </ToggleButtonGroup>
             </Box>
             <Box>
