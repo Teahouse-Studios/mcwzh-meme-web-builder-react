@@ -113,8 +113,7 @@ const LogAccordion = forwardRef(
               <Typography
                 sx={{
                   color: 'text.secondary',
-                  fontFeatureSettings:
-                    "'tnum', 'cv02', 'cv06', 'cv08', 'cv09', 'cv10', 'cv11'",
+                  fontVariantNumeric: 'tabular-nums',
                 }}
               >
                 {
