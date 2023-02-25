@@ -23,7 +23,7 @@ import {
   Contain,
   HelpCircle,
   Magnify,
-} from 'mdi-material-ui'
+} from '@teahouse-studios/mdi-material-ui'
 import {
   cloneElement,
   forwardRef,

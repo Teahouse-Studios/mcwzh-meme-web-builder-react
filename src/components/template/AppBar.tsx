@@ -19,7 +19,7 @@ import {
   Translate,
   ChevronDown,
   DotsVertical,
-} from 'mdi-material-ui'
+} from '@teahouse-studios/mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import mcbbsLogo from '../../assets/mcbbs.svg'
 import SponsorButton from '../sponsor/SponsorButton'

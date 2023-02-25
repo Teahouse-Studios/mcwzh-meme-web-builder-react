@@ -20,7 +20,7 @@ import {
   SourceFork,
   TextShort,
   Trademark,
-} from 'mdi-material-ui'
+} from '@teahouse-studios/mdi-material-ui'
 import { ReactNode } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 

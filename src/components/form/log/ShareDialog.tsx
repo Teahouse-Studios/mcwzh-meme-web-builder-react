@@ -14,7 +14,11 @@ import {
   Typography,
 } from '@mui/material'
 import { useRef } from 'react'
-import { Close, ContentCopy, ShareVariant } from 'mdi-material-ui'
+import {
+  Close,
+  ContentCopy,
+  ShareVariant,
+} from '@teahouse-studios/mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import { useSnackbar } from 'notistack'
 import type { SchemaType } from '../types'

@@ -26,7 +26,7 @@ import {
   Group,
   Information,
   PackageVariant,
-} from 'mdi-material-ui'
+} from '@teahouse-studios/mdi-material-ui'
 import {
   Dispatch,
   memo,

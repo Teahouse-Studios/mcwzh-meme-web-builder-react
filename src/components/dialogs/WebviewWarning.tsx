@@ -9,7 +9,11 @@ import {
   Box,
   Button,
 } from '@mui/material'
-import { Alert as AlertIcon, Bug, Close } from 'mdi-material-ui'
+import {
+  Alert as AlertIcon,
+  Bug,
+  Close,
+} from '@teahouse-studios/mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import { css } from '@emotion/react'
 

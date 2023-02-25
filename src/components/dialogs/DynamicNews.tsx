@@ -16,7 +16,7 @@ import {
 import { AspectRatio } from 'react-aspect-ratio'
 import { css } from '@emotion/react'
 import { useState, useEffect } from 'react'
-import { Close, ArrowRight, Play } from 'mdi-material-ui'
+import { Close, ArrowRight, Play } from '@teahouse-studios/mdi-material-ui'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
 import MuiMarkdown from 'mui-markdown'
 

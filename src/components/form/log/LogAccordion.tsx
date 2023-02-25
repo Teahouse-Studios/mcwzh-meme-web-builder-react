@@ -28,7 +28,7 @@ import {
   Close,
   Copyright,
   Cube,
-} from 'mdi-material-ui'
+} from '@teahouse-studios/mdi-material-ui'
 import { useState, forwardRef, ForwardedRef, useRef } from 'react'
 import { css } from '@emotion/react'
 import { Trans, useTranslation } from 'react-i18next'

@@ -20,7 +20,7 @@ import {
   LightningBolt,
   Lock,
   Script,
-} from 'mdi-material-ui'
+} from '@teahouse-studios/mdi-material-ui'
 import Logo from '../../assets/logo.svg'
 
 export default function TeahouseFooter() {

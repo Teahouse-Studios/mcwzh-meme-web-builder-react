@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from '@mui/material'
 import { useAd } from '../../hooks/useAd'
-import { Heart } from 'mdi-material-ui'
+import { Heart } from '@teahouse-studios/mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 
 export default function SponsorButton(props: ButtonProps<'a'>) {

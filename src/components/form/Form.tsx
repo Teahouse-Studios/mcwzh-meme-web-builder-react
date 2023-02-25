@@ -21,7 +21,7 @@ import {
   CloseCircleMultipleOutline,
   CollapseAll,
   ExpandAll,
-} from 'mdi-material-ui'
+} from '@teahouse-studios/mdi-material-ui'
 import {
   useState,
   useEffect,
@@ -165,7 +165,7 @@ export default function Form(props: { shouldCensor: boolean }) {
     const parsed = schema.safeParse(extracted)
     swiper?.slideTo(
       parsed.success ? (parsed.data.platform === 'bedrock' ? 1 : 0) : 0,
-    400,
+      400,
     )
     setTab(parsed.success ? (parsed.data.platform === 'bedrock' ? 1 : 0) : 0)
 

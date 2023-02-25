@@ -36,7 +36,7 @@ import {
   Pig,
   SelectGroup,
   Wifi,
-} from 'mdi-material-ui'
+} from '@teahouse-studios/mdi-material-ui'
 import {
   createElement,
   Dispatch,
@@ -272,7 +272,7 @@ export default function JavaForm({
               }}
             >
               {[
-{
+                {
                   version: '1.19.4+',
                   format: 13,
                   caption: t('form.version.captions.snapshot'),

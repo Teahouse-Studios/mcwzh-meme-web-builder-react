@@ -1,5 +1,5 @@
 import { Box, Fab, Zoom, useScrollTrigger } from '@mui/material'
-import { ChevronUp } from 'mdi-material-ui'
+import { ChevronUp } from '@teahouse-studios/mdi-material-ui'
 
 export default function BackToTop() {
   const trigger = useScrollTrigger({

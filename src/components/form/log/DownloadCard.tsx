@@ -10,7 +10,7 @@ import {
   Box,
   IconButton,
 } from '@mui/material'
-import { Download, ShareVariant } from 'mdi-material-ui'
+import { Download, ShareVariant } from '@teahouse-studios/mdi-material-ui'
 import type { SchemaType } from '../types'
 import ShareDialog from './ShareDialog'
 import { BrotliWasmType } from 'brotli-wasm'
