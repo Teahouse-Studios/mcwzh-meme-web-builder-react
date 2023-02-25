@@ -46,6 +46,7 @@ export interface BuildLog {
   platform: 'java' | 'bedrock'
   downloadUrl?: string
   time: number
+  size?: number
   expanded: boolean
   share?: Partial<SchemaType>
 }

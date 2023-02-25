@@ -11,7 +11,6 @@ import {
   useTheme,
   IconButton,
   Tooltip,
-  Link,
   AccordionActions,
   Collapse,
 } from '@mui/material'
@@ -22,21 +21,19 @@ import {
   Bug,
   Heart,
   HeartBroken,
-  Disc,
+  Album,
   HelpCircle,
   ContentCopy,
   Close,
-  Copyright,
-  Cube,
+  ZipBox,
 } from '@teahouse-studios/mdi-material-ui'
 import { useState, forwardRef, ForwardedRef, useRef } from 'react'
 import { css } from '@emotion/react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { AdType, useAd } from '../../../hooks/useAd'
 import CollapseTransition from '../../template/CollapseTransition'
 import type { BuildLog } from '../types'
 import allowTracking from '../../../tracking'
-import LicenseDialog from '../../dialogs/LicenseDialog'
 import DownloadCard from './DownloadCard'
 import { BrotliWasmType } from 'brotli-wasm'
 
@@ -57,7 +54,6 @@ const LogAccordion = forwardRef(
   ) => {
     const { t } = useTranslation()
     const theme = useTheme()
-    const [openLicenseDialog, setOpenLicenseDialog] = useState(false)
     const [fullLogExpanded, setFullLogExpanded] = useState(false)
     const { shouldDisplayAd, adType, adAccepted, adDismissed } = useAd()
 
@@ -325,12 +321,6 @@ const LogAccordion = forwardRef(
           >
             {log.status === 'success' ? (
               <Box ref={actionSuccessRef}>
-                <LicenseDialog
-                  open={openLicenseDialog}
-                  close={() => {
-                    setOpenLicenseDialog(false)
-                  }}
-                />
                 <Box
                   sx={{
                     display: 'flex',
@@ -388,8 +378,10 @@ const LogAccordion = forwardRef(
                       new URL(log.downloadUrl!).pathname.split('/').length - 1
                     ]
                   }
-                  caption={t('memepack')}
-                  icon={Cube}
+                  caption={`${t('memepack')}${
+                    log.size ? ` (${byteToReadable(log.size)})` : ''
+                  }`}
+                  icon={ZipBox}
                   highlighted
                   share={{
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -416,46 +408,10 @@ const LogAccordion = forwardRef(
                       bedrock: 'bedrock.mcpack',
                     }[log.platform]
                   }
-                  caption={t('appbar.discPack')}
-                  icon={Disc}
+                  caption={t('appbar.discPack') + ' (~80MiB)'}
+                  icon={Album}
                   sx={{ mr: 1, mb: 1 }}
                 />
-                <Alert
-                  severity="info"
-                  sx={{
-                    mb: 1,
-                  }}
-                >
-                  <Trans i18nKey="log.followUpdates">
-                    梗体中文每时每刻都在持续迭代更新！我们推荐您在一段时间后更新您的梗体中文资源包。您也可以关注我们的
-                    <Link
-                      href="https://space.bilibili.com/406275313"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      B 站动态
-                    </Link>
-                    获得一手资讯。
-                  </Trans>
-                </Alert>
-
-                <Alert icon={<Copyright />} severity="warning">
-                  <Trans i18nKey="log.copyright">
-                    梗体中文以
-                    <Link
-                      href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      知识共享 署名-相同方式共享 4.0 国际（CC BY-SA 4.0）
-                    </Link>
-                    许可协议发布。若您想要重新发布本资源包或在本资源包的基础上二次创作，烦请阅读此
-                    <Link onClick={() => setOpenLicenseDialog(true)}>
-                      版权指南
-                    </Link>
-                    。
-                  </Trans>
-                </Alert>
               </Box>
             ) : (
               <Box ref={actionErrorRef}>
@@ -481,3 +437,11 @@ const LogAccordion = forwardRef(
 LogAccordion.displayName = 'LogAccordion'
 
 export default LogAccordion
+
+function byteToReadable(bytes: number) {
+  if (bytes === 0) return '0B'
+  const k = 1024
+  const sizes = ['B', 'KiB', 'MiB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))}${sizes[i]}`
+}

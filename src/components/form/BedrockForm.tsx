@@ -19,9 +19,9 @@ import {
 } from '@mui/material'
 import {
   AccountChildCircle,
-  Archive,
+  CubeUnfolded,
   CloudDownload,
-  FolderInformation,
+  FolderCog,
   FolderZip,
   Group,
   Information,
@@ -172,7 +172,7 @@ export default function BedrockForm({
     >
       <Grid item xs={12} md={6}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-          <FolderInformation
+          <FolderCog
             sx={{ color: 'action.active', marginTop: '16.5px', mr: 2 }}
           />
           <FormControl fullWidth>
@@ -224,7 +224,7 @@ export default function BedrockForm({
           label={t('form.resource.label')}
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           helper={t('form.resource.helper')!}
-          prependIcon={<Archive />}
+          prependIcon={<CubeUnfolded />}
           helpDoc="https://lakeus.xyz/wiki/%E6%A2%97%E4%BD%93%E4%B8%AD%E6%96%87/%E6%A8%A1%E5%9D%97%E5%88%97%E8%A1%A8"
         />
       </Grid>

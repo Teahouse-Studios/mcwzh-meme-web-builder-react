@@ -15,7 +15,7 @@ import {
 import { css } from '@emotion/react'
 import {
   Github,
-  Disc,
+  Album,
   Translate,
   ChevronDown,
   DotsVertical,
@@ -117,7 +117,7 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
         {t('appbar.github')}
       </CompositeMenu>
       <CompositeMenu
-        icon={<Disc />}
+        icon={<Album />}
         items={[
           {
             name: t('java'),

@@ -19,6 +19,7 @@ export default async function submit(
     logs: string
     root: string
     filename: string
+    size: number
   }
   try {
     const res = await fetch(`${endpoint}/v2/build/${platform}`, {
@@ -35,6 +36,7 @@ export default async function submit(
         platform: platform,
         log: data.logs,
         downloadUrl: data.root + data.filename,
+        size: data.size,
         time: Date.now(),
         expanded: true,
         share,

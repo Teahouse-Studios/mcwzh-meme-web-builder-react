@@ -9,6 +9,7 @@ import {
   CircularProgress,
   Divider,
   IconButton,
+  Link,
   Tooltip,
 } from '@mui/material'
 import {
@@ -20,6 +21,7 @@ import {
   Refresh,
   CloseCircleMultipleOutline,
   CollapseAll,
+  Copyright,
   ExpandAll,
 } from '@teahouse-studios/mdi-material-ui'
 import {
@@ -37,7 +39,7 @@ import {
   useMemo,
 } from 'react'
 import { useSnackbar } from 'notistack'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
 import LogAccordion from './log/LogAccordion'
@@ -53,6 +55,7 @@ import './form.css'
 import type { Swiper as SwiperType } from 'swiper'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import CollapseTransition from '../template/CollapseTransition'
+import LicenseDialog from '../dialogs/LicenseDialog'
 import brotliPromise, { BrotliWasmType } from 'brotli-wasm'
 
 export default function Form(props: { shouldCensor: boolean }) {
@@ -200,7 +203,7 @@ export default function Form(props: { shouldCensor: boolean }) {
       error() {
         enqueueSnackbar(t('snackbar.buildError'), { variant: 'error' })
       },
-    }[log.status]())
+    })[log.status]()
   }
 
   const formRef = useRef<HTMLDivElement>(null)
@@ -460,9 +463,16 @@ function BuildLogs({
   brotli: BrotliWasmType
 }) {
   const { t } = useTranslation()
+  const [openLicenseDialog, setOpenLicenseDialog] = useState(false)
 
   return (
     <Container id="build-logs" ref={logRootRef}>
+      <LicenseDialog
+        open={openLicenseDialog}
+        close={() => {
+          setOpenLicenseDialog(false)
+        }}
+      />
       <Divider
         sx={{
           mb: 2,
@@ -551,16 +561,51 @@ function BuildLogs({
             })}
         </TransitionGroup>
       </Box>
-      {logsExpired && (
+      <Box sx={{ mt: 1 }}>
+        {logsExpired && (
+          <Alert
+            severity="info"
+            sx={{
+              mb: 1,
+            }}
+          >
+            {t('log.expired')}
+          </Alert>
+        )}
         <Alert
           severity="info"
           sx={{
-            my: 1,
+            mb: 1,
           }}
         >
-          {t('log.expired')}
+          <Trans i18nKey="log.followUpdates">
+            梗体中文每时每刻都在持续迭代更新！我们推荐您在一段时间后更新您的梗体中文资源包。您也可以关注我们的
+            <Link
+              href="https://space.bilibili.com/406275313"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              B 站动态
+            </Link>
+            获得一手资讯。
+          </Trans>
         </Alert>
-      )}
+
+        <Alert icon={<Copyright />} severity="warning">
+          <Trans i18nKey="log.copyright">
+            梗体中文以
+            <Link
+              href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              知识共享 署名-相同方式共享 4.0 国际（CC BY-SA 4.0）
+            </Link>
+            许可协议发布。若您想要重新发布本资源包或在本资源包的基础上二次创作，烦请阅读此
+            <Link onClick={() => setOpenLicenseDialog(true)}>版权指南</Link>。
+          </Trans>
+        </Alert>
+      </Box>
     </Container>
   )
 }
