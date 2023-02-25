@@ -6676,6 +6676,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@babel/core": "npm:^7.21.0"
+    "@babel/preset-env": "npm:^7.20.2"
     "@emotion/babel-plugin": "npm:^11.10.6"
     "@emotion/react": "npm:^11.10.6"
     "@emotion/styled": "npm:^11.10.6"
