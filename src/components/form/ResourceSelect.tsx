@@ -145,7 +145,11 @@ export default function ResourceSelect(props: ResourceSelectProps) {
             .some((o) => o.incompatible_with?.includes(i.name))
         )
           return false
-        if (selectedRef.current.includes(i.name)) return false
+        if (
+          sortingMode.selected !== 'ignore' &&
+          selectedRef.current.includes(i.name)
+        )
+          return false
         return true
       }),
       ...(sortingMode.selected === 'asc'
