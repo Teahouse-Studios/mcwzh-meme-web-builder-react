@@ -95,10 +95,15 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
           },
         ]}
       >
-        <img
+        <Box
+          component="img"
           src={mcbbsLogo}
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unsafe-assignment
           title={t('appbar.mcbbs')!}
+          sx={{
+            filter: (theme) =>
+              theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)',
+          }}
           height="14px"
         />
       </CompositeMenu>
@@ -119,7 +124,11 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
           src={githubMark}
           alt=""
           height="18px"
-          sx={{ mr: 0.75 }}
+          sx={{
+            filter: (theme) =>
+              theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)',
+            mr: 0.75,
+          }}
         />
         <Box
           component="img"
@@ -127,6 +136,10 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unsafe-assignment
           title={t('appbar.github')!}
           height="18px"
+          sx={{
+            filter: (theme) =>
+              theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)',
+          }}
         />
       </CompositeMenu>
       <CompositeMenu

@@ -35,6 +35,7 @@ import {
   Panda,
   Pig,
   SelectGroup,
+  ShoePrint,
   Wifi,
 } from '@teahouse-studios/mdi-material-ui'
 import {
@@ -276,11 +277,13 @@ export default function JavaForm({
                   version: '1.19.4+',
                   format: 13,
                   caption: t('form.version.captions.snapshot'),
+                  icon: ShoePrint,
                 },
                 {
                   version: '1.19.3',
                   format: 12,
                   caption: t('form.version.captions.release'),
+                  icon: ShoePrint,
                 },
                 { version: '1.19 - 1.19.2', format: 9, icon: Wifi },
                 { version: '1.18 - 1.18.2', format: 8, icon: ImageFilterHdr },
