@@ -544,7 +544,18 @@ export default function JavaForm({
           }}
         >
           {t('form.modified')}
-          {new Date(api.je_modified).toLocaleString()}
+          {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            new Intl.DateTimeFormat(t('metadata.dateLocale')!, {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+              second: 'numeric',
+              hourCycle: 'h23',
+            }).format(new Date(api.je_modified))
+          }
         </Typography>
         <Typography
           variant="body2"

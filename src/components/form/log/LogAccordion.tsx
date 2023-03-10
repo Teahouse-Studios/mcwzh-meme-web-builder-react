@@ -114,7 +114,15 @@ const LogAccordion = forwardRef(
               >
                 {
                   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  new Date(log.time).toLocaleString(t('metadata.dateLocale')!)
+                  new Intl.DateTimeFormat(t('metadata.dateLocale')!, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric',
+                    hourCycle: 'h23',
+                  }).format(new Date(log.time))
                 }
               </Typography>
             </Box>
@@ -145,6 +153,7 @@ const LogAccordion = forwardRef(
               backgroundImage:
                 'linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04))',
               overflowX: 'auto',
+              overflowY: 'hidden',
               position: 'relative',
             }}
           >
@@ -152,10 +161,10 @@ const LogAccordion = forwardRef(
               sx={{
                 width: '100%',
                 position: 'absolute',
-                top: fullLogExpanded ? undefined : `${250 + 8}px`,
-                bottom: fullLogExpanded ? '0' : undefined,
+                bottom: 0,
                 display: 'flex',
                 justifyContent: 'center',
+                transition: 'top,bottom 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
               }}
             >
               <IconButton
@@ -198,22 +207,24 @@ const LogAccordion = forwardRef(
                       variant="body1"
                       fontFamily="JetBrainsMonoVar, Menlo, Monaco, Consolas, 'Courier New', monospace"
                       key={index}
-                      css={css`
-                        position: relative;
-                        white-space: pre-wrap;
-                        counter-increment: line;
-                        padding-left: 3.5rem;
-                        padding-right: 2rem;
-                        transition: color, background-color 0.075s ease-in-out;
-                        &::before {
-                          content: counter(line);
-                          position: absolute;
-                          left: 1.5rem;
-                        }
-                        &:hover {
-                          background-color: ${theme.palette.action.hover};
-                        }
-                      `}
+                      sx={{
+                        position: 'relative',
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word',
+                        counterIncrement: 'line',
+                        paddingLeft: '3.5rem',
+                        paddingRight: '2rem',
+                        transition:
+                          'color, background-color 0.075s ease-in-out',
+                        '&::before': {
+                          content: 'counter(line)',
+                          position: 'absolute',
+                          left: '1.5rem',
+                        },
+                        '&:hover': {
+                          backgroundColor: `${theme.palette.action.hover}`,
+                        },
+                      }}
                       color={
                         {
                           warning: 'warning.main',
@@ -223,7 +234,9 @@ const LogAccordion = forwardRef(
                           debug: 'text.secondary',
                           default: 'text.primary',
                         }[
-                          line.toLowerCase().match(/(fail|error)/)
+                          line.toLowerCase().match(/ {4}/)
+                            ? 'debug'
+                            : line.toLowerCase().match(/(fail|error)/)
                             ? 'error'
                             : line.toLowerCase().match(/(warn)/)
                             ? 'warning'
@@ -231,8 +244,6 @@ const LogAccordion = forwardRef(
                             ? 'success'
                             : line.toLowerCase().match(/(info)/)
                             ? 'info'
-                            : line.toLowerCase().match(/ {4}/)
-                            ? 'debug'
                             : 'default'
                         ]
                       }
