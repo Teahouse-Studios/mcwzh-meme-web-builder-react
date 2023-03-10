@@ -325,7 +325,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
               <ResourceSelectItem
                 option={option}
                 key={option.name}
-                selected={selected.includes(option.name)}
+                isSelected={selected.includes(option.name)}
                 disabled={disabledOptions.includes(option.name)}
                 searchWords={searchText}
                 helpDoc={props.helpDoc}
@@ -374,21 +374,21 @@ const ResourceSelectItemSrc = forwardRef<
   {
     option: MemeModule
     disabled: boolean
-    selected: boolean
+    isSelected: boolean
     searchWords: string
     helpDoc?: string
     onSelect: (option: MemeModule, selected: boolean) => void
   }
->(({ option, disabled, selected, searchWords, helpDoc, onSelect }, ref) => {
+>(({ option, disabled, isSelected, searchWords, helpDoc, onSelect }, ref) => {
   const { t } = useTranslation()
   return (
     <MenuItem
       value={option.name}
-      selected={selected}
+      selected={isSelected}
       disabled={disabled}
       ref={ref}
       onClick={() => {
-        onSelect(option, !selected)
+        onSelect(option, !isSelected)
       }}
     >
       <Box
@@ -412,7 +412,7 @@ const ResourceSelectItemSrc = forwardRef<
           }}
         >
           <Checkbox
-            checked={selected}
+            checked={isSelected}
             sx={{
               mr: 1,
             }}
