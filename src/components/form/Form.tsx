@@ -136,6 +136,10 @@ export default function Form(props: { shouldCensor: boolean }) {
   })
   const [tab, setTab] = useState(0)
 
+  useEffect(() => {
+    swiper?.slideTo(tab, 400)
+  }, [tab, swiper])
+
   const params = useMemo(() => {
     const extractHash = () => {
       const { hash } = location
@@ -166,14 +170,10 @@ export default function Form(props: { shouldCensor: boolean }) {
 
     const extracted = extractHash()
     const parsed = schema.safeParse(extracted)
-    swiper?.slideTo(
-      parsed.success ? (parsed.data.platform === 'bedrock' ? 1 : 0) : 0,
-      400,
-    )
     setTab(parsed.success ? (parsed.data.platform === 'bedrock' ? 1 : 0) : 0)
 
     return parsed
-  }, [brotli, swiper])
+  }, [brotli])
 
   const slideChange = (index: number) => {
     setTab(index)
@@ -181,8 +181,6 @@ export default function Form(props: { shouldCensor: boolean }) {
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setTab(newValue)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    swiper?.slideTo(newValue)
   }
 
   const logRootRef = useRef<HTMLDivElement>(null)
@@ -337,7 +335,7 @@ export default function Form(props: { shouldCensor: boolean }) {
         </CollapseTransition>
       </Box>
       <Container sx={{ mb: 2 }}>
-        <Divider sx={{ mb: 2 }} />
+        <Divider sx={{ my: 2 }} />
         <Suspense fallback={<CircularProgress />}>
           <SponsorsList />
         </Suspense>

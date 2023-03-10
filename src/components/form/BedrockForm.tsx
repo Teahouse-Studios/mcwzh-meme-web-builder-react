@@ -120,11 +120,11 @@ export default function BedrockForm({
   }, [sfw])
 
   const fixedModules = useMemo(
-    () => [...getModulesInCollection(), ...sfwModules],
+    () => [...new Set([...getModulesInCollection(), ...sfwModules])],
     [getModulesInCollection, sfwModules],
   )
   const disabledModules = useMemo(
-    () => [...getIncompatibleModulesInCollection()],
+    () => [...new Set([...getIncompatibleModulesInCollection()])],
     [getIncompatibleModulesInCollection],
   )
 
@@ -136,7 +136,7 @@ export default function BedrockForm({
         extension: beExtType,
         type: useCompatible ? 'compatible' : 'normal',
         modules: {
-          resource: [...enabledModules, ...fixedModules],
+          resource: enabledModules,
           collection: enabledCollections,
         },
       },
@@ -156,7 +156,6 @@ export default function BedrockForm({
     addLog,
     beExtType,
     enabledModules,
-    fixedModules,
     enabledCollections,
     useCompatible,
     sfw,

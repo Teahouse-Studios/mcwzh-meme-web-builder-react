@@ -176,19 +176,23 @@ export default function JavaForm({
     ],
   )
   const fixedResourceModules = useMemo(
-    () => [...getModulesInCollection(resourcePredicate)],
+    () => [...new Set([...getModulesInCollection(resourcePredicate)])],
     [getModulesInCollection, resourcePredicate],
   )
   const fixedLanguageModules = useMemo(
-    () => [...getModulesInCollection(langPredicate), ...sfwModules],
+    () => [
+      ...new Set([...getModulesInCollection(langPredicate), ...sfwModules]),
+    ],
     [getModulesInCollection, langPredicate, sfwModules],
   )
   const disabledResourceModules = useMemo(
-    () => [...getIncompatibleModulesInCollection(resourcePredicate)],
+    () => [
+      ...new Set([...getIncompatibleModulesInCollection(resourcePredicate)]),
+    ],
     [getIncompatibleModulesInCollection, resourcePredicate],
   )
   const disabledLanguageModules = useMemo(
-    () => [...getIncompatibleModulesInCollection(langPredicate)],
+    () => [...new Set([...getIncompatibleModulesInCollection(langPredicate)])],
     [getIncompatibleModulesInCollection, langPredicate],
   )
 
@@ -219,11 +223,8 @@ export default function JavaForm({
         format: gameVersion,
         mods: enabledMods,
         modules: {
-          resource: [
-            ...[...enabledResourceModules, ...fixedResourceModules],
-            ...[...enabledLanguageModules, ...fixedLanguageModules],
-          ],
-          collection: [...enabledCollections, ...fixedCollections],
+          resource: [enabledResourceModules, enabledLanguageModules],
+          collection: enabledCollections,
         },
       },
       addLog,
