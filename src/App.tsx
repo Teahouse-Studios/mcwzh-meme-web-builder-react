@@ -12,6 +12,7 @@ import {
   useMediaQuery,
   PaletteMode,
 } from '@mui/material'
+import { teal } from '@mui/material/colors'
 import { SnackbarProvider } from 'notistack'
 
 import { css } from '@emotion/react'
@@ -73,6 +74,19 @@ function App() {
       createTheme({
         palette: {
           mode,
+          primary: {
+            900: '#1f41b6',
+            800: '#1d61d5',
+            700: '#1a73e8',
+            600: '#1386fc',
+            500: '#0095ff',
+            400: '#34a4ff',
+            300: '#5cb5ff',
+            200: '#8dcaff',
+            100: '#bbdeff',
+            50: '#e3f2ff',
+            main: '#1a73e8',
+          },
         },
         typography: {
           fontFamily: '"InterVar","Roboto","Helvetica","Arial",sans-serif',
@@ -121,6 +135,16 @@ function App() {
                 }
               `,
             },
+          },
+          MuiButton: {
+            variants: [
+              {
+                props: { variant: 'contained' },
+                style: {
+                  boxShadow: 'none',
+                },
+              },
+            ],
           },
         },
       }),
