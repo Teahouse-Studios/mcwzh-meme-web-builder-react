@@ -14,7 +14,6 @@ import {
   SelectChangeEvent,
   Slider,
   Stack,
-  Switch,
   Typography,
 } from '@mui/material'
 import {
@@ -37,6 +36,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeParseReturnType } from 'zod'
+import M3Switch from './M3Switch'
 import ResourceSelectSrc from './ResourceSelect'
 import submit from './submit'
 import { BuildLog, MemeApi, schema, SchemaType } from './types'
@@ -245,7 +245,7 @@ export default function BedrockForm({
         <FormControl fullWidth>
           <FormControlLabel
             control={
-              <Switch
+              <M3Switch
                 checked={useCompatible}
                 onChange={(e, c) => setUseCompatible(c)}
               />

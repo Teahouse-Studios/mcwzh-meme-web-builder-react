@@ -15,7 +15,6 @@ import {
   SelectChangeEvent,
   Slider,
   Stack,
-  Switch,
   Typography,
 } from '@mui/material'
 import {
@@ -52,6 +51,7 @@ import ResourceSelectSrc from './ResourceSelect'
 import submit from './submit'
 import { SafeParseReturnType } from 'zod'
 import { BuildLog, MemeApi, schema, SchemaType } from './types'
+import M3Switch from './M3Switch'
 
 const ResourceSelect = memo(ResourceSelectSrc)
 
@@ -459,7 +459,7 @@ export default function JavaForm({
         <FormControl fullWidth>
           <FormControlLabel
             control={
-              <Switch
+              <M3Switch
                 checked={useCompatible || forceUseCompatible}
                 disabled={forceUseCompatible}
                 onChange={(e, c) => setUseCompatible(c)}
