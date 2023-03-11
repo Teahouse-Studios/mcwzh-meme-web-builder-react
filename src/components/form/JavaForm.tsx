@@ -20,25 +20,14 @@ import {
 import {
   AccountChildCircle,
   CubeUnfolded,
-  Candle,
   Clock,
   CloudDownload,
   Cog,
-  Fish,
   Group,
-  HexagonMultiple,
-  HomeModern,
-  ImageFilterHdr,
   Information,
-  Looks,
-  Panda,
-  Pig,
   SelectGroup,
-  ShoePrint,
-  Wifi,
 } from '@teahouse-studios/mdi-material-ui'
 import {
-  createElement,
   Dispatch,
   memo,
   SetStateAction,
@@ -51,6 +40,7 @@ import ResourceSelectSrc from './ResourceSelect'
 import submit from './submit'
 import { SafeParseReturnType } from 'zod'
 import { BuildLog, MemeApi, schema, SchemaType } from './types'
+import * as emojis from './emojis'
 import M3Switch from './M3Switch'
 
 const ResourceSelect = memo(ResourceSelectSrc)
@@ -278,51 +268,88 @@ export default function JavaForm({
                   version: '1.19.4+',
                   format: 13,
                   caption: t('form.version.captions.snapshot'),
-                  icon: ShoePrint,
+                  emoji: emojis.cherryBlossom,
                 },
                 {
                   version: '1.19.3',
                   format: 12,
                   caption: t('form.version.captions.release'),
-                  icon: ShoePrint,
+                  emoji: emojis.camel,
                 },
-                { version: '1.19 - 1.19.2', format: 9, icon: Wifi },
-                { version: '1.18 - 1.18.2', format: 8, icon: ImageFilterHdr },
-                { version: '1.17 - 1.17.1', format: 7, icon: Candle },
-                { version: '1.16.2 - 1.16.5', format: 6, icon: Pig },
-                { version: '1.15 - 1.16.1', format: 5, icon: HexagonMultiple },
+                {
+                  version: '1.19 - 1.19.2',
+                  format: 9,
+                  emoji: emojis.zipperMouthFace,
+                },
+                {
+                  version: '1.18 - 1.18.2',
+                  format: 8,
+                  emoji: emojis.snowCappedMountain,
+                },
+                { version: '1.17 - 1.17.1', format: 7, emoji: emojis.goat },
+                { version: '1.16.2 - 1.16.5', format: 6, emoji: emojis.boar },
+                { version: '1.15 - 1.16.1', format: 5, emoji: emojis.bee },
                 {
                   version: '1.13 - 1.14.4',
                   format: 4,
-                  icon: Fish,
-                  icon2: Panda,
+                  emoji: emojis.coral,
+                  emoji2: emojis.panda,
                 },
                 {
                   version: '1.11 - 1.12.2',
                   format: 3,
                   caption: t('form.version.captions.compatible'),
-                  icon: HomeModern,
-                  icon2: Looks,
+                  emoji: emojis.llama,
+                  emoji2: emojis.rainbow,
                 },
               ].map((i) => (
                 <MenuItem key={i.version} value={i.format}>
-                  {
-                    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                    i.icon &&
-                      createElement(i.icon, {
-                        className: 'version-caption',
-                        sx: {
-                          mr: 1,
-                          color: 'text.secondary',
-                          textSize: '18px',
-                        },
-                      })
-                  }
-                  {i.icon2 &&
-                    createElement(i.icon2, {
-                      className: 'version-caption',
-                      sx: { mr: 1, color: 'text.secondary', textSize: '18px' },
-                    })}
+                  <Box
+                    className="version-caption"
+                    sx={{
+                      color: 'text.secondary',
+                      display: 'flex',
+                      fontSize: 24,
+                      svg: {
+                        height: '1em',
+                        width: '1em',
+                        display: 'block',
+                        my: 'auto',
+                      },
+                      span: {
+                        verticalAlign: 'middle',
+                      },
+                    }}
+                  >
+                    {
+                      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                      i.emoji && (
+                        <Box
+                          sx={{
+                            mr: 1,
+                          }}
+                        >
+                          <span
+                            dangerouslySetInnerHTML={{ __html: i.emoji.svg }}
+                          />
+                        </Box>
+                      )
+                    }
+                    {
+                      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                      i.emoji2 && (
+                        <Box
+                          sx={{
+                            mr: 1,
+                          }}
+                        >
+                          <span
+                            dangerouslySetInnerHTML={{ __html: i.emoji2.svg }}
+                          />
+                        </Box>
+                      )
+                    }
+                  </Box>
                   {i.version}
                   <Typography
                     component="span"
