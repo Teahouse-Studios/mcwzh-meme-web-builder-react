@@ -12,7 +12,7 @@ import {
   ListSubheader,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   Slider,
   Stack,
   Typography,
@@ -28,9 +28,9 @@ import {
   SelectGroup,
 } from '@teahouse-studios/mdi-material-ui'
 import {
-  Dispatch,
+  type Dispatch,
   memo,
-  SetStateAction,
+  type SetStateAction,
   useCallback,
   useMemo,
   useState,
@@ -38,8 +38,8 @@ import {
 import { useTranslation } from 'react-i18next'
 import ResourceSelectSrc from './ResourceSelect'
 import submit from './submit'
-import { SafeParseReturnType } from 'zod'
-import { BuildLog, MemeApi, schema, SchemaType } from './types'
+import { type SafeParseReturnType } from 'zod'
+import { type BuildLog, type MemeApi, schema, type SchemaType } from './types'
 import * as emojis from './emojis'
 import M3Switch from './M3Switch'
 

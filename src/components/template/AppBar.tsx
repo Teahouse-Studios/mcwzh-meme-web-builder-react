@@ -1,4 +1,4 @@
-import { ReactNode, useState, MouseEvent } from 'react'
+import { type ReactNode, useState, type MouseEvent } from 'react'
 import {
   AppBar,
   Button,
@@ -10,7 +10,7 @@ import {
   useMediaQuery,
   IconButton,
   Box,
-  SxProps,
+  type SxProps,
 } from '@mui/material'
 import { css } from '@emotion/react'
 import {

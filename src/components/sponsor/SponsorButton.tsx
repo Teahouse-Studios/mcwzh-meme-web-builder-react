@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@mui/material'
+import { Button, type ButtonProps } from '@mui/material'
 import { useAd } from '../../hooks/useAd'
 import { Heart } from '@teahouse-studios/mdi-material-ui'
 import { useTranslation } from 'react-i18next'

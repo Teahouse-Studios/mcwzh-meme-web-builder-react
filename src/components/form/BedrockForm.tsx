@@ -11,7 +11,7 @@ import {
   Link,
   MenuItem,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   Slider,
   Stack,
   Typography,
@@ -27,19 +27,19 @@ import {
   PackageVariant,
 } from '@teahouse-studios/mdi-material-ui'
 import {
-  Dispatch,
+  type Dispatch,
   memo,
-  SetStateAction,
+  type SetStateAction,
   useCallback,
   useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SafeParseReturnType } from 'zod'
+import type { SafeParseReturnType } from 'zod'
 import M3Switch from './M3Switch'
 import ResourceSelectSrc from './ResourceSelect'
 import submit from './submit'
-import { BuildLog, MemeApi, schema, SchemaType } from './types'
+import { type BuildLog, type MemeApi, schema, type SchemaType } from './types'
 
 const ResourceSelect = memo(ResourceSelectSrc)
 

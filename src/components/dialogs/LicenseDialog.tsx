@@ -21,7 +21,7 @@ import {
   TextShort,
   Trademark,
 } from '@teahouse-studios/mdi-material-ui'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 export default function LicenseDialog(props: {

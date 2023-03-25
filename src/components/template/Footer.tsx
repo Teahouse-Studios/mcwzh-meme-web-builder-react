@@ -11,7 +11,7 @@ import {
   Box,
   useMediaQuery,
 } from '@mui/material'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import {
   Web,
   NewspaperVariantOutline,

@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material'
-import { useSnackbar, SnackbarKey } from 'notistack'
+import { useSnackbar, type SnackbarKey } from 'notistack'
 import { Fragment } from 'react'
 import { Close } from '@teahouse-studios/mdi-material-ui'
 import { useEffectOnce, useLocalStorage } from 'usehooks-ts'

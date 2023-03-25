@@ -1,4 +1,4 @@
-import { defineConfig, splitVendorChunkPlugin, PluginOption } from 'vite'
+import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import legacy from '@vitejs/plugin-legacy'
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -57,6 +57,6 @@ export default defineConfig({
         ],
       },
     }),
-    visualizer() as PluginOption, // https://github.com/btd/rollup-plugin-visualizer/issues/124
+    visualizer(),
   ],
 })

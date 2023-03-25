@@ -1,19 +1,19 @@
 import { useState } from 'react'
-import { PropsOf } from '@emotion/react'
+import type { PropsOf } from '@emotion/react'
 import {
   Card,
   CardActionArea,
   Typography,
   SvgIcon,
-  CardActionAreaProps,
-  SxProps,
+  type CardActionAreaProps,
+  type SxProps,
   Box,
   IconButton,
 } from '@mui/material'
 import { Download, ShareVariant } from '@teahouse-studios/mdi-material-ui'
 import type { SchemaType } from '../types'
 import ShareDialog from './ShareDialog'
-import { BrotliWasmType } from 'brotli-wasm'
+import type { BrotliWasmType } from 'brotli-wasm'
 
 interface DownloadCardProps {
   actionProps: CardActionAreaProps & PropsOf<'a'>

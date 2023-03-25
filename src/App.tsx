@@ -10,9 +10,8 @@ import {
   ThemeProvider,
   createTheme,
   useMediaQuery,
-  PaletteMode,
+  type PaletteMode,
 } from '@mui/material'
-import { teal } from '@mui/material/colors'
 import { SnackbarProvider } from 'notistack'
 
 import { css } from '@emotion/react'
@@ -34,7 +33,7 @@ import SkipToForm from './components/template/SkipToForm'
 const DynamicNews = memo(lazy(() => import('./components/dialogs/DynamicNews')))
 import Form from './components/form/Form'
 import { useEffectOnce } from 'usehooks-ts'
-
+// import SplashWrapper from './components/template/splash/SplashWrapper'
 void i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -61,6 +60,21 @@ void i18n
 
 const ENABLE_GEOIP_CENSORSHIP = true
 
+declare module '@mui/material/styles' {
+  interface PaletteColor {
+    50: string
+    100: string
+    200: string
+    300: string
+    400: string
+    500: string
+    600: string
+    700: string
+    800: string
+    900: string
+  }
+}
+
 function App() {
   const [shouldCensor, setShouldCensor] = useState(false)
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
@@ -85,7 +99,19 @@ function App() {
             200: '#8dcaff',
             100: '#bbdeff',
             50: '#e3f2ff',
-            main: '#1a73e8',
+            main: mode === 'light' ? '#1a73e8' : '#0095ff',
+          },
+          info: {
+            900: '#1f41b6',
+            800: '#1d61d5',
+            700: '#1a73e8',
+            600: '#1386fc',
+            500: '#0095ff',
+            400: '#34a4ff',
+            300: '#5cb5ff',
+            200: '#8dcaff',
+            100: '#bbdeff',
+            50: '#e3f2ff',
           },
         },
         typography: {
@@ -188,7 +214,9 @@ function App() {
         color-scheme: ${mode === 'light' ? 'light' : 'dark'};
 
         a:not(.MuiButtonBase-root) {
-          color: ${theme.palette.primary.main};
+          color: ${mode === 'light'
+            ? theme.palette.primary[900]
+            : theme.palette.primary[400]};
         }
 
         .SnackbarContent-root:not(
@@ -209,6 +237,7 @@ function App() {
           <SkipToForm />
           <CssBaseline />
           <MemeAppBar />
+          {/* <SplashWrapper /> */}
           <Form shouldCensor={shouldCensor} />
           <TeahouseFooter />
           <WebviewWarning />

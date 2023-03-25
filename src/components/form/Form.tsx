@@ -27,15 +27,15 @@ import {
 import {
   useState,
   useEffect,
-  ReactNode,
-  MouseEventHandler,
-  SyntheticEvent,
+  type ReactNode,
+  type MouseEventHandler,
+  type SyntheticEvent,
   useRef,
   Suspense,
   createRef,
-  RefObject,
-  Dispatch,
-  SetStateAction,
+  type RefObject,
+  type Dispatch,
+  type SetStateAction,
   useMemo,
 } from 'react'
 import { useSnackbar } from 'notistack'
@@ -56,7 +56,7 @@ import type { Swiper as SwiperType } from 'swiper'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import CollapseTransition from '../template/CollapseTransition'
 import LicenseDialog from '../dialogs/LicenseDialog'
-import brotliPromise, { BrotliWasmType } from 'brotli-wasm'
+import brotliPromise, { type BrotliWasmType } from 'brotli-wasm'
 
 export default function Form(props: { shouldCensor: boolean }) {
   const { t } = useTranslation()

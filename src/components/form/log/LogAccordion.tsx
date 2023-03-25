@@ -27,15 +27,14 @@ import {
   Close,
   ZipBox,
 } from '@teahouse-studios/mdi-material-ui'
-import { useState, forwardRef, ForwardedRef, useRef } from 'react'
-import { css } from '@emotion/react'
+import { useState, forwardRef, type ForwardedRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AdType, useAd } from '../../../hooks/useAd'
 import CollapseTransition from '../../template/CollapseTransition'
 import type { BuildLog } from '../types'
 import allowTracking from '../../../tracking'
 import DownloadCard from './DownloadCard'
-import { BrotliWasmType } from 'brotli-wasm'
+import type { BrotliWasmType } from 'brotli-wasm'
 
 const LogAccordion = forwardRef(
   (

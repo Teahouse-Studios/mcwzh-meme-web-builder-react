@@ -1,4 +1,4 @@
-import { ReactNode, Key, RefObject } from 'react'
+import type { ReactNode, Key, RefObject } from 'react'
 import { CSSTransition } from 'react-transition-group'
 
 export default function CollapseTransition(props: {

@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next'
 import { useSnackbar } from 'notistack'
 import type { SchemaType } from '../types'
 import { base64ArrayBuffer } from './base64ArrayBuffer'
-import { BrotliWasmType } from 'brotli-wasm'
+import type { BrotliWasmType } from 'brotli-wasm'
 import allowTracking from '../../../tracking'
 
 interface ShareDialogProps {
@@ -180,8 +180,8 @@ function ShareActionItem(props: ShareActionItemProps) {
       onClick={props.onClick}
     >
       <ListItemAvatar>
-        <Avatar>
-          <props.icon />
+        <Avatar sx={{ bgcolor: 'transparent' }}>
+          <props.icon color="primary" />
         </Avatar>
       </ListItemAvatar>
       <ListItemText
