@@ -285,8 +285,7 @@ export default function Form(props: { shouldCensor: boolean }) {
                   spaceBetween={50}
                   slidesPerView={1}
                   autoHeight={true}
-                  simulateTouch={false}
-                  preventClicks={false}
+                  allowTouchMove={false}
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
                   onSlideChange={(index) => slideChange(index.activeIndex)}
                   onSwiper={(swiper) => {
