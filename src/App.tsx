@@ -112,6 +112,7 @@ function App() {
             200: '#8dcaff',
             100: '#bbdeff',
             50: '#e3f2ff',
+            main: mode === 'light' ? '#1d61d5' : '#34a4ff',
           },
         },
         typography: {

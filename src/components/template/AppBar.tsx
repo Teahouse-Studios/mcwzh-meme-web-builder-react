@@ -11,6 +11,7 @@ import {
   IconButton,
   Box,
   type SxProps,
+  styled,
 } from '@mui/material'
 import { css } from '@emotion/react'
 import {
@@ -79,6 +80,16 @@ export default function MemeAppBar() {
 
 function BarLinks({ sx }: { sx: SxProps | undefined }) {
   const { t } = useTranslation()
+  const Img18 = styled('img')(({ theme }) => ({
+    filter: theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)',
+    width: 'auto',
+    height: '18px',
+  }))
+  const Img14 = styled('img')(({ theme }) => ({
+    filter: theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)',
+    width: 'auto',
+    height: '14px',
+  }))
 
   return (
     <Box sx={sx}>
@@ -95,16 +106,11 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
           },
         ]}
       >
-        <Box
-          component="img"
+        <Img14
           src={mcbbsLogo}
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unsafe-assignment
-          title={t('appbar.mcbbs')!}
-          sx={{
-            filter: (theme) =>
-              theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)',
-          }}
-          height="14px"
+          width={237}
+          height={49}
+          alt={t('appbar.mcbbs') ?? ''}
         />
       </CompositeMenu>
       <CompositeMenu
@@ -119,26 +125,22 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
           },
         ]}
       >
-        <Box
-          component="img"
+        <Img18
           src={githubMark}
           alt=""
-          height="18px"
+          width={98}
+          height={96}
           sx={{
-            filter: (theme) =>
-              theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)',
             mr: 0.75,
           }}
         />
-        <Box
-          component="img"
+        <Img18
           src={githubLogo}
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unsafe-assignment
-          title={t('appbar.github')!}
-          height="18px"
+          alt={t('appbar.github') ?? ''}
+          width={45}
+          height={16}
           sx={{
-            filter: (theme) =>
-              theme.palette.mode === 'dark' ? 'invert(1)' : 'invert(0)',
+            mr: 0.75,
           }}
         />
       </CompositeMenu>
