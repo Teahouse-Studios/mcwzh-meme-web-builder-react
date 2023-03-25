@@ -394,12 +394,14 @@ export default function JavaForm({
                 ))
               }
             >
-              <MenuItem
-                disabled={enabledMods.length === 0}
-                onClick={() => setEnabledMods([])}
-              >
-                {t('form.clearSelected')}
-              </MenuItem>
+              <Box>
+                <MenuItem
+                  disabled={enabledMods.length === 0}
+                  onClick={() => setEnabledMods([])}
+                >
+                  {t('form.clearSelected')}
+                </MenuItem>
+              </Box>
               <ListSubheader>
                 <Typography component="span" variant="subtitle2">
                   {t('form.mod.header')}
