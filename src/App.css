@@ -2,7 +2,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: 'cv02', 'cv06', 'cv08', 'cv09', 'cv10', 'cv11';
+  /* font-feature-settings: 'cv02', 'cv06', 'cv08', 'cv09', 'cv10', 'cv11'; */
   font-variation-settings: 'wght' 475;
 }
 
