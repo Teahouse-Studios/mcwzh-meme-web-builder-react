@@ -44,7 +44,7 @@ import JavaForm from './JavaForm'
 import BedrockForm from './BedrockForm'
 import LogAccordion from './log/LogAccordion'
 import SponsorsList from '../sponsor/SponsorsList'
-import type { MemeApi, BuildLog } from './types'
+import type { MemeApi, BuildLog, SchemaType } from './types'
 import { schema } from './types'
 import fakeApiData from './fakeApiData'
 import endpoint from '../../api'
@@ -57,6 +57,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import CollapseTransition from '../template/CollapseTransition'
 import LicenseDialog from '../dialogs/LicenseDialog'
 import brotliPromise, { type BrotliWasmType } from 'brotli-wasm'
+import type { SafeParseSuccess } from 'zod'
 
 export default function Form(props: { shouldCensor: boolean }) {
   const { t } = useTranslation()
@@ -134,7 +135,11 @@ export default function Form(props: { shouldCensor: boolean }) {
       window.removeEventListener('hashchange', listener)
     }
   })
-  const [tab, setTab] = useState(0)
+  const isMobile = useMemo(
+    () => window.navigator.userAgent.includes('Mobi'),
+    [],
+  )
+  const [tab, setTab] = useState(isMobile ? 1 : 0)
 
   useEffect(() => {
     swiper?.slideTo(tab, 400)
@@ -169,10 +174,20 @@ export default function Form(props: { shouldCensor: boolean }) {
     }
 
     const extracted = extractHash()
-    const parsed = schema.safeParse(extracted)
-    setTab(parsed.success ? (parsed.data.platform === 'bedrock' ? 1 : 0) : 0)
+    let parsed = schema.safeParse(extracted)
+    if (!parsed.success) {
+      parsed = schema.safeParse({}) as unknown as SafeParseSuccess<SchemaType>
+    }
+    setTab(
+      location.hash.length > 1
+        ? parsed.data.platform === 'bedrock'
+          ? 1
+          : 0
+        : tab,
+    )
 
     return parsed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brotli])
 
   const slideChange = (index: number) => {
@@ -286,6 +301,7 @@ export default function Form(props: { shouldCensor: boolean }) {
                   slidesPerView={1}
                   autoHeight={true}
                   allowTouchMove={false}
+                  defaultValue={tab}
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
                   onSlideChange={(index) => slideChange(index.activeIndex)}
                   onSwiper={(swiper) => {
