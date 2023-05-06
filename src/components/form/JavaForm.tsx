@@ -214,7 +214,7 @@ export default function JavaForm({
         format: gameVersion,
         mods: enabledMods,
         modules: {
-          resource: [enabledResourceModules, enabledLanguageModules],
+          resource: [enabledResourceModules, enabledLanguageModules].flat(),
           collection: enabledCollections,
         },
       },
