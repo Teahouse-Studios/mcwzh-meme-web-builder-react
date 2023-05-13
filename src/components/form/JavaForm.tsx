@@ -58,6 +58,7 @@ export default function JavaForm({
 }) {
   const params = useMemo(() => {
     if (rawParams.success && rawParams.data.platform === 'java') {
+      console.log(rawParams.data)
       return rawParams.data
     } else {
       return schema.parse({})
@@ -74,8 +75,13 @@ export default function JavaForm({
   )
   const [gameVersion, setGameVersion] = useState(params.gameVersion)
   const [enabledMods, setEnabledMods] = useState(
-    params.mod.length === 0 ? api.mods : params.mod,
+    params.mod.length === 0
+      ? api.mods
+      : params.mod.length === 1 && params.mod[0] === '!!!EMPTY'
+      ? []
+      : params.mod,
   )
+
   const [useCompatible, setUseCompatible] = useState(params.compatible)
   const [sfw, setSfw] = useState(shouldCensor ? 1 : params.sfw)
   const [submitting, setSubmitting] = useState(false)

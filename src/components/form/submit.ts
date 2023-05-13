@@ -31,6 +31,13 @@ export default async function submit(
     })
     const data = (await res.json()) as Data
     if (res.status === 200) {
+      for (const [key, value] of Object.entries(share)) {
+        if (Array.isArray(value) && value.length === 0) {
+          // @ts-expect-error weird type error
+          share[key] = ['!!!EMPTY']
+        }
+      }
+      console.log(share)
       addLog({
         status: 'success',
         platform: platform,
