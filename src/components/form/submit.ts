@@ -37,7 +37,6 @@ export default async function submit(
           share[key] = ['!!!EMPTY']
         }
       }
-      console.log(share)
       addLog({
         status: 'success',
         platform: platform,

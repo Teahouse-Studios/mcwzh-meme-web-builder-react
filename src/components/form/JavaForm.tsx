@@ -58,7 +58,6 @@ export default function JavaForm({
 }) {
   const params = useMemo(() => {
     if (rawParams.success && rawParams.data.platform === 'java') {
-      console.log(rawParams.data)
       return rawParams.data
     } else {
       return schema.parse({})
