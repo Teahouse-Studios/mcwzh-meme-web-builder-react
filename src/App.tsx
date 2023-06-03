@@ -195,8 +195,8 @@ function App() {
             geoip.country_code === 'CN' &&
             isDateInRange(
               new Date(),
-              new Date('2022-10-01'),
-              new Date('2022-10-24'),
+              new Date('2023-06-03'),
+              new Date('2023-06-05'),
             )
         }
         setShouldCensor(shouldCensorL)
