@@ -33,7 +33,7 @@ export const schema = z.object({
   resource: z.string().array().default([]),
   language: z.string().array().default([]),
   mod: z.string().array().default([]),
-  gameVersion: z.number().default(13),
+  gameVersion: z.number().default(15),
   compatible: z.boolean().default(false),
   sfw: z.number().default(2),
 })
