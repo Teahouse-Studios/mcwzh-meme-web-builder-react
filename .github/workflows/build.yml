@@ -44,3 +44,5 @@ jobs:
           BUCKET: frontend-wdljt
           LOCAL_PATH: ./dist/
           REMOTE_PREFIX: meme/
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}

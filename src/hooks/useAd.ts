@@ -2,11 +2,11 @@ import { useLocalStorage } from 'usehooks-ts'
 import { useSnackbar } from 'notistack'
 import { useTranslation } from 'react-i18next'
 
-export enum AdType {
-  FirstTime = 0,
-  Reconsider = 1,
-  Renew = 2,
-}
+export const AdType = {
+  FirstTime: 0,
+  Reconsider: 1,
+  Renew: 2,
+} as const
 
 export interface AdStorage {
   shown: boolean
@@ -24,7 +24,7 @@ export function useAd() {
   })
 
   let shouldDisplayAd = false
-  let adType: AdType = AdType.FirstTime
+  let adType: typeof AdType[keyof typeof AdType] = AdType.FirstTime
 
   if (!adStorage.shown) {
     adType = AdType.FirstTime

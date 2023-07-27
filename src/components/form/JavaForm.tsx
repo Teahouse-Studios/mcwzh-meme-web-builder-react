@@ -133,10 +133,11 @@ export default function JavaForm({
   const getModulesInCollection = useCallback(
     (predicate: ArrayFilterPredicate) => {
       return [...enabledCollections, ...fixedCollections]
-        .flatMap((m) =>
-          api.je_modules.collection
-            .find((c) => c.name === m)
-            ?.contains?.filter(predicate),
+        .flatMap(
+          (m) =>
+            api.je_modules.collection
+              .find((c) => c.name === m)
+              ?.contains?.filter(predicate),
         )
         .filter(undefinedPredicate) as string[]
     },
@@ -152,10 +153,11 @@ export default function JavaForm({
       return api.je_modules.resource
         .filter((resourceModules) =>
           [...enabledCollections, ...fixedCollections]
-            .flatMap((enabledCollection) =>
-              api.je_modules.collection
-                .find((collection) => collection.name === enabledCollection)
-                ?.contains?.filter(predicate),
+            .flatMap(
+              (enabledCollection) =>
+                api.je_modules.collection
+                  .find((collection) => collection.name === enabledCollection)
+                  ?.contains?.filter(predicate),
             )
             .filter(undefinedPredicate)
             .includes(resourceModules.name),
@@ -408,7 +410,9 @@ export default function JavaForm({
               <Box>
                 <MenuItem
                   disabled={enabledMods.length === 0}
-                  onClick={() => setEnabledMods([])}
+                  onClick={() => {
+                    setEnabledMods([])
+                  }}
                 >
                   {t('form.clearSelected')}
                 </MenuItem>
@@ -502,7 +506,9 @@ export default function JavaForm({
               <M3Switch
                 checked={useCompatible || forceUseCompatible}
                 disabled={forceUseCompatible}
-                onChange={(e, c) => setUseCompatible(c)}
+                onChange={(e, c) => {
+                  setUseCompatible(c)
+                }}
               />
             }
             label={t('form.compatible.label')}

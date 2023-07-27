@@ -1,6 +1,5 @@
 import { lazy, Suspense } from 'react'
 import { Container, Box } from '@mui/material'
-import { yellow } from '@mui/material/colors'
 const Splash = lazy(() => import('./Splash'))
 
 export default function SplashWrapper() {

@@ -9,14 +9,13 @@ export default allowTracking
 import type { Metric } from 'web-vitals'
 
 export async function tracking() {
-  const { init } = await import('@sentry/react')
-  const { BrowserTracing } = await import('@sentry/tracing')
-  const { getCLS, getFID, getLCP } = await import('web-vitals')
+  const { init, BrowserTracing } = await import('@sentry/react')
+  const { onLCP, onFID, onCLS } = await import('web-vitals')
 
   if (allowTracking) {
-    getCLS(sendToGoogleAnalytics)
-    getFID(sendToGoogleAnalytics)
-    getLCP(sendToGoogleAnalytics)
+    onCLS(sendToGoogleAnalytics)
+    onFID(sendToGoogleAnalytics)
+    onLCP(sendToGoogleAnalytics)
 
     init({
       dsn: 'https://7d9348af05c34b97b4db4bbbf2411d29@o417398.ingest.sentry.io/6451320',

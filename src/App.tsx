@@ -127,7 +127,8 @@ function App() {
                   font-weight: 300 900;
                   font-display: swap;
                   font-style: normal;
-                  src: url(${InterVar}) format('woff2-variations'),
+                  src:
+                    url(${InterVar}) format('woff2-variations'),
                     url(${InterVar}) format('woff2');
                   src: url(${InterVar}) format('woff2') tech('variations');
                 }
@@ -136,7 +137,8 @@ function App() {
                   font-weight: 300 900;
                   font-display: swap;
                   font-style: italic;
-                  src: url(${InterVarItalic}) format('woff2-variations'),
+                  src:
+                    url(${InterVarItalic}) format('woff2-variations'),
                     url(${InterVarItalic}) format('woff2');
                   src: url(${InterVarItalic}) format('woff2') tech('variations');
                 }
@@ -145,7 +147,8 @@ function App() {
                   font-weight: 300 900;
                   font-display: swap;
                   font-style: normal;
-                  src: url(${JetBrainsMonoVar}) format('woff2-variations'),
+                  src:
+                    url(${JetBrainsMonoVar}) format('woff2-variations'),
                     url(${JetBrainsMonoVar}) format('woff2');
                   src: url(${JetBrainsMonoVar}) format('woff2')
                     tech('variations');
@@ -155,7 +158,8 @@ function App() {
                   font-weight: 300 900;
                   font-display: swap;
                   font-style: italic;
-                  src: url(${JetBrainsMonoVarItalic}) format('woff2-variations'),
+                  src:
+                    url(${JetBrainsMonoVarItalic}) format('woff2-variations'),
                     url(${JetBrainsMonoVarItalic}) format('woff2');
                   src: url(${JetBrainsMonoVarItalic}) format('woff2')
                     tech('variations');

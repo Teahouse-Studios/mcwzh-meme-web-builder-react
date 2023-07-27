@@ -3,10 +3,14 @@ import react from '@vitejs/plugin-react'
 import legacy from '@vitejs/plugin-legacy'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { VitePWA } from 'vite-plugin-pwa'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
+  build: {
+    sourcemap: true, // Source map generation must be turned on
+  },
   esbuild: {
     logOverride: { 'this-is-undefined-in-esm': 'silent' },
   },
@@ -56,6 +60,12 @@ export default defineConfig({
           },
         ],
       },
+    }),
+    // Put the Sentry vite plugin after all other plugins
+    sentryVitePlugin({
+      org: 'teahouse-studios',
+      project: 'mcwzh-meme-web-builder-reacy',
+      authToken: process.env.SENTRY_AUTH_TOKEN ?? '',
     }),
     visualizer(),
   ],

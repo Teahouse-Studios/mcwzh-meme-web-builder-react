@@ -247,7 +247,9 @@ export default function BedrockForm({
             control={
               <M3Switch
                 checked={useCompatible}
-                onChange={(e, c) => setUseCompatible(c)}
+                onChange={(e, c) => {
+                  setUseCompatible(c)
+                }}
               />
             }
             label={t('form.compatible.label')}

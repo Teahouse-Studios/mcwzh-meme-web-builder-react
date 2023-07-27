@@ -110,7 +110,7 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
           src={mcbbsLogo}
           width={237}
           height={49}
-          alt={t('appbar.mcbbs') ?? ''}
+          alt={t('appbar.mcbbs')}
         />
       </CompositeMenu>
       <CompositeMenu
@@ -136,7 +136,7 @@ function BarLinks({ sx }: { sx: SxProps | undefined }) {
         />
         <Img18
           src={githubLogo}
-          alt={t('appbar.github') ?? ''}
+          alt={t('appbar.github')}
           width={45}
           height={16}
           sx={{
@@ -210,7 +210,9 @@ function CompositeMenu(props: CompositeMenuProps) {
       >
         {props.items.map((item) => (
           <MenuItem
-            onClick={() => handleClose()}
+            onClick={() => {
+              handleClose()
+            }}
             key={item.name}
             component="a"
             href={item.href}

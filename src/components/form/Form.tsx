@@ -228,6 +228,7 @@ export default function Form(props: { shouldCensor: boolean }) {
         sx={{
           display: 'flex',
           justifyContent: 'center',
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           alignItems: apiError || !api ? 'center' : 'start',
           flexWrap: 'wrap',
         }}
@@ -302,8 +303,9 @@ export default function Form(props: { shouldCensor: boolean }) {
                   autoHeight={true}
                   allowTouchMove={false}
                   defaultValue={tab}
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-                  onSlideChange={(index) => slideChange(index.activeIndex)}
+                  onSlideChange={(index) => {
+                    slideChange(index.activeIndex)
+                  }}
                   onSwiper={(swiper) => {
                     setSwiper(swiper)
                   }}
@@ -616,7 +618,14 @@ function BuildLogs({
               知识共享 署名-相同方式共享 4.0 国际（CC BY-SA 4.0）
             </Link>
             许可协议发布。若您想要重新发布本资源包或在本资源包的基础上二次创作，烦请阅读此
-            <Link onClick={() => setOpenLicenseDialog(true)}>版权指南</Link>。
+            <Link
+              onClick={() => {
+                setOpenLicenseDialog(true)
+              }}
+            >
+              版权指南
+            </Link>
+            。
           </Trans>
         </Alert>
       </Box>

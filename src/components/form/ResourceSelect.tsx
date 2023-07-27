@@ -189,7 +189,9 @@ export default function ResourceSelect(props: ResourceSelectProps) {
           value={selected}
           multiple
           onClick={handleClick}
-          onClose={() => setSearchText('')}
+          onClose={() => {
+            setSearchText('')
+          }}
           disabled={props.disabled}
           renderValue={(selected) =>
             selected
@@ -234,14 +236,14 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                   <ToggleButton
                     value="alphabetical"
                     selected={true}
-                    onClick={() =>
+                    onClick={() => {
                       setSortingMode({
                         ...sortingMode,
                         alphabetical: { asc: 'desc', desc: 'asc' }[
                           sortingMode.alphabetical
                         ] as 'asc' | 'desc',
                       })
-                    }
+                    }}
                   >
                     {sortingMode.alphabetical === 'asc' ? (
                       <SortAlphabeticalAscending />
@@ -258,7 +260,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                         sortingMode.selected
                       ]
                     }
-                    onClick={() =>
+                    onClick={() => {
                       setSortingMode({
                         ...sortingMode,
                         selected: {
@@ -267,7 +269,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                           ignore: 'asc',
                         }[sortingMode.selected] as 'asc' | 'desc' | 'ignore',
                       })
-                    }
+                    }}
                   >
                     {
                       {
@@ -282,7 +284,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                   <ToggleButton
                     value="incompatible"
                     selected={sortingMode.incompatible !== 'ignore'}
-                    onClick={() =>
+                    onClick={() => {
                       setSortingMode({
                         ...sortingMode,
                         incompatible: {
@@ -290,7 +292,7 @@ export default function ResourceSelect(props: ResourceSelectProps) {
                           ignore: 'asc',
                         }[sortingMode.incompatible] as 'asc' | 'ignore',
                       })
-                    }
+                    }}
                   >
                     <SortVariantRemove />
                   </ToggleButton>

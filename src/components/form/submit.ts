@@ -84,5 +84,8 @@ export default async function submit(
       })
     }
   }
-  navigator.vibrate(300)
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (navigator.vibrate) {
+    navigator.vibrate(300)
+  }
 }
