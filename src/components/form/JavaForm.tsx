@@ -141,7 +141,7 @@ export default function JavaForm({
               .find((c) => c.name === m)
               ?.contains?.filter(predicate),
         )
-        .filter(undefinedPredicate) as string[]
+        .filter(undefinedPredicate)
     },
     [
       api.je_modules.collection,
@@ -165,7 +165,7 @@ export default function JavaForm({
             .includes(resourceModules.name),
         )
         .flatMap((resourceModule) => resourceModule.incompatible_with)
-        .filter(undefinedPredicate) as string[]
+        .filter(undefinedPredicate)
     },
     [
       api.je_modules.collection,
@@ -278,11 +278,13 @@ export default function JavaForm({
                   version: '23w43a+',
                   format: 20,
                   caption: t('form.version.captions.snapshot'),
+                  emoji: emojis.bat,
                 },
                 {
                   version: '1.20.2',
                   format: 18,
                   caption: t('form.version.captions.release'),
+                  emoji: emojis.moneyWithWings,
                 },
                 {
                   version: '1.20 - 1.20.1',
