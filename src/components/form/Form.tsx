@@ -48,7 +48,7 @@ import type { MemeApi, BuildLog, SchemaType } from './types'
 import { schema } from './types'
 import fakeApiData from './fakeApiData'
 import endpoint from '../../api'
-import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
+import { useLocalStorage } from 'usehooks-ts'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import './form.css'
@@ -66,7 +66,7 @@ export default function Form(props: { shouldCensor: boolean }) {
   const [apiError, setApiError] = useState<Error | null>(null)
   const [logs, setLogs] = useLocalStorage<BuildLog[]>('memeBuildLogs', [])
   const [logsExpired, setLogsExpired] = useState(false)
-  useEffectOnce(() => {
+  useEffect(() => {
     const original = logs.length
     const newLogs = logs.filter(
       (log) => Date.now().valueOf() - log.time < 1000 * 60 * 60 * 24 * 7,

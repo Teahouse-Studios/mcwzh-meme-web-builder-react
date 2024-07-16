@@ -77,8 +77,8 @@ export default function JavaForm({
     params.mod.length === 0
       ? api.mods
       : params.mod.length === 1 && params.mod[0] === '!!!EMPTY'
-      ? []
-      : params.mod,
+        ? []
+        : params.mod,
   )
 
   const [useCompatible, setUseCompatible] = useState(params.compatible)
@@ -135,11 +135,10 @@ export default function JavaForm({
   const getModulesInCollection = useCallback(
     (predicate: ArrayFilterPredicate) => {
       return [...enabledCollections, ...fixedCollections]
-        .flatMap(
-          (m) =>
-            api.je_modules.collection
-              .find((c) => c.name === m)
-              ?.contains?.filter(predicate),
+        .flatMap((m) =>
+          api.je_modules.collection
+            .find((c) => c.name === m)
+            ?.contains?.filter(predicate),
         )
         .filter(undefinedPredicate)
     },
@@ -155,11 +154,10 @@ export default function JavaForm({
       return api.je_modules.resource
         .filter((resourceModules) =>
           [...enabledCollections, ...fixedCollections]
-            .flatMap(
-              (enabledCollection) =>
-                api.je_modules.collection
-                  .find((collection) => collection.name === enabledCollection)
-                  ?.contains?.filter(predicate),
+            .flatMap((enabledCollection) =>
+              api.je_modules.collection
+                .find((collection) => collection.name === enabledCollection)
+                ?.contains?.filter(predicate),
             )
             .filter(undefinedPredicate)
             .includes(resourceModules.name),
@@ -218,8 +216,8 @@ export default function JavaForm({
           gameVersion === 3
             ? 'legacy'
             : useCompatible
-            ? 'compatible'
-            : 'normal',
+              ? 'compatible'
+              : 'normal',
         format: gameVersion,
         mods: enabledMods,
         modules: {

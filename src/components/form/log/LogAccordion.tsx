@@ -236,14 +236,14 @@ const LogAccordion = forwardRef(
                           line.toLowerCase().match(/ {4}/)
                             ? 'debug'
                             : line.toLowerCase().match(/(fail|error)/)
-                            ? 'error'
-                            : line.toLowerCase().match(/(warn)/)
-                            ? 'warning'
-                            : line.toLowerCase().match(/(success|succeed)/)
-                            ? 'success'
-                            : line.toLowerCase().match(/(info)/)
-                            ? 'info'
-                            : 'default'
+                              ? 'error'
+                              : line.toLowerCase().match(/(warn)/)
+                                ? 'warning'
+                                : line.toLowerCase().match(/(success|succeed)/)
+                                  ? 'success'
+                                  : line.toLowerCase().match(/(info)/)
+                                    ? 'info'
+                                    : 'default'
                         ]
                       }
                     >

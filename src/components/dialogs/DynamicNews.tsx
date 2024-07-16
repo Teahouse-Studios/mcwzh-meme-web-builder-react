@@ -17,7 +17,7 @@ import { AspectRatio } from 'react-aspect-ratio'
 import { css } from '@emotion/react'
 import { useState, useEffect } from 'react'
 import { Close, ArrowRight, Play } from '@teahouse-studios/mdi-material-ui'
-import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
+import { useLocalStorage } from 'usehooks-ts'
 import MuiMarkdown from 'mui-markdown'
 
 interface News {
@@ -38,7 +38,7 @@ export default function DynamicNews() {
 
   // let news: News | undefined
 
-  useEffectOnce(() => {
+  useEffect(() => {
     fetch('https://fe.wd-ljt.com/meme/dynamic/news.json')
       .then(async (res) => {
         const data = (await res.json()) as News
@@ -51,7 +51,7 @@ export default function DynamicNews() {
         console.error(e)
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  })
+  }, [])
 
   useEffect(() => {
     if (!dialogOpen && news.id) {

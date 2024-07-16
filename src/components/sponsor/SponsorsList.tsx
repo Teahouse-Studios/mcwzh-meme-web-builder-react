@@ -20,7 +20,6 @@ import {
 } from '@teahouse-studios/mdi-material-ui'
 import { useTranslation } from 'react-i18next'
 import { useState, useEffect, createElement } from 'react'
-import { useEffectOnce } from 'usehooks-ts'
 import SponsorButton from './SponsorButton'
 
 export default function QuoteAd() {
@@ -52,7 +51,7 @@ export default function QuoteAd() {
       setRandomDice(randomD)
     }, 1000)
   }
-  useEffectOnce(() => {
+  useEffect(() => {
     fetch('https://fe.wd-ljt.com/meme/dynamic/sp_messages.json')
       .then(async (res) => {
         const data = (await res.json()) as { [key: string]: string }
@@ -62,7 +61,7 @@ export default function QuoteAd() {
         console.error(e)
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  })
+  }, [])
 
   useEffect(() => {
     roll()

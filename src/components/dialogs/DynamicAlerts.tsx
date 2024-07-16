@@ -1,8 +1,8 @@
 import { IconButton } from '@mui/material'
 import { useSnackbar, type SnackbarKey } from 'notistack'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Close } from '@teahouse-studios/mdi-material-ui'
-import { useEffectOnce, useLocalStorage } from 'usehooks-ts'
+import { useLocalStorage } from 'usehooks-ts'
 
 interface Alert {
   name: string
@@ -22,7 +22,7 @@ export default function DynamicAlerts() {
     setAlertsRead((prev) => [...prev, name])
   }
 
-  useEffectOnce(() => {
+  useEffect(() => {
     fetch('https://fe.wd-ljt.com/meme/dynamic/alerts.json')
       .then(async (res) => {
         const alerts = (await res.json()) as Alert[]
@@ -63,7 +63,7 @@ export default function DynamicAlerts() {
       .catch((e) => {
         console.error(e)
       })
-  })
+  }, [])
 
   return <></>
 }

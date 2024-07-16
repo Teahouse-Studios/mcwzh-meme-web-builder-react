@@ -4,7 +4,7 @@ import InterVarItalic from './assets/Inter-Italic.var.woff2'
 import JetBrainsMonoVar from './assets/JetBrainsMono.var.woff2'
 import JetBrainsMonoVarItalic from './assets/JetBrainsMono-Italic.var.woff2'
 
-import { useMemo, lazy, memo, useState } from 'react'
+import { useMemo, lazy, memo, useState, useEffect } from 'react'
 import {
   CssBaseline,
   ThemeProvider,
@@ -32,7 +32,7 @@ import BackToTop from './components/template/BackToTop'
 import SkipToForm from './components/template/SkipToForm'
 const DynamicNews = memo(lazy(() => import('./components/dialogs/DynamicNews')))
 import Form from './components/form/Form'
-import { useEffectOnce } from 'usehooks-ts'
+
 // import SplashWrapper from './components/template/splash/SplashWrapper'
 void i18n
   .use(LanguageDetector)
@@ -182,7 +182,7 @@ function App() {
     [mode],
   )
 
-  useEffectOnce(() => {
+  useEffect(() => {
     async function checkCensorship() {
       try {
         let shouldCensorL = false
@@ -210,7 +210,7 @@ function App() {
     }
 
     void checkCensorship()
-  })
+  }, [])
 
   return (
     <div

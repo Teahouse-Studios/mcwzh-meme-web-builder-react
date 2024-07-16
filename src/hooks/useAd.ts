@@ -24,7 +24,7 @@ export function useAd() {
   })
 
   let shouldDisplayAd = false
-  let adType: typeof AdType[keyof typeof AdType] = AdType.FirstTime
+  let adType: (typeof AdType)[keyof typeof AdType] = AdType.FirstTime
 
   if (!adStorage.shown) {
     adType = AdType.FirstTime
@@ -70,7 +70,8 @@ export function useAd() {
   return {
     adStorage,
     setAdStorage,
-    shouldDisplayAd,
+    // shouldDisplayAd,
+    shouldDisplayAd: false,
     adType,
     adAccepted,
     adDismissed,
