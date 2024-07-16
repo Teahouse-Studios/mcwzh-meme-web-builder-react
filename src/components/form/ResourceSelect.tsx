@@ -425,6 +425,8 @@ const ResourceSelectItemSrc = forwardRef<
             }}
           >
             <Typography variant="body1" component="code">
+              {/*
+              // @ts-ignore */}
               <Highlighter
                 searchWords={[searchWords]}
                 autoEscape={true}

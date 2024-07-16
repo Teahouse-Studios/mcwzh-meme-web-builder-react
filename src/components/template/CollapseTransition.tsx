@@ -32,6 +32,7 @@ export default function CollapseTransition(props: {
     return props.in ? props.children : null
   } else {
     return (
+      // @ts-ignore
       <CSSTransition
         in={props.in}
         key={props.key}

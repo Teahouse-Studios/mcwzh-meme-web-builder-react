@@ -272,16 +272,31 @@ export default function JavaForm({
               }}
             >
               {[
+                // {
+                //   version: '23w43a+',
+                //   format: 20,
+                //   caption: t('form.version.captions.snapshot'),
+                //   emoji: emojis.bat,
+                // },
                 {
-                  version: '23w43a+',
-                  format: 20,
-                  caption: t('form.version.captions.snapshot'),
+                  version: '1.21',
+                  format: 34,
+                  caption: t('form.version.captions.release'),
+                  emoji: emojis.oldKey,
+                },
+                {
+                  version: '1.20.5 - 1.20.6',
+                  format: 32,
+                  emoji: emojis.wolf,
+                },
+                {
+                  version: '1.20.3 - 1.20.4',
+                  format: 22,
                   emoji: emojis.bat,
                 },
                 {
                   version: '1.20.2',
                   format: 18,
-                  caption: t('form.version.captions.release'),
                   emoji: emojis.moneyWithWings,
                 },
                 {

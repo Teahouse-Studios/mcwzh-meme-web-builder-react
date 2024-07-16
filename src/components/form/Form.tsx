@@ -289,6 +289,8 @@ export default function Form(props: { shouldCensor: boolean }) {
                 </LoadingMask>
               </TabPanel>
             )}
+            {/*
+            // @ts-ignore */}
             <CSSTransition
               in={!!api && !!brotli}
               classNames="blur"
@@ -545,6 +547,8 @@ function BuildLogs({
         </Box>
       </Box>
       <Box>
+        {/*
+            // @ts-ignore */}
         <TransitionGroup>
           {logs
             .slice()
