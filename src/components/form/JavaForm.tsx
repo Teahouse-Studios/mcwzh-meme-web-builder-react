@@ -114,7 +114,9 @@ export default function JavaForm({
 
   const versionModules = useMemo(() => {
     return {
-      20: [],
+      34: [],
+      32: [],
+      22: [],
       18: [],
       15: [],
       13: ['version_1.19.4'],
