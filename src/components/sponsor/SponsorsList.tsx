@@ -134,7 +134,7 @@ export default function QuoteAd() {
             </Typography>
             <Typography variant="body1">{t('sponsor.thankYou')}</Typography>
             <a
-              href="https://afdian.net/@teahouse"
+              href="https://afdian.com/@teahouse"
               rel="noopener noreferrer"
               target="_blank"
               title="爱发电赞助者列表"

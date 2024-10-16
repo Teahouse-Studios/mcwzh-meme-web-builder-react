@@ -98,7 +98,7 @@ export default function TeahouseFooter() {
                   <Github />
                 </LinkIconButton>
                 <LinkIconButton
-                  href="https://afdian.net/@teahouse"
+                  href="https://afdian.com/@teahouse"
                   title="爱发电"
                 >
                   <LightningBolt />

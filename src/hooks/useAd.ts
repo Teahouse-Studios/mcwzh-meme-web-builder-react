@@ -70,8 +70,7 @@ export function useAd() {
   return {
     adStorage,
     setAdStorage,
-    // shouldDisplayAd,
-    shouldDisplayAd: false,
+    shouldDisplayAd,
     adType,
     adAccepted,
     adDismissed,

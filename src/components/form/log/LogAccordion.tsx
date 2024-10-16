@@ -296,7 +296,7 @@ const LogAccordion = forwardRef(
                     startIcon={<Heart />}
                     variant="contained"
                     color="error"
-                    href="https://afdian.net/@teahouse"
+                    href="https://afdian.com/@teahouse"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => {
@@ -347,7 +347,7 @@ const LogAccordion = forwardRef(
                       className="donate-button"
                       startIcon={<Heart />}
                       color="error"
-                      href="https://afdian.net/@teahouse"
+                      href="https://afdian.com/@teahouse"
                       target="_blank"
                       rel="noopener noreferrer"
                       sx={{ mr: 1 }}

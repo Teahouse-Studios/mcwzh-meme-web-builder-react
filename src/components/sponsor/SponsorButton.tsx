@@ -11,7 +11,7 @@ export default function SponsorButton(props: ButtonProps<'a'>) {
       className="donate-button"
       startIcon={<Heart />}
       color="error"
-      href="https://afdian.net/@teahouse"
+      href="https://afdian.com/@teahouse"
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => {
